@@ -16,22 +16,25 @@
     "@orbit/tokens": "^0.1.0",
     "@orbit/ui": "^0.1.2",
     "class-variance-authority": "^0.7.1",
-    "framer-motion": "^12.42.0",
+    "framer-motion": "^12.42.2",
     "lucide-react": "^1.23.0",
-    "next": "^16.2.9",
+    "next": "16.2.10",
     "next-themes": "^0.4.6",
     "react": "^19.2.7",
     "react-dom": "^19.2.7",
     "react-icons": "^5.7.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.5.1",
-    "@tailwindcss/postcss": "^4.3.1",
-    "@types/node": "^26.0.0",
+    "@biomejs/biome": "^2.5.2",
+    "@tailwindcss/postcss": "^4.3.2",
+    "@types/node": "^26.1.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "tailwindcss": "^4.3.1",
+    "tailwindcss": "^4.3.2",
     "typescript": "^6.0.3"
   },
-  "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531"
+  "packageManager": "pnpm@11.10.0",
+  "engines": {
+    "node": ">=24"
+  }
 }
