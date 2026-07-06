@@ -12,9 +12,9 @@
     "clean": "rm -rf .next"
   },
   "dependencies": {
-    "@orbit/markdown": "^0.1.1",
-    "@orbit/tokens": "^0.1.0",
-    "@orbit/ui": "^0.1.2",
+    "@orbit/markdown": "link:../../../orbit/orbit-frontend/packages/markdown",
+    "@orbit/tokens": "link:../../../orbit/orbit-frontend/packages/tokens",
+    "@orbit/ui": "link:../../../orbit/orbit-frontend/packages/ui",
     "class-variance-authority": "^0.7.1",
     "framer-motion": "^12.42.2",
     "lucide-react": "^1.23.0",
