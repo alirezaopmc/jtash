@@ -1,0 +1,47 @@
+{
+  "emptyColor": "hsl(var(--timeline-empty))",
+  "intervals": [
+    {
+      "name": "LvtGames",
+      "char": "L",
+      "color": "#ED2F41",
+      "start": { "year": 2025, "month": 8 },
+      "end": { "year": 2026, "month": 3 }
+    },
+    {
+      "name": "SwapWallet",
+      "char": "S",
+      "color": "#0C3C94",
+      "start": { "year": 2025, "month": 5 },
+      "end": { "year": 2025, "month": 7 }
+    },
+    {
+      "name": "Ultratrader",
+      "char": "U",
+      "color": "#3C4DFF",
+      "start": { "year": 2024, "month": 2 },
+      "end": { "year": 2024, "month": 10 }
+    },
+    {
+      "name": "Ravindex",
+      "char": "R",
+      "color": "#7E52F5",
+      "start": { "year": 2022, "month": 5 },
+      "end": { "year": 2023, "month": 12 }
+    },
+    {
+      "name": "Plotset",
+      "char": "P",
+      "color": "#0B65F6",
+      "start": { "year": 2021, "month": 8 },
+      "end": { "year": 2022, "month": 7 }
+    },
+    {
+      "name": "Cubecraft",
+      "char": "C",
+      "color": "#3BA9FF",
+      "start": { "year": 2016, "month": 9 },
+      "end": { "year": 2017, "month": 8 }
+    }
+  ]
+}

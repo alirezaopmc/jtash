@@ -1,0 +1,43 @@
+{
+  "hero": {
+    "number": "00",
+    "title": "Introduction",
+    "anchor": "introduction",
+    "meta": "",
+    "introLabel": "00 / INTRODUCTION"
+  },
+  "education": {
+    "number": "01",
+    "title": "Academic Foundation",
+    "anchor": "education"
+  },
+  "sideProjects": {
+    "number": "02",
+    "title": "Side Projects",
+    "anchor": "side-projects"
+  },
+  "experience": {
+    "number": "03",
+    "title": "Experience Timeline",
+    "anchor": "experience"
+  },
+  "caseStudies": {
+    "number": "04",
+    "title": "Case Studies",
+    "anchor": "projects"
+  },
+  "skills": {
+    "number": "05",
+    "title": "Skills",
+    "anchor": "skills"
+  },
+  "testimonials": {
+    "number": "06",
+    "title": "Social Proof",
+    "anchor": "testimonials"
+  },
+  "projectsPage": {
+    "number": "04",
+    "title": "Case Studies"
+  }
+}

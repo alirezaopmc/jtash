@@ -1,0 +1,16 @@
+[
+  {
+    "quote": "Architected our payment ingestion system under extreme deadline pressure. System handled Black Friday load without a single dropped packet.",
+    "author": "John Doe",
+    "position": "VP of Engineering @ ScaleTech",
+    "profile": "https://linkedin.com/in/placeholder-johndoe",
+    "project": "/projects/routing-engine"
+  },
+  {
+    "quote": "Deep technical insight. Rewrote database indexing layer, eliminating long-tail latency spikes completely.",
+    "author": "Jane Smith",
+    "position": "Principal Architect @ DataCore",
+    "profile": "https://github.com/placeholder-janesmith",
+    "project": "/projects/vector-indexer"
+  }
+]

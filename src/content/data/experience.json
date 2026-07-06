@@ -1,0 +1,247 @@
+[
+  {
+    "role": "Software Engineer",
+    "company": "LvtGames",
+    "path": "lvtgames",
+    "location": "Istanbul, Turkiye",
+    "period": "Aug 2025 – Mar 2026 (8 mos)",
+    "summary": "Gaming and Entertainment platform.",
+    "timelineLabel": "Entertainment platform",
+    "logo": "/images/story/companies/lvtgames.png",
+    "accentColor": "#ED2F41",
+    "companyProfile": {
+      "description": "Livetainment Games (LvtGames) is an Istanbul-based mobile gaming studio founded in 2021. The company builds entertainment platforms that blend real-time technology with community-driven play, operating across Turkey, the UK, and Iran.",
+      "website": "https://lvt.games/",
+      "industry": "Mobile Gaming",
+      "founded": "2021",
+      "headquarters": "Istanbul, Turkiye",
+      "facts": [
+        "Develops mobile-first gaming experiences with live community features.",
+        "Privately held studio focused on B2B2C entertainment platforms.",
+        "Headquartered in Istanbul with additional presence in the UK."
+      ]
+    },
+    "highlights": [
+      "Transactions & wallet: Worked with high-throughput transaction processing and multi-balance wallet management.",
+      "IaC & infrastructure: Worked with GCP infrastructure and Terraform for maintenance and operations.",
+      "CI/CD & multi-regional: Set up Bitbucket Pipelines with change detection, selective deployment, and caching for multi-regional and international services.",
+      "Multi-tenant B2B2C: Worked with a multi-tenant B2B2C entertainment platform supporting multiple operators and jurisdictions.",
+      "Product & Feature Ownership: At times took full ownership of specific product features, acting as Product Manager. Managed and coordinated cross-functional teams, including design and frontend, to drive the end-to-end delivery of these features—from initial concept and requirements gathering to successful launch."
+    ],
+    "stack": [
+      { "label": "Java 21", "url": "https://openjdk.org/" },
+      {
+        "label": "Spring Boot 3",
+        "url": "https://spring.io/projects/spring-boot"
+      },
+      { "label": "Go 1.24", "url": "https://go.dev/" },
+      { "label": "PostgreSQL", "url": "https://www.postgresql.org/" },
+      { "label": "Redis", "url": "https://redis.io/" }
+    ],
+    "technologies": [
+      { "label": "Google Cloud Platform", "url": "https://cloud.google.com/" },
+      {
+        "label": "Terraform",
+        "url": "https://developer.hashicorp.com/terraform"
+      },
+      { "label": "Sentry", "url": "https://sentry.io/" },
+      { "label": "Liquibase", "url": "https://www.liquibase.com/" },
+      { "label": "OpenFeign", "url": "https://github.com/OpenFeign/feign" },
+      {
+        "label": "Bitbucket Pipelines",
+        "url": "https://support.atlassian.com/bitbucket-cloud/docs/get-started-with-bitbucket-pipelines/"
+      }
+    ]
+  },
+  {
+    "role": "Software Engineer",
+    "company": "SwapWallet",
+    "path": "swapwallet",
+    "location": "Tehran, Iran",
+    "period": "May 2025 – Jul 2025 (3 mos)",
+    "summary": "Seamless crypto trading and more.",
+    "timelineLabel": "Crypto exchange",
+    "logo": "/images/story/companies/swapwallet.png",
+    "accentColor": "#0C3C94",
+    "companyProfile": {
+      "description": "SwapWallet is a Tehran-based cryptocurrency exchange and digital wallet. Users can buy, sell, and transfer crypto via web, mobile apps, and a Telegram mini-app — with fiat on-ramps in Iranian Tomans and 24/7 support.",
+      "website": "https://swapwallet.app/",
+      "industry": "Fintech / Crypto",
+      "founded": "2022",
+      "headquarters": "Tehran, Iran",
+      "facts": [
+        "Centralized exchange and wallet with Android, iOS, and web clients.",
+        "Telegram mini-app for instant, fee-free transfers between contacts.",
+        "Operated from Tehran's Azadi Innovation Factory."
+      ]
+    },
+    "highlights": [
+      "Optimized a high-throughput crypto exchange system for low latency and stability under concurrent user load.",
+      "Resolved complex concurrency issues in the core platform to ensure transactional data integrity.",
+      "Managed feature design and flows, including developing and maintaining a key utility Telegram bot."
+    ],
+    "stack": [
+      { "label": "Kotlin", "url": "https://kotlinlang.org/" },
+      {
+        "label": "Spring Framework",
+        "url": "https://spring.io/projects/spring-framework"
+      },
+      { "label": "Apache Kafka", "url": "https://kafka.apache.org/" }
+    ],
+    "technologies": [
+      { "label": "Kubernetes", "url": "https://kubernetes.io/" },
+      { "label": "Software Design" }
+    ]
+  },
+  {
+    "role": "Software Engineer",
+    "company": "Ultratrader",
+    "path": "ultratrader",
+    "location": "Toronto, Canada",
+    "period": "Feb 2024 – Oct 2024 (9 mos)",
+    "summary": "Smart Trading Journal & Portfolio Manager.",
+    "timelineLabel": "Trade analytics",
+    "logo": "/images/story/companies/ultratrader.png",
+    "accentColor": "#3C4DFF",
+    "companyProfile": {
+      "description": "Ultratrader is a smart trading journal and portfolio manager for active traders. The platform ingests broker data, surfaces performance analytics, and helps traders review decisions with clean visualizations and structured workflows.",
+      "website": "https://ultratrader.app/",
+      "industry": "Fintech / Trading",
+      "founded": "2023",
+      "headquarters": "Toronto, Canada",
+      "facts": [
+        "Trading journal focused on portfolio tracking and post-trade analysis.",
+        "Integrates with multiple brokers via gateways and data proxies.",
+        "Built for traders who need high-throughput financial data pipelines."
+      ]
+    },
+    "highlights": [
+      "Designed a high-throughput data preprocessing system for handling financial data.",
+      "Developed APIs, GraphQL services, and integrated source code with advanced tools.",
+      "Implemented gateways and proxies for data fetching from multiple brokers.",
+      "Optimized database queries of time consuming tasks.",
+      "Ensured code maintainability and scalability by adhering to clean architecture principles."
+    ],
+    "stack": [
+      { "label": "NestJs", "url": "https://nestjs.com/" },
+      { "label": "PostgreSQL", "url": "https://www.postgresql.org/" },
+      { "label": "Redis", "url": "https://redis.io/" },
+      { "label": "GraphQL", "url": "https://graphql.org/" }
+    ],
+    "technologies": [
+      { "label": "Docker", "url": "https://www.docker.com/" },
+      { "label": "Cryptocurrency" }
+    ]
+  },
+  {
+    "role": "Software Engineer",
+    "company": "Ravindex",
+    "path": "ravindex",
+    "location": "Tehran, Iran",
+    "period": "May 2022 – Dec 2023 (1 yr 8 mos)",
+    "summary": "Financial analysis platform for Tehran stocks and exchanges.",
+    "timelineLabel": "Trade analytics",
+    "logo": "/images/story/companies/ravindex.png",
+    "accentColor": "#7E52F5",
+    "companyProfile": {
+      "description": "Ravindex is a financial analysis platform covering Tehran Stock Exchange and related markets. It aggregates market data, runs analytics pipelines, and presents insights for investors tracking Iranian equities.",
+      "website": "https://ravindex.ir/",
+      "industry": "Fintech / Market Data",
+      "founded": "2020",
+      "headquarters": "Tehran, Iran",
+      "facts": [
+        "Processes high volumes of exchange and fundamental financial data.",
+        "Microservices architecture with replicated databases and message brokers.",
+        "Serverless functions for ingestion, processing, and presentation layers."
+      ]
+    },
+    "highlights": [
+      "Processed high volumes of precise financial data with optimized analysis pipelines.",
+      "Developed microservices and worked with replicated databases and message brokers.",
+      "Implemented over 20 Lambda functions for data fetching, processing, and presentation."
+    ],
+    "stack": [
+      { "label": "Django", "url": "https://www.djangoproject.com/" },
+      { "label": "PostgreSQL", "url": "https://www.postgresql.org/" },
+      { "label": "RabbitMQ", "url": "https://www.rabbitmq.com/" },
+      { "label": "GraphQL", "url": "https://graphql.org/" }
+    ],
+    "technologies": [
+      { "label": "Docker", "url": "https://www.docker.com/" },
+      { "label": "Web Scraping" },
+      { "label": "Prometheus", "url": "https://prometheus.io/" },
+      { "label": "Grafana", "url": "https://grafana.com/" }
+    ]
+  },
+  {
+    "role": "Intern Research & Development",
+    "company": "Plotset",
+    "path": "plotset",
+    "location": "California, US",
+    "period": "Aug 2021 – Jul 2022 (1 yr)",
+    "summary": "Simplified the process of creating charts and maps using AI with minimal coding.",
+    "timelineLabel": "Data visualization",
+    "logo": "/images/story/companies/plotset.png",
+    "accentColor": "#0B65F6",
+    "companyProfile": {
+      "description": "Plotset is a data visualization platform that helps teams create charts, maps, and interactive graphics with minimal code. The product combines charting libraries and AI-assisted workflows to speed up editorial and analytical storytelling.",
+      "website": "https://plotset.com/",
+      "industry": "Data Visualization",
+      "founded": "2020",
+      "headquarters": "California, US",
+      "facts": [
+        "Focuses on simplifying chart and map creation for non-specialists.",
+        "Integrates multiple charting engines into a unified authoring flow.",
+        "R&D-driven team exploring AI-assisted visualization tooling."
+      ]
+    },
+    "highlights": [
+      "Researched technical solutions for new features and innovations.",
+      "Designed a framework to integrate multiple charting tools into a unified system."
+    ],
+    "stack": [
+      { "label": "Node.js", "url": "https://nodejs.org/" },
+      { "label": "D3.js", "url": "https://d3js.org/" }
+    ],
+    "technologies": []
+  },
+  {
+    "role": "Game Developer",
+    "company": "Cubecraft",
+    "path": "cubecraft",
+    "location": "London, UK",
+    "period": "Sep 2016 – Aug 2017 (1 yr)",
+    "summary": "A leading Minecraft server network offering innovative and popular minigames.",
+    "timelineLabel": "Minecraft network",
+    "logo": "/images/story/companies/cubecraft.png",
+    "accentColor": "#3BA9FF",
+    "companyProfile": {
+      "description": "CubeCraft Games is one of the largest Minecraft server networks, known for polished minigames and a massive global player base. The London-based studio operates custom game modes on the Java Edition ecosystem with a focus on performance and player retention.",
+      "website": "https://www.cubecraft.net/",
+      "industry": "Game Development",
+      "founded": "2012",
+      "headquarters": "London, UK",
+      "facts": [
+        "Major Minecraft network with millions of players across custom minigames.",
+        "Heavy use of Spigot/Paper plugin development for live game modes.",
+        "Known for EggWars, SkyWars, and other flagship multiplayer modes."
+      ]
+    },
+    "highlights": [
+      "Developed a fully customizable, scalable, and maintainable game mode plugin for Spigot API.",
+      "Implemented over 300 event listeners and schedulers to enhance game mechanics.",
+      "Designed a state machine with 50+ states and 100+ transition functions.",
+      "Debugged and enhanced low-level libraries of the core source code."
+    ],
+    "stack": [
+      { "label": "Java", "url": "https://openjdk.org/" },
+      { "label": "SpigotMC API", "url": "https://www.spigotmc.org/" },
+      {
+        "label": "PaperMC API",
+        "url": "https://docs.papermc.io/paper/dev/getting-started/"
+      },
+      { "label": "MongoDB", "url": "https://www.mongodb.com/" }
+    ],
+    "technologies": [{ "label": "Event Driven Programming" }]
+  }
+]

@@ -1,0 +1,10 @@
+{
+  "header": [
+    { "label": "Case Studies", "href": "/projects" },
+    { "label": "Blog", "href": "/blog" }
+  ],
+  "contact": {
+    "label": "Contact",
+    "href": "mailto:alirezaopmc@gmail.com"
+  }
+}

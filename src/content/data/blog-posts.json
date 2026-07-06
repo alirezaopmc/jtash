@@ -1,0 +1,16 @@
+[
+  {
+    "slug": "sub-millisecond-routing",
+    "title": "Achieving Sub-Millisecond Routing in Go",
+    "date": "2026-05-12",
+    "summary": "Technical breakdown of zero-allocation HTTP router implementation.",
+    "content": "## The Allocation Problem\n\nStandard HTTP routers in Go allocate memory on every request. At 50,000 requests per second, the garbage collector becomes the bottleneck — not your business logic.\n\nProfiling a production service with `pprof` revealed that 40% of CPU time was spent in `runtime.mallocgc`. Each request triggered 7 heap allocations totaling ~1 KB.\n\n## The Zero-Allocation Approach\n\nWe implemented a radix trie that operates directly on the request byte slice:\n\n1. **sync.Pool** for reusable path buffers\n2. **Stack-allocated** parameter extraction\n3. **Byte-slice matching** — no string conversions\n\n## Results\n\n| Metric | Before | After |\n|--------|--------|-------|\n| Throughput | 5,000 rps | 50,000+ rps |\n| Allocations | 1,024 B/op | 0 B/op |\n| P99 Latency | 12ms | 0.8ms |\n\nThe key insight: **eliminate allocations at the hot path, and the GC stops being your enemy.**"
+  },
+  {
+    "slug": "multi-raft-consensus",
+    "title": "Multi-Raft at Global Scale",
+    "date": "2026-04-28",
+    "summary": "How we achieved sub-5ms write latency across regions with leader leases.",
+    "content": "## The Challenge\n\nGlobal consensus is hard. Traditional Raft requires a single leader, creating cross-region write latency proportional to RTT.\n\n## Multi-Raft with Leader Leases\n\nWe partitioned the keyspace into regional shards, each running an independent Raft group with:\n\n- **Leader leases** to avoid stale reads\n- **Cross-region replication** only for disaster recovery\n- **Automatic failover** in under 3 seconds\n\n## Results\n\nCombining Multi-Raft with leader leases, we achieved write latencies within 5ms of local-region RTT, with failover completing in under 3 seconds — even across a global footprint.\n\nThe key insight: **don't fight the speed of light; route around it.**"
+  }
+]

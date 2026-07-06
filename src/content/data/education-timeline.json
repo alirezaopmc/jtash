@@ -1,0 +1,27 @@
+{
+  "paddingMonths": 5,
+  "paddingTooltip": "At 6th grade I learned html :D at Andisheh School.",
+  "emptyColor": "hsl(var(--timeline-empty))",
+  "intervals": [
+    {
+      "name": "Sampad (Babol)",
+      "char": "S",
+      "color": "hsl(var(--timeline-sampad))",
+      "start": { "year": 2012, "month": 9 },
+      "end": { "year": 2018, "month": 8 }
+    },
+    {
+      "name": "Babol Noshirvani University of Technology",
+      "char": "N",
+      "color": "#1656AD",
+      "start": { "year": 2018, "month": 9 },
+      "end": { "year": 2024, "month": 8 }
+    },
+    {
+      "name": "University of Tehran",
+      "char": "T",
+      "color": "#09AEDD",
+      "start": { "year": 2024, "month": 9 }
+    }
+  ]
+}

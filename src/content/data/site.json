@@ -1,0 +1,15 @@
+{
+  "meta": {
+    "title": "Jay Tash",
+    "description": "Senior Software Engineer | AI Systems & Workflows"
+  },
+  "routes": {
+    "home": "/",
+    "projects": "/projects",
+    "blog": "/blog"
+  },
+  "footer": {
+    "tagline": "BUILT WITH PRECISION",
+    "revision": "REV. 2026.06"
+  }
+}

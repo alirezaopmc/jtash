@@ -1,0 +1,13 @@
+{
+  "intervalMs": 10000,
+  "items": [
+    "Prefer boring technology until the problem is boring.",
+    "Measure before you optimize — intuition lies at scale.",
+    "Latency is a feature; treat it like one.",
+    "Good abstractions hide complexity, not consequences.",
+    "Ship small slices; learn from production, not slides.",
+    "AI systems fail quietly — design for observability first.",
+    "The best cache is the request you never make.",
+    "Constraints are a design tool, not an obstacle."
+  ]
+}

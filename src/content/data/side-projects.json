@@ -1,0 +1,14 @@
+[
+  {
+    "name": "PromptOps",
+    "description": "AI-native CI/CD log analyzer. Built with Go & Claude API.",
+    "metric": "5,000+ DEVS",
+    "link": "https://github.com/placeholder/promptops"
+  },
+  {
+    "name": "EdgeKV",
+    "description": "Ultra-low latency key-value store optimized for Cloudflare Workers.",
+    "metric": "<5MS REPLICATION",
+    "link": "https://github.com/placeholder/edgekv"
+  }
+]
