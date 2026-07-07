@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import { type ReactNode, Suspense } from "react";
 
 import { SiteShell } from "@/components/layout/site-shell";
+import { WhatsNewAnnouncement } from "@/components/whats-new-announcement";
 import type {
   FooterConfig,
   HeaderTips,
@@ -44,6 +45,7 @@ function AppSiteShellInner({
       labels={labels}
       currentPath={pathname}
     >
+      <WhatsNewAnnouncement />
       {children}
     </SiteShell>
   );
