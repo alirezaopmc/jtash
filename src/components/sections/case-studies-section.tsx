@@ -8,7 +8,7 @@ import {
   scrollRevealViewport,
   staggerDelay,
   transitionBase,
-} from "@/lib/motion";
+} from "@orbit/ui/motion";
 import type {
   CaseStudy,
   SectionMeta,

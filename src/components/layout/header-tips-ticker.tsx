@@ -4,7 +4,7 @@ import { Button, cn, Progress } from "@orbit/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { SkipForward } from "lucide-react";
 import { useEffect, useState } from "react";
-import { transitionExpand } from "@/lib/motion";
+import { transitionExpand } from "@orbit/ui/motion";
 
 const DEFAULT_INTERVAL_MS = 10_000;
 

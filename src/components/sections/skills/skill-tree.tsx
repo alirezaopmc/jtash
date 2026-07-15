@@ -2,7 +2,7 @@
 
 import { cn } from "@orbit/ui";
 import { motion } from "framer-motion";
-import { useReducedMotion } from "@/lib/use-reduced-motion";
+import { useReducedMotion } from "@orbit/ui/motion";
 import type { SkillNode } from "@/types/content";
 import { SkillTreeNode } from "./skill-tree-node";
 

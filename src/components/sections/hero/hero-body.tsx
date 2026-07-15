@@ -3,7 +3,7 @@
 import { Button } from "@orbit/ui";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { heroSpring } from "@/lib/motion";
+import { heroSpring } from "@orbit/ui/motion";
 import type {
   Profile,
   QuickScanSpecItem,
