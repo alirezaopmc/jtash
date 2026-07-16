@@ -13,8 +13,8 @@
     "clean": "rm -rf .next"
   },
   "dependencies": {
-    "@manovaspace/markdown": "link:../../../manovaspace/ts/packages/markdown",
-    "@manovaspace/tsconfig": "link:../../../manovaspace/ts/packages/tsconfig",
+    "@manovaspace/markdown": "^0.1.2",
+    "@manovaspace/tsconfig": "^0.1.0",
     "@orbit/tokens": "link:../../../orbit/orbit-frontend/packages/tokens",
     "@orbit/ui": "link:../../../orbit/orbit-frontend/packages/ui",
     "class-variance-authority": "^0.7.1",
