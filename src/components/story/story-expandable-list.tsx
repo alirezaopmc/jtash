@@ -1,10 +1,10 @@
 "use client";
 
-import { Button, cn } from "@orbit/ui";
+import { Button, cn } from "@manovaspace/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown } from "lucide-react";
 import { type CSSProperties, type ReactNode, useState } from "react";
-import { transitionExpand } from "@orbit/ui/motion";
+import { transitionExpand } from "@manovaspace/ui/motion";
 
 export interface StoryExpandableItem {
   id: string;

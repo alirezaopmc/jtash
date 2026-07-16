@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge, cn } from "@orbit/ui";
+import { Badge, cn } from "@manovaspace/ui";
 import type { ReactNode } from "react";
 import { minimalLinkProfile } from "@/lib/external-link";
 import type { StackItem } from "@/types/content";

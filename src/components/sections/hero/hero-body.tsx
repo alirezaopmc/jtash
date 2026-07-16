@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@orbit/ui";
+import { Button } from "@manovaspace/ui";
 import { motion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
-import { heroSpring } from "@orbit/ui/motion";
+import { heroSpring } from "@manovaspace/ui/motion";
 import type {
   Profile,
   QuickScanSpecItem,

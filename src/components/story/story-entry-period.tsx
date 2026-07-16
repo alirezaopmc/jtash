@@ -1,4 +1,4 @@
-import { Badge, cn } from "@orbit/ui";
+import { Badge, cn } from "@manovaspace/ui";
 import { parseStoryEntryPeriod } from "@/lib/parse-story-entry-period";
 
 export interface StoryEntryPeriodProps {

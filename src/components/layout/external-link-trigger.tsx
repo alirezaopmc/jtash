@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@orbit/ui";
+import { cn } from "@manovaspace/ui";
 import type { MouseEvent, ReactNode } from "react";
 import { useExternalLink } from "@/components/layout/external-link-provider";
 import { isExternalHref, openExternalLinkProfile } from "@/lib/external-link";

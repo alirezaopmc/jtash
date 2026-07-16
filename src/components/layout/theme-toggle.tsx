@@ -1,6 +1,6 @@
 "use client";
 
-import { Button, cn } from "@orbit/ui";
+import { Button, cn } from "@manovaspace/ui";
 import { Check, Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useId, useRef, useState } from "react";

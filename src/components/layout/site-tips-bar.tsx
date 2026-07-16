@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@orbit/ui";
+import { cn } from "@manovaspace/ui";
 import type { HeaderTips, UiLabels } from "@/types/content";
 import { HeaderTipsTicker } from "./header-tips-ticker";
 

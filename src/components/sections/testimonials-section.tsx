@@ -9,7 +9,7 @@ import {
   scrollRevealViewport,
   staggerDelay,
   transitionBase,
-} from "@orbit/ui/motion";
+} from "@manovaspace/ui/motion";
 import type { SectionMeta, Testimonial, UiLabels } from "@/types/content";
 import { ExternalLinkTrigger } from "../layout/external-link-trigger";
 import { StorySection } from "../story/story-section";

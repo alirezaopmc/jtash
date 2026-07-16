@@ -1,7 +1,7 @@
 "use client";
 
 import { MarkdownContent } from "@manovaspace/markdown";
-import { Button } from "@orbit/ui";
+import { Button } from "@manovaspace/ui";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { BackLink } from "@/components/layout/back-link";
 import type { BlogPost, SiteRoutes, UiLabels } from "@/types/content";

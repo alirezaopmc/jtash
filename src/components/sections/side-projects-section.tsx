@@ -10,7 +10,7 @@ import {
   scrollRevealViewport,
   staggerDelay,
   transitionBase,
-} from "@orbit/ui/motion";
+} from "@manovaspace/ui/motion";
 import type { SectionMeta, SideProject, UiLabels } from "@/types/content";
 import { useOpenExternalLink } from "../layout/external-link-provider";
 import { StoryMetricBadge } from "../story/story-metric-badge";

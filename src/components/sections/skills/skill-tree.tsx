@@ -1,8 +1,8 @@
 "use client";
 
-import { cn } from "@orbit/ui";
+import { cn } from "@manovaspace/ui";
 import { motion } from "framer-motion";
-import { useReducedMotion } from "@orbit/ui/motion";
+import { useReducedMotion } from "@manovaspace/ui/motion";
 import type { SkillNode } from "@/types/content";
 import { SkillTreeNode } from "./skill-tree-node";
 

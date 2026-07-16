@@ -14,10 +14,10 @@ importers:
       '@manovaspace/tsconfig':
         specifier: ^0.1.0
         version: 0.1.0
-      '@orbit/tokens':
+      '@manovaspace/tokens':
         specifier: link:../../../orbit/orbit-frontend/packages/tokens
         version: link:../../../orbit/orbit-frontend/packages/tokens
-      '@orbit/ui':
+      '@manovaspace/ui':
         specifier: link:../../../orbit/orbit-frontend/packages/ui
         version: link:../../../orbit/orbit-frontend/packages/ui
       class-variance-authority:

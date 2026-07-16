@@ -1,5 +1,5 @@
 @import "tailwindcss";
-@import "@orbit/ui/styles.css";
+@import "@manovaspace/ui/styles.css";
 @import "../styles/jtash.css";
 
 @source "../components/**/*.{ts,tsx}";

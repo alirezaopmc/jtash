@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@orbit/ui";
+import { cn } from "@manovaspace/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronDown, ExternalLink } from "lucide-react";
 import { useState } from "react";

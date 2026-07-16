@@ -10,7 +10,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@orbit/ui";
+} from "@manovaspace/ui";
 import { X } from "lucide-react";
 import { useState } from "react";
 import { isMailtoHref } from "@/lib/external-link";

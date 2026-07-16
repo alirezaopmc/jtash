@@ -1,6 +1,6 @@
 "use client";
 
-import { Badge, Button } from "@orbit/ui";
+import { Badge, Button } from "@manovaspace/ui";
 import { isExternalHref, minimalLinkProfile } from "@/lib/external-link";
 import type {
   HeaderTips,

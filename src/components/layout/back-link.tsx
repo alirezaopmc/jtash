@@ -1,4 +1,4 @@
-import { Button, cn } from "@orbit/ui";
+import { Button, cn } from "@manovaspace/ui";
 import { ArrowLeft } from "lucide-react";
 import type { ReactNode } from "react";
 

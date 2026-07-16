@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@orbit/ui";
+import { cn } from "@manovaspace/ui";
 import type { Experience, UiLabels } from "@/types/content";
 import { StackTagList } from "../../stack-tag";
 import { parseExperienceHighlight } from "../shared/experience-utils";

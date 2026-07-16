@@ -1,4 +1,4 @@
-import { Badge, cn } from "@orbit/ui";
+import { Badge, cn } from "@manovaspace/ui";
 import { cva, type VariantProps } from "class-variance-authority";
 import type { ComponentProps } from "react";
 

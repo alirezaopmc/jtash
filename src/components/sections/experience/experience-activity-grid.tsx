@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@orbit/ui";
+import { cn } from "@manovaspace/ui";
 import { type PointerEvent, useMemo, useRef, useState } from "react";
 import {
   buildStoryTimelineCells,

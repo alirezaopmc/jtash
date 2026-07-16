@@ -1,9 +1,9 @@
 "use client";
 
-import { Button, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@orbit/ui";
+import { Button, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@manovaspace/ui";
 import { useEffect, useState } from "react";
 
-/** Matches @orbit/ui WhatsNewManifest — use `WhatsNew` from @orbit/ui after the next publish. */
+/** Matches @manovaspace/ui WhatsNewManifest — use `WhatsNew` from @manovaspace/ui after the next publish. */
 interface ReleaseItem {
   title: string;
   body: string;
@@ -20,7 +20,7 @@ const STORAGE_PREFIX = "whats-new-seen";
 
 /**
  * Reference wiring for `public/releases.json`. Replace with `<WhatsNew manifestUrl="..." />`
- * from `@orbit/ui` once the package version including WhatsNew is on the registry.
+ * from `@manovaspace/ui` once the package version including WhatsNew is on the registry.
  */
 export function WhatsNewAnnouncement() {
   const [manifest, setManifest] = useState<ReleaseManifest | null>(null);

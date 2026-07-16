@@ -1,4 +1,4 @@
-import { Card, CardContent } from "@orbit/ui";
+import { Card, CardContent } from "@manovaspace/ui";
 import { BackLink } from "@/components/layout/back-link";
 import type { CaseStudy, SiteRoutes, UiLabels } from "@/types/content";
 import { StackTagList } from "../stack-tag";

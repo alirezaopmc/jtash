@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@orbit/ui";
+import { Button } from "@manovaspace/ui";
 import { motion } from "framer-motion";
 import { ArrowRight, Calendar } from "lucide-react";
 import { SectionHeader } from "@/components/layout/section-header";
@@ -9,7 +9,7 @@ import {
   scrollRevealViewport,
   staggerDelay,
   transitionBase,
-} from "@orbit/ui/motion";
+} from "@manovaspace/ui/motion";
 import type { BlogPost, SiteRoutes, UiLabels } from "@/types/content";
 
 export interface BlogIndexProps {

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn, ToggleGroup, ToggleGroupItem } from "@orbit/ui";
+import { cn, ToggleGroup, ToggleGroupItem } from "@manovaspace/ui";
 // Fixed dev-only toolbar for toggling UI variants (e.g. education grid Letters vs
 // Color). Renders only when isDevEnvironment() is true. Keep this component for
 // local previews, Storybook, and agent-driven experiments — do not remove when

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@orbit/ui";
+import { cn } from "@manovaspace/ui";
 import { useMemo } from "react";
 import {
   buildEducationTimelineCells,

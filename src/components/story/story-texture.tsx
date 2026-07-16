@@ -1,4 +1,4 @@
-import { cn } from "@orbit/ui";
+import { cn } from "@manovaspace/ui";
 import type { ReactNode } from "react";
 
 export type StoryTextureVariant =

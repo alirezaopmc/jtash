@@ -1,10 +1,10 @@
 "use client";
 
-import { Button, cn, Progress } from "@orbit/ui";
+import { Button, cn, Progress } from "@manovaspace/ui";
 import { AnimatePresence, motion } from "framer-motion";
 import { SkipForward } from "lucide-react";
 import { useEffect, useState } from "react";
-import { transitionExpand } from "@orbit/ui/motion";
+import { transitionExpand } from "@manovaspace/ui/motion";
 
 const DEFAULT_INTERVAL_MS = 10_000;
 
