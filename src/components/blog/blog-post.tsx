@@ -1,6 +1,6 @@
 "use client";
 
-import { MarkdownContent } from "@orbit/markdown";
+import { MarkdownContent } from "@manovaspace/markdown";
 import { Button } from "@orbit/ui";
 import { ArrowLeft, ArrowRight } from "lucide-react";
 import { BackLink } from "@/components/layout/back-link";

@@ -8,9 +8,12 @@ importers:
 
   .:
     dependencies:
-      '@orbit/markdown':
-        specifier: link:../../../orbit/orbit-frontend/packages/markdown
-        version: link:../../../orbit/orbit-frontend/packages/markdown
+      '@manovaspace/markdown':
+        specifier: link:../../../manovaspace/ts/packages/markdown
+        version: link:../../../manovaspace/ts/packages/markdown
+      '@manovaspace/tsconfig':
+        specifier: link:../../../manovaspace/ts/packages/tsconfig
+        version: link:../../../manovaspace/ts/packages/tsconfig
       '@orbit/tokens':
         specifier: link:../../../orbit/orbit-frontend/packages/tokens
         version: link:../../../orbit/orbit-frontend/packages/tokens

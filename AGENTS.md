@@ -18,7 +18,7 @@ Dev server runs on **port 12000**.
 ## Stack
 
 - Next.js 16 (App Router, no `next-intl`, no `[locale]` segment)
-- `@orbit/ui` primitives, `@orbit/markdown` for blog content
+- `@orbit/ui` primitives, `@manovaspace/markdown` for blog content
 - Local JSON content under `src/content/data/`
 - Hostname resolution via `getRequestSiteContent()` (`headers().get('host')`)
 
@@ -28,12 +28,13 @@ Dev server runs on **port 12000**.
 
 - `link:../../../orbit/orbit-frontend/packages/tokens`
 - `link:../../../orbit/orbit-frontend/packages/ui`
-- `link:../../../orbit/orbit-frontend/packages/markdown`
+- `link:../../../manovaspace/ts/packages/markdown`
 
 Build linked packages first if types or dist are missing:
 
 ```bash
-cd ../../../orbit/orbit-frontend && pnpm install && pnpm --filter @orbit/tokens --filter @orbit/ui --filter @orbit/markdown build
+cd ../../../manovaspace/ts && pnpm install && pnpm --filter @manovaspace/markdown build
+cd ../../../orbit/orbit-frontend && pnpm install && pnpm --filter @orbit/tokens --filter @orbit/ui build
 ```
 
 ## Verdaccio / `@orbit` registry

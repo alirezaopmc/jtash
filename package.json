@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "prebuild": "node ../../../manovaspace/ts/scripts/ensure-build.mjs",
     "dev": "next dev --port 12000 --webpack",
     "build": "next build --webpack",
     "start": "next start",
@@ -12,7 +13,8 @@
     "clean": "rm -rf .next"
   },
   "dependencies": {
-    "@orbit/markdown": "link:../../../orbit/orbit-frontend/packages/markdown",
+    "@manovaspace/markdown": "link:../../../manovaspace/ts/packages/markdown",
+    "@manovaspace/tsconfig": "link:../../../manovaspace/ts/packages/tsconfig",
     "@orbit/tokens": "link:../../../orbit/orbit-frontend/packages/tokens",
     "@orbit/ui": "link:../../../orbit/orbit-frontend/packages/ui",
     "class-variance-authority": "^0.7.1",
