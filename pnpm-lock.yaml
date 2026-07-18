@@ -11,15 +11,15 @@ importers:
       '@manovaspace/markdown':
         specifier: ^0.1.2
         version: 0.1.2(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+      '@manovaspace/tokens':
+        specifier: link:../../../manovaspace/design-system/packages/tokens
+        version: link:../../../manovaspace/design-system/packages/tokens
       '@manovaspace/tsconfig':
         specifier: ^0.1.0
         version: 0.1.0
-      '@manovaspace/tokens':
-        specifier: link:../../../orbit/orbit-frontend/packages/tokens
-        version: link:../../../orbit/orbit-frontend/packages/tokens
       '@manovaspace/ui':
-        specifier: link:../../../orbit/orbit-frontend/packages/ui
-        version: link:../../../orbit/orbit-frontend/packages/ui
+        specifier: link:../../../manovaspace/design-system/packages/ui
+        version: link:../../../manovaspace/design-system/packages/ui
       class-variance-authority:
         specifier: ^0.7.1
         version: 0.7.1
