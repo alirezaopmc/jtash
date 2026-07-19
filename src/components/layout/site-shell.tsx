@@ -1,12 +1,13 @@
 "use client";
 
+import { ThemeProvider } from "@manovaspace/ui";
 import type { ReactNode } from "react";
 import { ExternalLinkProvider } from "@/components/layout/external-link-provider";
 import { SiteFooter } from "@/components/layout/site-footer";
 import { SiteHeader } from "@/components/layout/site-header";
 import { SiteTipsBar } from "@/components/layout/site-tips-bar";
+import { SystemThemeSync } from "@/components/layout/system-theme-sync";
 import { ThemeColorSync } from "@/components/layout/theme-color-sync";
-import { ThemeProvider } from "@/components/layout/theme-provider";
 import { useHostAwareProfile } from "@/lib/use-host-aware-profile";
 import type {
   FooterConfig,
@@ -41,7 +42,8 @@ export function SiteShell({
   const resolvedProfile = useHostAwareProfile(profile);
 
   return (
-    <ThemeProvider>
+    <ThemeProvider defaultTheme="dark" enableSystem>
+      <SystemThemeSync />
       <ThemeColorSync />
       <ExternalLinkProvider labels={labels.externalLink}>
         <div className="flex min-h-screen flex-col bg-background">

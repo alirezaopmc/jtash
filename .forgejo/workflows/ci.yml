@@ -8,21 +8,25 @@ on:
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    runs-on: vps
     steps:
-      - uses: actions/checkout@v4
-      - name: Setup pnpm
+      - name: Lint, typecheck, build
         run: |
-          corepack enable
-          corepack prepare pnpm@11.10.0 --activate
-      - name: Configure Verdaccio auth
-        run: |
-          if [ -n "${NPM_TOKEN:-}" ]; then
-            echo "//npm.dev.manova.space/:_authToken=${NPM_TOKEN}" >> .npmrc
-          fi
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
-      - run: pnpm install --frozen-lockfile
-      - run: pnpm lint
-      - run: pnpm typecheck
-      - run: pnpm build
+          set -euo pipefail
+          REPO=/home/opmc/Dev/Manova/clients/jtash/frontend
+          WORK="/tmp/jtash-frontend-ci-${{ forgejo.run_id }}"
+          trap 'runuser -u opmc -- git -C "$REPO" worktree remove -f "$WORK" 2>/dev/null || true' EXIT
+          runuser -u opmc -- bash -lc "
+            set -euo pipefail
+            cd \"$REPO\"
+            git fetch origin
+            git worktree add --detach \"$WORK\" \"${{ forgejo.sha }}\"
+            cd \"$WORK\"
+            export PATH=\"/home/opmc/.local/node/bin:\$PATH\"
+            corepack enable
+            corepack prepare pnpm@11.10.0 --activate
+            pnpm install --frozen-lockfile
+            pnpm lint
+            pnpm typecheck
+            pnpm build
+          "

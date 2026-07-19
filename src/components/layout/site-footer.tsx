@@ -1,9 +1,12 @@
 "use client";
 
-import { Mail } from "lucide-react";
-import type { IconType } from "react-icons";
-import { FaLinkedinIn } from "react-icons/fa6";
-import { SiGithub, SiTelegram } from "react-icons/si";
+import { MailIcon } from "@manovaspace/ui";
+import {
+  GithubIcon,
+  LinkedinIcon,
+  TelegramIcon,
+} from "@manovaspace/ui/icons/brand";
+import type { ComponentType, SVGProps } from "react";
 
 import { minimalLinkProfile } from "@/lib/external-link";
 import type { FooterConfig, Profile } from "@/types/content";
@@ -24,7 +27,7 @@ export interface SiteFooterProps {
   externalLinkLabels: ExternalLinkLabels;
 }
 
-type SocialLinkIcon = IconType | typeof Mail;
+type SocialLinkIcon = ComponentType<SVGProps<SVGSVGElement>>;
 
 export function SiteFooter({
   profile,
@@ -43,7 +46,7 @@ export function SiteFooter({
         profile.github,
         externalLinkLabels.githubDescription,
       ),
-      icon: SiGithub,
+      icon: GithubIcon,
       label: labels.github,
     },
     {
@@ -52,7 +55,7 @@ export function SiteFooter({
         profile.linkedin,
         externalLinkLabels.linkedinDescription,
       ),
-      icon: FaLinkedinIn,
+      icon: LinkedinIcon,
       label: labels.linkedin,
     },
     {
@@ -61,7 +64,7 @@ export function SiteFooter({
         profile.telegram,
         externalLinkLabels.telegramDescription,
       ),
-      icon: SiTelegram,
+      icon: TelegramIcon,
       label: labels.telegram,
     },
     {
@@ -70,7 +73,7 @@ export function SiteFooter({
         `mailto:${profile.email}`,
         profile.email,
       ),
-      icon: Mail,
+      icon: MailIcon,
       label: labels.email,
     },
   ];

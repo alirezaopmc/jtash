@@ -1,5 +1,5 @@
 import { Button, cn } from "@manovaspace/ui";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeftIcon } from "@manovaspace/ui";
 import type { ReactNode } from "react";
 
 export interface BackLinkProps {
@@ -16,7 +16,7 @@ export function BackLink({ href, children, className }: BackLinkProps) {
       className={cn("h-auto p-0 text-primary", className)}
     >
       <a href={href} className="inline-flex items-center gap-2">
-        <ArrowLeft className="h-4 w-4" />
+        <ArrowLeftIcon className="h-4 w-4" />
         {children}
       </a>
     </Button>

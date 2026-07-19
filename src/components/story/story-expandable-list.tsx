@@ -2,7 +2,7 @@
 
 import { Button, cn } from "@manovaspace/ui";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown } from "lucide-react";
+import { ChevronDownIcon } from "@manovaspace/ui";
 import { type CSSProperties, type ReactNode, useState } from "react";
 import { transitionExpand } from "@manovaspace/ui/motion";
 
@@ -137,7 +137,7 @@ export function StoryExpandableList({
                   aria-label={item.ariaLabel}
                   className="relative z-10 mt-1 shrink-0 text-muted-foreground hover:text-foreground"
                 >
-                  <ChevronDown
+                  <ChevronDownIcon
                     className={cn(
                       "h-5 w-5 transition-all duration-300",
                       isExpanded && "rotate-180 text-primary",

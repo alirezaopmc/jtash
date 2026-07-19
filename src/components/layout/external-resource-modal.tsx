@@ -11,7 +11,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@manovaspace/ui";
-import { X } from "lucide-react";
+import { XMarkIcon } from "@manovaspace/ui";
 import { useState } from "react";
 import { isMailtoHref } from "@/lib/external-link";
 import type {
@@ -86,7 +86,7 @@ export function ExternalResourceModal({
             "absolute top-4 right-4 flex size-8 items-center justify-center rounded-md border border-border text-muted-foreground transition-colors hover:border-primary hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring",
           )}
         >
-          <X className="size-4" />
+          <XMarkIcon className="size-4" />
           <span className="sr-only">Close</span>
         </DialogClose>
 

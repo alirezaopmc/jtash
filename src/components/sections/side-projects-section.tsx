@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ExternalLink } from "lucide-react";
+import { ExternalLinkIcon } from "@manovaspace/ui";
 import type { KeyboardEvent } from "react";
 import { SectionHeader } from "@/components/layout/section-header";
 import { hrefToHost } from "@/lib/external-link";
@@ -12,7 +12,7 @@ import {
   transitionBase,
 } from "@manovaspace/ui/motion";
 import type { SectionMeta, SideProject, UiLabels } from "@/types/content";
-import { useOpenExternalLink } from "../layout/external-link-provider";
+import { useOpenExternalLinkIcon } from "../layout/external-link-provider";
 import { StoryMetricBadge } from "../story/story-metric-badge";
 import { StorySection } from "../story/story-section";
 
@@ -30,10 +30,10 @@ export function SideProjectsSection({
   meta,
   labels,
 }: SideProjectsSectionProps) {
-  const openExternalLink = useOpenExternalLink();
+  const openExternalLinkIcon = useOpenExternalLinkIcon();
 
   const openProject = (project: SideProject) => {
-    openExternalLink({
+    openExternalLinkIcon({
       title: project.name,
       url: project.link,
       description: project.description,
@@ -90,7 +90,7 @@ export function SideProjectsSection({
             <div className="flex items-center gap-2 font-mono text-xs text-band-dark-muted group-hover:text-primary">
               {labels.sideProjects.clonePrefix}
               <span className="sr-only">{hrefToHost(project.link)}</span>
-              <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+              <ExternalLinkIcon className="h-3.5 w-3.5" aria-hidden />
             </div>
           </motion.div>
         ))}

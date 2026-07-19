@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRightIcon } from "@manovaspace/ui";
 import { SectionHeader } from "@/components/layout/section-header";
 import {
   fadeUp,
@@ -75,7 +75,7 @@ export function CaseStudiesSection({
                     </StoryMetricBadge>
                   ))}
                 </div>
-                <ArrowRight className="mt-4 h-4 w-4 text-border group-hover:text-primary" />
+                <ArrowRightIcon className="mt-4 h-4 w-4 text-border group-hover:text-primary" />
               </a>
             </motion.div>
           ))}

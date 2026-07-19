@@ -1,8 +1,6 @@
 "use client";
 
-import { Button, cn } from "@manovaspace/ui";
-import { Check, Monitor, Moon, Sun } from "lucide-react";
-import { useTheme } from "next-themes";
+import { Button, CheckIcon, cn, ComputerDesktopIcon, MoonIcon, SunIcon, useTheme } from "@manovaspace/ui";
 import { useEffect, useId, useRef, useState } from "react";
 import type { UiLabels } from "@/types/content";
 
@@ -11,9 +9,9 @@ export interface ThemeToggleProps {
 }
 
 const themeOptions = [
-  { value: "light", icon: Sun },
-  { value: "dark", icon: Moon },
-  { value: "system", icon: Monitor },
+  { value: "light", icon: SunIcon },
+  { value: "dark", icon: MoonIcon },
+  { value: "system", icon: ComputerDesktopIcon },
 ] as const;
 
 type ThemeOption = (typeof themeOptions)[number]["value"];
@@ -69,7 +67,7 @@ export function ThemeToggle({ labels }: ThemeToggleProps) {
 
   const activeTheme = (theme ?? "system") as ThemeOption;
   const resolvedIcon =
-    resolvedTheme === "dark" ? Moon : resolvedTheme === "light" ? Sun : Monitor;
+    resolvedTheme === "dark" ? MoonIcon : resolvedTheme === "light" ? SunIcon : ComputerDesktopIcon;
   const TriggerIcon =
     themeOptions.find((option) => option.value === activeTheme)?.icon ??
     resolvedIcon;
@@ -126,7 +124,7 @@ export function ThemeToggle({ labels }: ThemeToggleProps) {
                 <Icon className="h-4 w-4 shrink-0" aria-hidden />
                 <span className="flex-1 text-left">{labelByValue[value]}</span>
                 {isActive ? (
-                  <Check className="h-4 w-4 shrink-0" aria-hidden />
+                  <CheckIcon className="h-4 w-4 shrink-0" aria-hidden />
                 ) : null}
               </button>
             );

@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, ExternalLink } from "lucide-react";
+import { ArrowRightIcon, ExternalLinkIcon } from "@manovaspace/ui";
 import { SectionHeader } from "@/components/layout/section-header";
 import { minimalLinkProfile } from "@/lib/external-link";
 import {
@@ -11,7 +11,7 @@ import {
   transitionBase,
 } from "@manovaspace/ui/motion";
 import type { SectionMeta, Testimonial, UiLabels } from "@/types/content";
-import { ExternalLinkTrigger } from "../layout/external-link-trigger";
+import { ExternalLinkIconTrigger } from "../layout/external-link-trigger";
 import { StorySection } from "../story/story-section";
 
 export interface TestimonialsSectionProps {
@@ -60,7 +60,7 @@ export function TestimonialsSection({
                 {item.position}
               </p>
               <div className="mt-4 flex gap-3">
-                <ExternalLinkTrigger
+                <ExternalLinkIconTrigger
                   profile={minimalLinkProfile(
                     item.author,
                     item.profile,
@@ -68,15 +68,15 @@ export function TestimonialsSection({
                   )}
                   className="text-band-dark-muted hover:text-primary"
                 >
-                  <ExternalLink className="h-4 w-4" aria-hidden />
+                  <ExternalLinkIcon className="h-4 w-4" aria-hidden />
                   <span className="sr-only">{item.author}</span>
-                </ExternalLinkTrigger>
+                </ExternalLinkIconTrigger>
                 <a
                   href={item.project}
                   className="mono-label inline-flex items-center gap-1 text-band-dark-muted hover:text-primary"
                 >
                   {labels.project}
-                  <ArrowRight className="h-3 w-3" />
+                  <ArrowRightIcon className="h-3 w-3" />
                 </a>
               </div>
             </figcaption>

@@ -2,13 +2,13 @@
 
 import { cn } from "@manovaspace/ui";
 import { AnimatePresence, motion } from "framer-motion";
-import { ChevronDown, ExternalLink } from "lucide-react";
+import { ChevronDownIcon, ExternalLinkIcon } from "@manovaspace/ui";
 import { useState } from "react";
 
 import { minimalLinkProfile } from "@/lib/external-link";
 import { getSkillNodeClassName } from "@/lib/skill-tree-styles";
 import type { SkillNode } from "@/types/content";
-import { ExternalLinkTrigger } from "../../layout/external-link-trigger";
+import { ExternalLinkIconTrigger } from "../../layout/external-link-trigger";
 
 export interface SkillTreeNodeProps {
   node: SkillNode;
@@ -29,13 +29,13 @@ function SkillNodeContent({
     <>
       <span>{node.label}</span>
       {node.url ? (
-        <ExternalLink
+        <ExternalLinkIcon
           className="h-3 w-3 shrink-0 opacity-40 transition-opacity group-hover:opacity-100"
           aria-hidden
         />
       ) : null}
       {showChevron ? (
-        <ChevronDown
+        <ChevronDownIcon
           className={cn(
             "h-3 w-3 shrink-0 opacity-50 transition-transform duration-300",
             expanded && "rotate-180",
@@ -76,7 +76,7 @@ function SkillNodeShell({
 
   if (node.url && !showChevron) {
     return (
-      <ExternalLinkTrigger
+      <ExternalLinkIconTrigger
         profile={minimalLinkProfile(node.label, node.url, node.description)}
         className={classNames}
       >
@@ -85,7 +85,7 @@ function SkillNodeShell({
           showChevron={showChevron}
           expanded={expanded}
         />
-      </ExternalLinkTrigger>
+      </ExternalLinkIconTrigger>
     );
   }
 

@@ -2,7 +2,7 @@
 
 import { Button } from "@manovaspace/ui";
 import { motion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRightIcon } from "@manovaspace/ui";
 import { heroSpring } from "@manovaspace/ui/motion";
 import type {
   Profile,
@@ -115,13 +115,13 @@ export function HeroBody({
           <Button asChild>
             <a href={routes.projects} className="group">
               {labels.viewProjects}
-              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+              <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
             </a>
           </Button>
           <Button asChild variant="outline">
             <a href={routes.blog} className="group">
               {labels.readBlog}
-              <ArrowRight className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
+              <ArrowRightIcon className="h-4 w-4 transition-transform duration-200 group-hover:translate-x-1" />
             </a>
           </Button>
         </div>

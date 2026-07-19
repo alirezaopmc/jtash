@@ -2,7 +2,7 @@
 
 import { MarkdownContent } from "@manovaspace/markdown";
 import { Button } from "@manovaspace/ui";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ArrowLeftIcon, ArrowRightIcon } from "@manovaspace/ui";
 import { BackLink } from "@/components/layout/back-link";
 import type { BlogPost, SiteRoutes, UiLabels } from "@/types/content";
 
@@ -51,7 +51,7 @@ export function BlogPostView({
                 href={`${routes.blog}/${prev.slug}`}
                 className="group inline-flex items-center gap-2"
               >
-                <ArrowLeft className="h-4 w-4" />
+                <ArrowLeftIcon className="h-4 w-4" />
                 {prev.title}
               </a>
             </Button>
@@ -69,7 +69,7 @@ export function BlogPostView({
                 className="group inline-flex items-center gap-2 text-right"
               >
                 {next.title}
-                <ArrowRight className="h-4 w-4" />
+                <ArrowRightIcon className="h-4 w-4" />
               </a>
             </Button>
           ) : (

@@ -2,7 +2,7 @@
 
 import { Button } from "@manovaspace/ui";
 import { motion } from "framer-motion";
-import { ArrowRight, Calendar } from "lucide-react";
+import { ArrowRightIcon, CalendarIcon } from "@manovaspace/ui";
 import { SectionHeader } from "@/components/layout/section-header";
 import {
   fadeUp,
@@ -42,7 +42,7 @@ export function BlogIndex({ posts, labels, routes }: BlogIndexProps) {
               className="group -mx-4 block border-b border-border px-4 py-8 transition-colors duration-200 hover:bg-card/50"
             >
               <div className="mb-3 flex items-center gap-2">
-                <Calendar className="h-3.5 w-3.5 text-muted-foreground" />
+                <CalendarIcon className="h-3.5 w-3.5 text-muted-foreground" />
                 <span className="mono-label text-muted-foreground">
                   {post.date}
                 </span>
@@ -60,7 +60,7 @@ export function BlogIndex({ posts, labels, routes }: BlogIndexProps) {
               >
                 <span className="inline-flex items-center gap-2">
                   {labels.readArticle}
-                  <ArrowRight className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
+                  <ArrowRightIcon className="h-3.5 w-3.5 transition-transform duration-200 group-hover:translate-x-1" />
                 </span>
               </Button>
             </a>

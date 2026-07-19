@@ -1,6 +1,6 @@
 "use client";
 
-import { useTheme } from "next-themes";
+import { useTheme } from "@manovaspace/ui";
 import { useEffect } from "react";
 
 import { applyResolvedTheme, resolveSystemTheme } from "@/lib/resolve-theme";

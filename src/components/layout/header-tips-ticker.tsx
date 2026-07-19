@@ -2,7 +2,7 @@
 
 import { Button, cn, Progress } from "@manovaspace/ui";
 import { AnimatePresence, motion } from "framer-motion";
-import { SkipForward } from "lucide-react";
+import { SkipForwardIcon } from "@manovaspace/ui";
 import { useEffect, useState } from "react";
 import { transitionExpand } from "@manovaspace/ui/motion";
 
@@ -107,7 +107,7 @@ export function HeaderTipsTicker({
           aria-label={skipLabel}
           className="mt-0.5 h-auto shrink-0 gap-1 px-2 py-1 text-xs text-muted-foreground hover:border-primary hover:text-primary sm:mt-0"
         >
-          <SkipForward className="h-3.5 w-3.5" aria-hidden />
+          <SkipForwardIcon className="h-3.5 w-3.5" aria-hidden />
           <span className="hidden sm:inline">{skipLabel}</span>
         </Button>
       </div>
