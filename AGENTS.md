@@ -22,19 +22,19 @@ Dev server runs on **port 12000**.
 - Local JSON content under `src/content/data/`
 - Hostname resolution via `getRequestSiteContent()` (`headers().get('host')`)
 
-## Local Orbit packages
+## Local packages
 
-`package.json` links local Orbit packages for development:
+`package.json` links for development:
 
-- `link:../../../orbit/orbit-frontend/packages/tokens`
-- `link:../../../orbit/orbit-frontend/packages/ui`
+- `link:../../../manovaspace/design-system/packages/tokens`
+- `link:../../../manovaspace/design-system/packages/ui`
 - `link:../../../manovaspace/ts/packages/markdown`
 
 Build linked packages first if types or dist are missing:
 
 ```bash
+cd ../../../manovaspace/design-system && pnpm install && pnpm --filter @manovaspace/tokens --filter @manovaspace/ui build
 cd ../../../manovaspace/ts && pnpm install && pnpm --filter @manovaspace/markdown build
-cd ../../../orbit/orbit-frontend && pnpm install && pnpm --filter @manovaspace/tokens --filter @manovaspace/ui build
 ```
 
 ## Verdaccio / `@orbit` registry
