@@ -22,30 +22,20 @@ Dev server runs on **port 12000**.
 - Local JSON content under `src/content/data/`
 - Hostname resolution via `getRequestSiteContent()` (`headers().get('host')`)
 
-## Local packages
+## Packages
 
-`package.json` links for development:
+`package.json` today:
 
-- `link:../../../manovaspace/design-system/packages/tokens`
-- `link:../../../manovaspace/design-system/packages/ui`
-- `link:../../../manovaspace/ts/packages/markdown`
+- `@manovaspace/tokens` / `@manovaspace/ui` → `link:` into `manovaspace/design-system`
+- `@manovaspace/markdown` → **npm** (`^0.1.2`), not `link:`
+
+No `@orbit/*` dependencies in this package.
 
 Build linked packages first if types or dist are missing:
 
 ```bash
 cd ../../../manovaspace/design-system && pnpm install && pnpm --filter @manovaspace/tokens --filter @manovaspace/ui build
-cd ../../../manovaspace/ts && pnpm install && pnpm --filter @manovaspace/markdown build
 ```
-
-## Verdaccio / `@orbit` registry
-
-`.npmrc` points `@orbit` scoped packages at `https://npm.dev.manova.space`. For installs without `link:` overrides, set a token:
-
-```bash
-export NPM_TOKEN=your-verdaccio-token
-```
-
-The token is read from `//npm.dev.manova.space/:_authToken` (see `.npmrc` comment).
 
 ## Structure
 
