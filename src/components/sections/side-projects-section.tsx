@@ -1,18 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
-import { ExternalLinkIcon } from "@manovaspace/ui";
-import type { KeyboardEvent } from "react";
-import { SectionHeader } from "@/components/layout/section-header";
-import { hrefToHost } from "@/lib/external-link";
+import { ExternalLinkIcon, motion } from "@manovaspace/ui";
 import {
   fadeUp,
   scrollRevealViewport,
   staggerDelay,
   transitionBase,
 } from "@manovaspace/ui/motion";
+import type { KeyboardEvent } from "react";
+import { SectionHeader } from "@/components/layout/section-header";
+import { hrefToHost } from "@/lib/external-link";
 import type { SectionMeta, SideProject, UiLabels } from "@/types/content";
-import { useOpenExternalLinkIcon } from "../layout/external-link-provider";
+import { useOpenExternalLink } from "../layout/external-link-provider";
 import { StoryMetricBadge } from "../story/story-metric-badge";
 import { StorySection } from "../story/story-section";
 
@@ -30,10 +29,10 @@ export function SideProjectsSection({
   meta,
   labels,
 }: SideProjectsSectionProps) {
-  const openExternalLinkIcon = useOpenExternalLinkIcon();
+  const openExternalLink = useOpenExternalLink();
 
   const openProject = (project: SideProject) => {
-    openExternalLinkIcon({
+    openExternalLink({
       title: project.name,
       url: project.link,
       description: project.description,

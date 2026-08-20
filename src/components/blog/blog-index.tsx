@@ -1,15 +1,13 @@
 "use client";
 
-import { Button } from "@manovaspace/ui";
-import { motion } from "framer-motion";
-import { ArrowRightIcon, CalendarIcon } from "@manovaspace/ui";
-import { SectionHeader } from "@/components/layout/section-header";
+import { ArrowRightIcon, Button, CalendarIcon, motion } from "@manovaspace/ui";
 import {
   fadeUp,
   scrollRevealViewport,
   staggerDelay,
   transitionBase,
 } from "@manovaspace/ui/motion";
+import { SectionHeader } from "@/components/layout/section-header";
 import type { BlogPost, SiteRoutes, UiLabels } from "@/types/content";
 
 export interface BlogIndexProps {

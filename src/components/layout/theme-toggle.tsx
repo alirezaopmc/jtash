@@ -1,6 +1,14 @@
 "use client";
 
-import { Button, CheckIcon, cn, ComputerDesktopIcon, MoonIcon, SunIcon, useTheme } from "@manovaspace/ui";
+import {
+  Button,
+  CheckIcon,
+  ComputerDesktopIcon,
+  cn,
+  MoonIcon,
+  SunIcon,
+  useTheme,
+} from "@manovaspace/ui";
 import { useEffect, useId, useRef, useState } from "react";
 import type { UiLabels } from "@/types/content";
 
@@ -67,7 +75,11 @@ export function ThemeToggle({ labels }: ThemeToggleProps) {
 
   const activeTheme = (theme ?? "system") as ThemeOption;
   const resolvedIcon =
-    resolvedTheme === "dark" ? MoonIcon : resolvedTheme === "light" ? SunIcon : ComputerDesktopIcon;
+    resolvedTheme === "dark"
+      ? MoonIcon
+      : resolvedTheme === "light"
+        ? SunIcon
+        : ComputerDesktopIcon;
   const TriggerIcon =
     themeOptions.find((option) => option.value === activeTheme)?.icon ??
     resolvedIcon;

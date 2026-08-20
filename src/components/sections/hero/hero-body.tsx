@@ -1,8 +1,6 @@
 "use client";
 
-import { Button } from "@manovaspace/ui";
-import { motion } from "framer-motion";
-import { ArrowRightIcon } from "@manovaspace/ui";
+import { ArrowRightIcon, Button, motion } from "@manovaspace/ui";
 import { heroSpring } from "@manovaspace/ui/motion";
 import type {
   Profile,

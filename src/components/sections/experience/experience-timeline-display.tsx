@@ -1,9 +1,13 @@
 "use client";
 
-import { Button, cn } from "@manovaspace/ui";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, Button, cn, motion } from "@manovaspace/ui";
+import {
+  duration,
+  easeOut,
+  transitionFast,
+  useReducedMotion,
+} from "@manovaspace/ui/motion";
 import { experienceToLinkProfile } from "@/lib/external-link";
-import { duration, easeOut, transitionFast, useReducedMotion } from "@manovaspace/ui/motion";
 import type { Experience } from "@/types/content";
 import { useOpenExternalLink } from "../../layout/external-link-provider";
 import { StackTag } from "../../stack-tag";

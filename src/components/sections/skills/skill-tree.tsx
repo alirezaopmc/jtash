@@ -1,7 +1,6 @@
 "use client";
 
-import { cn } from "@manovaspace/ui";
-import { motion } from "framer-motion";
+import { cn, motion } from "@manovaspace/ui";
 import { useReducedMotion } from "@manovaspace/ui/motion";
 import type { SkillNode } from "@/types/content";
 import { SkillTreeNode } from "./skill-tree-node";
