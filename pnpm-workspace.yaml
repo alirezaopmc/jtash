@@ -1,8 +1,0 @@
-allowBuilds:
-  sharp: true
-minimumReleaseAgeExclude:
-  - '@orbit/markdown@0.1.1'
-  - '@manovaspace/tokens@0.1.0'
-  - '@manovaspace/ui@0.1.2'
-  - '@manovaspace/markdown@0.1.2'
-  - '@manovaspace/tsconfig@0.1.0'

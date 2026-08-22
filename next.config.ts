@@ -6,6 +6,13 @@ const nextConfig: NextConfig = {
     "@manovaspace/tokens",
     "@manovaspace/markdown",
   ],
+  experimental: {
+    optimizePackageImports: [
+      "@manovaspace/ui",
+      "@manovaspace/tokens",
+      "@manovaspace/markdown",
+    ],
+  },
   allowedDevOrigins: ["127.0.0.1"],
 };
 
