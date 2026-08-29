@@ -6,6 +6,10 @@ on:
   pull_request:
     branches: [main]
 
+concurrency:
+  group: ci-${{ forgejo.workflow }}-${{ forgejo.ref }}
+  cancel-in-progress: true
+
 jobs:
   check:
     runs-on: vps
@@ -13,20 +17,7 @@ jobs:
       - name: Lint, typecheck, build
         run: |
           set -euo pipefail
-          REPO=/home/opmc/Dev/Manova/clients/jtash/frontend
-          WORK="/tmp/jtash-frontend-ci-${{ forgejo.run_id }}"
-          trap 'runuser -u opmc -- git -C "$REPO" worktree remove -f "$WORK" 2>/dev/null || true' EXIT
-          runuser -u opmc -- bash -lc "
-            set -euo pipefail
-            cd \"$REPO\"
-            git fetch origin
-            git worktree add --detach \"$WORK\" \"${{ forgejo.sha }}\"
-            cd \"$WORK\"
-            export PATH=\"/home/opmc/.local/node/bin:\$PATH\"
-            corepack enable
-            corepack prepare pnpm@11.10.0 --activate
-            pnpm install --frozen-lockfile
-            pnpm lint
-            pnpm typecheck
-            pnpm build
-          "
+          runuser -u opmc -- \
+            /home/opmc/Dev/Manova/orbit/orbit-infra/scripts/ci-host-ts.sh \
+            /home/opmc/Dev/Manova/clients/jtash/frontend \
+            "${{ forgejo.sha }}" "${{ forgejo.run_id }}"
