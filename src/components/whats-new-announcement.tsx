@@ -1,14 +1,6 @@
 "use client";
 
-import {
-  Button,
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@manovaspace/ui";
+import { Button, Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@manovaspace/ui";
 import { useEffect, useState } from "react";
 
 /** Matches @manovaspace/ui WhatsNewManifest — use `WhatsNew` from @manovaspace/ui after the next publish. */
@@ -44,12 +36,7 @@ export function WhatsNewAnnouncement() {
           return;
         }
         const data = (await response.json()) as ReleaseManifest;
-        if (
-          cancelled ||
-          !data.version ||
-          !Array.isArray(data.items) ||
-          data.items.length === 0
-        ) {
+        if (cancelled || !data.version || !Array.isArray(data.items) || data.items.length === 0) {
           return;
         }
         if (localStorage.getItem(`${STORAGE_PREFIX}-${data.version}`)) {
@@ -95,9 +82,7 @@ export function WhatsNewAnnouncement() {
         <DialogHeader>
           <DialogTitle>What&apos;s new</DialogTitle>
           <DialogDescription id="whats-new-description">
-            {manifest.publishedAt
-              ? `Updated ${manifest.publishedAt}`
-              : undefined}
+            {manifest.publishedAt ? `Updated ${manifest.publishedAt}` : undefined}
           </DialogDescription>
         </DialogHeader>
         <ul className="max-h-[min(50vh,20rem)] space-y-4 overflow-y-auto px-4 pb-2">
@@ -105,10 +90,7 @@ export function WhatsNewAnnouncement() {
             <li key={item.title} className="space-y-1 text-sm">
               <p className="font-medium text-[var(--foreground)]">
                 {item.docUrl ? (
-                  <a
-                    href={item.docUrl}
-                    className="underline-offset-4 hover:underline"
-                  >
+                  <a href={item.docUrl} className="underline-offset-4 hover:underline">
                     {item.title}
                   </a>
                 ) : (

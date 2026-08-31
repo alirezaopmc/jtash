@@ -1,7 +1,8 @@
 "use client";
 
 import { MarkdownContent } from "@manovaspace/markdown";
-import { ArrowLeftIcon, ArrowRightIcon, Button } from "@manovaspace/ui";
+import { Button } from "@manovaspace/ui";
+import { ArrowLeftIcon, ArrowRightIcon } from "@manovaspace/ui";
 import { BackLink } from "@/components/layout/back-link";
 import type { BlogPost, SiteRoutes, UiLabels } from "@/types/content";
 

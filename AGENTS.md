@@ -5,12 +5,12 @@ Personal portfolio site for Jay Tash / Alireza Jafartash. Hostname-aware brandin
 ## Commands
 
 ```bash
-pnpm install
-pnpm dev      # http://localhost:12000
-pnpm build
-pnpm start
-pnpm typecheck
-pnpm lint
+bun install
+bun run dev      # http://localhost:12000
+bun run build
+bun run start
+bun run typecheck
+bun run lint
 ```
 
 Dev server runs on **port 12000**.
@@ -34,7 +34,7 @@ No `@orbit/*` dependencies in this package.
 Build linked packages first if types or dist are missing:
 
 ```bash
-cd ../../../manovaspace/design-system && pnpm install && pnpm --filter @manovaspace/tokens --filter @manovaspace/ui build
+cd ../../../manovaspace/design-system && bun install && bun --filter @manovaspace/tokens --filter @manovaspace/ui build
 ```
 
 ## Structure

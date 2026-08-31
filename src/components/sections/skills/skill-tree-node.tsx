@@ -1,18 +1,14 @@
 "use client";
 
-import {
-  AnimatePresence,
-  ChevronDownIcon,
-  cn,
-  ExternalLinkIcon,
-  motion,
-} from "@manovaspace/ui";
+import { cn } from "@manovaspace/ui";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDownIcon, ExternalLinkIcon } from "@manovaspace/ui";
 import { useState } from "react";
 
 import { minimalLinkProfile } from "@/lib/external-link";
 import { getSkillNodeClassName } from "@/lib/skill-tree-styles";
 import type { SkillNode } from "@/types/content";
-import { ExternalLinkTrigger } from "../../layout/external-link-trigger";
+import { ExternalLinkIconTrigger } from "../../layout/external-link-trigger";
 
 export interface SkillTreeNodeProps {
   node: SkillNode;
@@ -80,7 +76,7 @@ function SkillNodeShell({
 
   if (node.url && !showChevron) {
     return (
-      <ExternalLinkTrigger
+      <ExternalLinkIconTrigger
         profile={minimalLinkProfile(node.label, node.url, node.description)}
         className={classNames}
       >
@@ -89,7 +85,7 @@ function SkillNodeShell({
           showChevron={showChevron}
           expanded={expanded}
         />
-      </ExternalLinkTrigger>
+      </ExternalLinkIconTrigger>
     );
   }
 

@@ -5,7 +5,7 @@
 ## Checklist
 
 - [ ] No secrets or credentials in the diff
-- [ ] Lockfile updated if dependencies changed (`pnpm-lock.yaml`)
+- [ ] Lockfile updated if dependencies changed (`bun.lock`)
 - [ ] **User-visible change?** Add `releases/unreleased/<slug>.mdx` in `handbook` `clients/jtash/products/frontend/`
 - [ ] Feature guide updated in handbook if users need how-to
 - [ ] i18n / copy strings updated if UI text changed

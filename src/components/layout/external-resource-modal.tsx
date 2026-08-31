@@ -10,8 +10,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-  XMarkIcon,
 } from "@manovaspace/ui";
+import { XMarkIcon } from "@manovaspace/ui";
 import { useState } from "react";
 import { isMailtoHref } from "@/lib/external-link";
 import type {

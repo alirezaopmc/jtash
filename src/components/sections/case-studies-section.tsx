@@ -1,13 +1,14 @@
 "use client";
 
-import { ArrowRightIcon, motion } from "@manovaspace/ui";
+import { motion } from "framer-motion";
+import { ArrowRightIcon } from "@manovaspace/ui";
+import { SectionHeader } from "@/components/layout/section-header";
 import {
   fadeUp,
   scrollRevealViewport,
   staggerDelay,
   transitionBase,
 } from "@manovaspace/ui/motion";
-import { SectionHeader } from "@/components/layout/section-header";
 import type {
   CaseStudy,
   SectionMeta,

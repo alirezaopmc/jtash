@@ -1,14 +1,10 @@
 "use client";
 
-import {
-  AnimatePresence,
-  Button,
-  ChevronDownIcon,
-  cn,
-  motion,
-} from "@manovaspace/ui";
-import { transitionExpand } from "@manovaspace/ui/motion";
+import { Button, cn } from "@manovaspace/ui";
+import { AnimatePresence, motion } from "framer-motion";
+import { ChevronDownIcon } from "@manovaspace/ui";
 import { type CSSProperties, type ReactNode, useState } from "react";
+import { transitionExpand } from "@manovaspace/ui/motion";
 
 export interface StoryExpandableItem {
   id: string;

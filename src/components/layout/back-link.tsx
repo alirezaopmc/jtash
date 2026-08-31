@@ -1,4 +1,5 @@
-import { ArrowLeftIcon, Button, cn } from "@manovaspace/ui";
+import { Button, cn } from "@manovaspace/ui";
+import { ArrowLeftIcon } from "@manovaspace/ui";
 import type { ReactNode } from "react";
 
 export interface BackLinkProps {
