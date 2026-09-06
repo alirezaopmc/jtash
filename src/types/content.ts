@@ -261,6 +261,8 @@ export interface UiLabels {
   externalLink: {
     visit: string;
     copyEmail: string;
+    emailCopied: string;
+    copyEmailFailed: string;
     openInMail: string;
     githubDescription: string;
     linkedinDescription: string;

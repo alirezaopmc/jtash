@@ -1,17 +1,17 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ArrowRightIcon, ExternalLinkIcon } from "@manovaspace/ui";
-import { SectionHeader } from "@/components/layout/section-header";
-import { minimalLinkProfile } from "@/lib/external-link";
 import {
   fadeUp,
   scrollRevealViewport,
   staggerDelay,
   transitionBase,
 } from "@manovaspace/ui/motion";
+import { motion } from "framer-motion";
+import { SectionHeader } from "@/components/layout/section-header";
+import { minimalLinkProfile } from "@/lib/external-link";
 import type { SectionMeta, Testimonial, UiLabels } from "@/types/content";
-import { ExternalLinkIconTrigger } from "../layout/external-link-trigger";
+import { ExternalLinkTrigger } from "../layout/external-link-trigger";
 import { StorySection } from "../story/story-section";
 
 export interface TestimonialsSectionProps {
@@ -60,7 +60,7 @@ export function TestimonialsSection({
                 {item.position}
               </p>
               <div className="mt-4 flex gap-3">
-                <ExternalLinkIconTrigger
+                <ExternalLinkTrigger
                   profile={minimalLinkProfile(
                     item.author,
                     item.profile,
@@ -70,7 +70,7 @@ export function TestimonialsSection({
                 >
                   <ExternalLinkIcon className="h-4 w-4" aria-hidden />
                   <span className="sr-only">{item.author}</span>
-                </ExternalLinkIconTrigger>
+                </ExternalLinkTrigger>
                 <a
                   href={item.project}
                   className="mono-label inline-flex items-center gap-1 text-band-dark-muted hover:text-primary"

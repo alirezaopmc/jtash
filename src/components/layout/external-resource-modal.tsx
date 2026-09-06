@@ -10,9 +10,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  toast,
+  XMarkIcon,
 } from "@manovaspace/ui";
-import { XMarkIcon } from "@manovaspace/ui";
-import { useState } from "react";
 import { isMailtoHref } from "@/lib/external-link";
 import type {
   ExternalLinkLabels,
@@ -33,8 +33,6 @@ export function ExternalResourceModal({
   open,
   onOpenChange,
 }: ExternalResourceModalProps) {
-  const [copied, setCopied] = useState(false);
-
   if (!profile) {
     return null;
   }
@@ -51,23 +49,14 @@ export function ExternalResourceModal({
 
     try {
       await navigator.clipboard.writeText(mailAddress);
-      setCopied(true);
-      window.setTimeout(() => setCopied(false), 2000);
+      toast({ title: labels.emailCopied, variant: "success" });
     } catch {
-      setCopied(false);
+      toast({ title: labels.copyEmailFailed, variant: "destructive" });
     }
   };
 
   return (
-    <Dialog
-      open={open}
-      onOpenChange={(next) => {
-        if (!next) {
-          setCopied(false);
-        }
-        onOpenChange(next);
-      }}
-    >
+    <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent
         className={cn(
           "flex w-[calc(100vw-1rem)] max-w-none flex-col",
@@ -161,7 +150,7 @@ export function ExternalResourceModal({
                 variant="outline"
                 onClick={() => void handleCopyEmail()}
               >
-                {copied ? "Copied" : labels.copyEmail}
+                {labels.copyEmail}
               </Button>
               <Button asChild className="w-full sm:w-auto">
                 <a href={profile.url}>{labels.openInMail}</a>

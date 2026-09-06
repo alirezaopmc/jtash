@@ -28,8 +28,8 @@
     "note": "NOTE",
     "highlights": "HIGHLIGHTS",
     "timelineTitle": "EDUCATION TIMELINE",
-    "timelineScrollHint": "← earlier",
-    "timelineScrollRightHint": "later →"
+    "timelineScrollHint": "\u2190 earlier",
+    "timelineScrollRightHint": "later \u2192"
   },
   "testimonials": {
     "speakerIntro": "SPEAKER INTRO",
@@ -43,8 +43,8 @@
     "stack": "STACK",
     "technologies": "TECHNOLOGIES",
     "timelineTitle": "EXPERIENCE TIMELINE",
-    "timelineScrollHint": "← earlier",
-    "timelineScrollRightHint": "later →",
+    "timelineScrollHint": "\u2190 earlier",
+    "timelineScrollRightHint": "later \u2192",
     "details": "Details",
     "visitCompany": "Visit website"
   },
@@ -64,7 +64,9 @@
     "openInMail": "Open in mail app",
     "githubDescription": "GitHub profile",
     "linkedinDescription": "LinkedIn profile",
-    "telegramDescription": "Telegram profile"
+    "telegramDescription": "Telegram profile",
+    "emailCopied": "Email copied",
+    "copyEmailFailed": "Could not copy email"
   },
   "theme": {
     "light": "Light mode",

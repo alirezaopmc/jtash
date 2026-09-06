@@ -1,6 +1,6 @@
 "use client";
 
-import { ThemeProvider } from "@manovaspace/ui";
+import { ThemeProvider, Toaster } from "@manovaspace/ui";
 import type { ReactNode } from "react";
 import { ExternalLinkProvider } from "@/components/layout/external-link-provider";
 import { SiteFooter } from "@/components/layout/site-footer";
@@ -45,6 +45,7 @@ export function SiteShell({
     <ThemeProvider defaultTheme="dark" enableSystem>
       <SystemThemeSync />
       <ThemeColorSync />
+      <Toaster />
       <ExternalLinkProvider labels={labels.externalLink}>
         <div className="flex min-h-screen flex-col bg-background">
           <SiteHeader

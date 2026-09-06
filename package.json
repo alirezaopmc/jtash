@@ -14,8 +14,8 @@
   },
   "dependencies": {
     "@manovaspace/markdown": "^0.1.2",
-    "@manovaspace/tokens": "workspace:*",
-    "@manovaspace/ui": "workspace:*",
+    "@manovaspace/tokens": "link:../../../manovaspace/design-system/packages/tokens",
+    "@manovaspace/ui": "link:../../../manovaspace/design-system/packages/ui",
     "class-variance-authority": "^0.7.1",
     "framer-motion": "^12.42.2",
     "next": "16.2.10",
