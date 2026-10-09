@@ -1,10 +1,9 @@
 "use client";
 
-import { Button, cn, Progress } from "@manovaspace/ui";
-import { AnimatePresence, motion } from "framer-motion";
-import { SkipForwardIcon } from "@manovaspace/ui";
-import { useEffect, useState } from "react";
+import { Button, cn, Progress, SkipForwardIcon } from "@manovaspace/ui";
 import { transitionExpand } from "@manovaspace/ui/motion";
+import { AnimatePresence, motion } from "framer-motion";
+import { useEffect, useState } from "react";
 
 const DEFAULT_INTERVAL_MS = 10_000;
 

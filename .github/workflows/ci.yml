@@ -10,25 +10,59 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   check:
     runs-on: ubuntu-latest
+    outputs:
+      design_system_sha: ${{ steps.sibling-revisions.outputs.design_system_sha }}
+      ts_sha: ${{ steps.sibling-revisions.outputs.ts_sha }}
+    defaults:
+      run:
+        working-directory: clients/jtash/frontend
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          path: clients/jtash/frontend
+          persist-credentials: false
 
-      - uses: oven-sh/setup-bun@v2
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: manovaspace/design-system
+          path: manovaspace/design-system
+          persist-credentials: false
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: manovaspace/ts
+          path: manovaspace/ts
+          persist-credentials: false
+
+      - name: Record validated sibling revisions
+        id: sibling-revisions
+        run: |
+          echo "design_system_sha=$(git -C ../../../manovaspace/design-system rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+          echo "ts_sha=$(git -C ../../../manovaspace/ts rev-parse HEAD)" >> "$GITHUB_OUTPUT"
+
+      - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
         with:
           bun-version: "1.4.0"
 
-      - name: Configure Verdaccio auth
-        run: |
-          if [ -n "${NPM_TOKEN:-}" ]; then
-            echo "//npm.internal.manova.space/:_authToken=${NPM_TOKEN}" >> .npmrc
-          fi
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      - name: Install sibling workspace dependencies
+        run: bun install --frozen-lockfile
+        working-directory: manovaspace/design-system
 
-      - name: Install dependencies
+      - name: Build shared UI packages
+        run: bun --filter @manovaspace/tokens --filter @manovaspace/ui build
+        working-directory: manovaspace/design-system
+
+      - name: Install TypeScript workspace dependencies
+        run: bun install --frozen-lockfile
+        working-directory: manovaspace/ts
+
+      - name: Install frontend dependencies
         run: bun install --frozen-lockfile
 
       - name: Typecheck
@@ -36,3 +70,77 @@ jobs:
 
       - name: Lint
         run: bun run lint
+
+      - name: Build
+        run: bun run build
+
+  deploy-production:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    environment: Production
+    defaults:
+      run:
+        working-directory: clients/jtash/frontend
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          path: clients/jtash/frontend
+          persist-credentials: false
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: manovaspace/design-system
+          path: manovaspace/design-system
+          ref: ${{ needs.check.outputs.design_system_sha }}
+          persist-credentials: false
+
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          repository: manovaspace/ts
+          path: manovaspace/ts
+          ref: ${{ needs.check.outputs.ts_sha }}
+          persist-credentials: false
+
+      - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
+        with:
+          bun-version: "1.4.0"
+
+      - name: Install sibling workspace dependencies
+        run: bun install --frozen-lockfile
+        working-directory: manovaspace/design-system
+
+      - name: Build shared UI packages
+        run: bun --filter @manovaspace/tokens --filter @manovaspace/ui build
+        working-directory: manovaspace/design-system
+
+      - name: Install TypeScript workspace dependencies
+        run: bun install --frozen-lockfile
+        working-directory: manovaspace/ts
+
+      - name: Install frontend dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@63.1.0
+
+      - name: Pull production environment
+        run: vercel pull --yes --environment=production --token="$PROD_VERCEL_TOKEN"
+        env:
+          PROD_VERCEL_TOKEN: ${{ secrets.PROD_VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.PROD_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.PROD_VERCEL_PROJECT_ID }}
+
+      - name: Build for production
+        run: vercel build --prod --token="$PROD_VERCEL_TOKEN"
+        env:
+          PROD_VERCEL_TOKEN: ${{ secrets.PROD_VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.PROD_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.PROD_VERCEL_PROJECT_ID }}
+
+      - name: Deploy production build
+        run: vercel deploy --prebuilt --prod --token="$PROD_VERCEL_TOKEN"
+        env:
+          PROD_VERCEL_TOKEN: ${{ secrets.PROD_VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.PROD_VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.PROD_VERCEL_PROJECT_ID }}
