@@ -14,10 +14,10 @@
 
 - Canonical staff/client CI and deployment provider is Forgejo (`origin`).
 - Keep `runs-on: vps` for the existing host CI script.
-- Run Vercel build and deploy on `ubuntu-latest`, with package-registry auth via `NPM_TOKEN`.
+- Run Vercel build and deploy on `ubuntu-latest`; the app uses published `@manovaspace/*` packages and has no private `@orbit/*` dependency, so no registry token is needed.
 - Production deployment must depend on successful `check` and run only for pushes to `main` or explicit manual dispatch from `main`.
 - Do not cancel an active production deploy when a newer main push arrives; set workflow concurrency to keep active runs.
-- Use existing Forgejo secret names: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID`.
+- Use existing Forgejo secret names: `VERCEL_TOKEN`, `VERCEL_ORG_ID`, and `VERCEL_PROJECT_ID`. Disable checkout credential persistence before install/build.
 - Do not add GitHub Actions workflows for the client deployment path.
 
 ## Review Focus
@@ -51,7 +51,7 @@ Set workflow `cancel-in-progress` to `false` so a newer run cannot interrupt an 
 
 - [x] **Step 2: Add the documented Vercel prebuilt deployment steps**
 
-Check out the same workflow ref with checkout pinned to the existing SHA. Set up Bun 1.4.0 with the existing pinned action SHA. Configure Verdaccio auth from `NPM_TOKEN`, install with `bun install --frozen-lockfile`, install a fixed Vercel CLI version, pull production settings, build with `vercel build --prod`, then deploy with `vercel deploy --prebuilt --prod`.
+Check out the same workflow ref with checkout pinned to the existing SHA and `persist-credentials: false`. Set up Bun 1.4.0 with the existing pinned action SHA. Install public dependencies with `bun install --frozen-lockfile`, install a fixed Vercel CLI version, pull production settings, build with `vercel build --prod`, then deploy with `vercel deploy --prebuilt --prod`.
 
 - [x] **Step 3: Pass credentials through environment variables**
 
@@ -77,7 +77,7 @@ git commit -m "fix(ci): gate jtash production deploy on checks"
 **Files:**
 - Modify: `package.json`
 - Create: `scripts/ensure-manovaspace-build.mjs`
-- Test: `.superpowers/sdd/2026-10-12-jtash-forgejo-deploy-hardening/verify_workflow.py` (scratch regression assertion)
+- Test: `tests/deploy-isolation.test.mjs`
 
 **Interfaces:**
 - Consumes: the optional local `../../../manovaspace/ts/scripts/ensure-build.mjs` workspace helper.
@@ -101,3 +101,17 @@ Run the scratch isolated-checkout assertion, then Bun 1.4.0 frozen install, type
 git add package.json scripts/ensure-manovaspace-build.mjs docs/superpowers/plans/2026-10-12-jtash-forgejo-deploy-hardening.md
 git commit -m "fix(build): support isolated jtash deployment"
 ```
+
+### Task 3: Close isolated-deploy review findings
+
+**Files:**
+- Modify: `.forgejo/workflows/ci.yml`
+- Modify: `package.json`
+- Create: `tests/deploy-isolation.test.mjs`
+- Modify: this plan
+
+- [x] Set `persist-credentials: false` on the deployment checkout so its checkout token cannot remain available during install/build.
+- [x] Remove Verdaccio token setup: the frontend declares no private `@orbit/*` dependency, and its `@manovaspace/*` dependencies are published packages.
+- [x] Commit regression tests for isolated prebuild behavior and deploy workflow assumptions; run them in host CI along with lint, typecheck, and build.
+- [x] Restore Bun 1.4.0 dependencies and run regression tests, lint, typecheck, and production build against the isolated deployment assumptions.
+- [ ] Request an independent review; do not push or merge until review is clear.

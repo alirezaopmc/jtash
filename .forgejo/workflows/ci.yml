@@ -16,6 +16,8 @@ jobs:
     runs-on: vps
     steps:
       - name: Lint, typecheck, build
+        env:
+          HOST_TS_COMMANDS: bun run test && bun run lint && bun run typecheck && bun run build
         run: |
           set -euo pipefail
           runuser -u opmc -- \
@@ -29,16 +31,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
       - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
         with:
           bun-version: "1.4.0"
-      - name: Configure Verdaccio auth
-        run: |
-          if [ -n "${NPM_TOKEN:-}" ]; then
-            echo "//npm.internal.manova.space/:_authToken=${NPM_TOKEN}" >> .npmrc
-          fi
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
       - name: Install dependencies
         run: bun install --frozen-lockfile
       - name: Install Vercel CLI
