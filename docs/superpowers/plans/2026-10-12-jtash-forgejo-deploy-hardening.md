@@ -4,7 +4,7 @@
 
 **Goal:** Ensure jtash production deployment runs only after the same Forgejo workflow's CI check succeeds.
 
-**Architecture:** Keep Forgejo as the canonical CI and deployment provider. Add the Vercel production job to the existing Forgejo CI workflow, gate it on `check`, and remove the independent deploy workflow so a main push cannot bypass the check. Use the existing Forgejo secret names and the documented Vercel prebuilt deployment pattern. The deploy runner installs the locked published packages and skips the local sibling build when the ManovaSpace TypeScript checkout is absent.
+**Architecture:** Keep Forgejo as the canonical CI and deployment provider. Add the Vercel production job to the existing Forgejo CI workflow, gate it on `check`, and remove the independent deploy workflow so a main push cannot bypass the check. Use the existing Forgejo secret names and the documented Vercel prebuilt deployment pattern. The app resolves its declared `@manovaspace/*` semver dependencies from the registry and has no workspace members outside its checkout; its prebuild skips the optional local sibling build when the ManovaSpace TypeScript checkout is absent.
 
 **Tech Stack:** Forgejo Actions YAML, Bash, Bun 1.4.0, Vercel CLI.
 
@@ -29,6 +29,7 @@
 - Workflow dispatch must retain production deployment capability only when run from the `main` ref.
 - A newer main push must not cancel an active deployment; preserve the previous deploy workflow's `cancel-in-progress: false` behavior.
 - An isolated deploy checkout has published `@manovaspace/*` packages but no `../../../manovaspace/ts`; its prebuild must finish successfully without attempting to execute a missing file.
+- A frozen install from an isolated checkout must not require `../../../manovaspace/design-system` workspace directories.
 
 ---
 
@@ -115,3 +116,31 @@ git commit -m "fix(build): support isolated jtash deployment"
 - [x] Commit regression tests for isolated prebuild behavior and deploy workflow assumptions; run them in host CI along with lint, typecheck, and build.
 - [x] Restore Bun 1.4.0 dependencies and run regression tests, lint, typecheck, and production build against the isolated deployment assumptions.
 - [ ] Request an independent review; do not push or merge until review is clear.
+
+### Task 4: Make frozen install independent of sibling repositories
+
+**Files:**
+- Modify: `package.json`
+- Modify: `bun.lock`
+- Modify: `tests/deploy-isolation.test.mjs`
+- Modify: `AGENTS.md`
+- Delete: `scripts/ensure-manovaspace-build.mjs`
+- Modify: this plan
+
+**Interfaces:**
+- Consumes: the app's existing published semver ranges for `@manovaspace/tokens` and `@manovaspace/ui`.
+- Produces: a lockfile whose install inputs are all present in the isolated JTash checkout or public registry.
+
+- [x] **Step 1: Add an isolated-manifest regression assertion**
+
+Assert that `package.json` has no workspace entries or prebuild sibling hook and `bun.lock` contains no workspace dependency pointing outside JTash. Run `node --test tests/deploy-isolation.test.mjs` before changing the manifest. Expected: the new test fails because the existing workspace config points at the ManovaSpace Design System checkout.
+
+- [x] **Step 2: Remove cross-repo workspace membership and regenerate the lockfile**
+
+Remove the unused workspace catalog and sibling package paths from `package.json`; retain the existing semver dependency ranges. Remove the prebuild helper that only builds unrelated sibling packages, and correct repo-local package guidance. Regenerate `bun.lock` with Bun 1.4.0. Expected: tokens and UI resolve to their existing published versions and no `workspace:` entries or build hooks refer to sibling repositories.
+
+- [x] **Step 3: Verify install and app checks**
+
+Run Bun 1.4.0 frozen install in the worktree and in a scratch checkout containing only `package.json`, `bun.lock`, and `.npmrc`. Run `bun run test`, `bun run lint`, `bun run typecheck`, and `bun run build`. Expected: both installs pass without access to sibling repositories; all app checks pass.
+
+- [ ] **Step 4: Independent review before merge**

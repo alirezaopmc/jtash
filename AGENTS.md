@@ -26,16 +26,12 @@ Dev server runs on **port 12000**.
 
 `package.json` today:
 
-- `@manovaspace/tokens` / `@manovaspace/ui` → `link:` into `manovaspace/design-system`
-- `@manovaspace/markdown` → **npm** (`^0.1.2`), not `link:`
+- `@manovaspace/tokens` / `@manovaspace/ui` → published npm packages, resolved by the declared semver ranges
+- `@manovaspace/markdown` → published npm package (`^0.1.2`)
 
 No `@orbit/*` dependencies in this package.
 
-Build linked packages first if types or dist are missing:
-
-```bash
-cd ../../../manovaspace/design-system && bun install && bun --filter @manovaspace/tokens --filter @manovaspace/ui build
-```
+The frontend installs only published packages and has no workspace dependencies on sibling repositories.
 
 ## Structure
 
