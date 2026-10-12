@@ -1,8 +1,7 @@
 "use client";
 
 import { ArrowRightIcon, Button } from "@manovaspace/ui";
-import { heroSpring } from "@manovaspace/ui/motion";
-import { motion } from "framer-motion";
+import { heroSpring, SlideUp } from "@manovaspace/ui/motion";
 import type {
   Profile,
   QuickScanSpecItem,
@@ -66,10 +65,8 @@ export function HeroBody({
 }: HeroBodyProps) {
   return (
     <div className="mx-auto grid w-full max-w-7xl flex-1 grid-cols-1 items-center gap-6 px-6 py-12 lg:min-h-[calc(100vh-7rem)] lg:grid-cols-3 lg:gap-12 lg:px-12 lg:py-28">
-      <motion.div
+      <SlideUp
         className="lg:col-span-2"
-        initial={{ y: 16 }}
-        animate={{ y: 0 }}
         transition={{ ...heroSpring, delay: 0.05 }}
       >
         <div className="mono-label mb-4 text-primary lg:mb-6">
@@ -128,12 +125,10 @@ export function HeroBody({
         <div className="mt-8 lg:hidden">
           <QuickScanSpecGrid items={quickScanSpec} />
         </div>
-      </motion.div>
+      </SlideUp>
 
-      <motion.div
+      <SlideUp
         className="hidden lg:col-span-1 lg:block lg:border-l lg:border-border lg:pl-8"
-        initial={{ y: 16 }}
-        animate={{ y: 0 }}
         transition={{ ...heroSpring, delay: 0.15 }}
       >
         <div className="mb-8 overflow-hidden border border-border bg-muted">
@@ -149,7 +144,7 @@ export function HeroBody({
           />
         </div>
         <QuickScanSpecList items={quickScanSpec} />
-      </motion.div>
+      </SlideUp>
     </div>
   );
 }

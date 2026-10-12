@@ -1,13 +1,7 @@
 "use client";
 
 import { ExternalLinkIcon } from "@manovaspace/ui";
-import {
-  fadeUp,
-  scrollRevealViewport,
-  staggerDelay,
-  transitionBase,
-} from "@manovaspace/ui/motion";
-import { motion } from "framer-motion";
+import { RevealOnScroll, staggerDelay } from "@manovaspace/ui/motion";
 import type { KeyboardEvent } from "react";
 import { SectionHeader } from "@/components/layout/section-header";
 import { hrefToHost } from "@/lib/external-link";
@@ -51,14 +45,11 @@ export function SideProjectsSection({
       />
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
         {items.map((project, index) => (
-          <motion.div
+          <RevealOnScroll
             key={project.name}
             role="button"
             tabIndex={0}
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={scrollRevealViewport}
-            transition={{ ...transitionBase, delay: staggerDelay(index) }}
+            delay={staggerDelay(index)}
             className="group relative cursor-pointer overflow-hidden rounded-md border border-band-dark-border bg-band-dark/80 p-8 transition-colors hover:border-primary/50 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             onClick={() => openProject(project)}
             onKeyDown={(event: KeyboardEvent<HTMLDivElement>) => {
@@ -92,7 +83,7 @@ export function SideProjectsSection({
               <span className="sr-only">{hrefToHost(project.link)}</span>
               <ExternalLinkIcon className="h-3.5 w-3.5" aria-hidden />
             </div>
-          </motion.div>
+          </RevealOnScroll>
         ))}
       </div>
     </StorySection>
