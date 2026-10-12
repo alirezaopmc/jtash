@@ -1,11 +1,10 @@
 "use client";
 
 import { Button, cn, Progress, SkipForwardIcon } from "@manovaspace/ui";
-import { transitionExpand } from "@manovaspace/ui/motion";
-import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const DEFAULT_INTERVAL_MS = 10_000;
+const TIP_TRANSITION_MS = 280;
 
 export interface HeaderTipsTickerProps {
   items: string[];
@@ -25,6 +24,11 @@ export function HeaderTipsTicker({
   const [activeIndex, setActiveIndex] = useState(0);
   const [progress, setProgress] = useState(0);
   const [isMounted, setIsMounted] = useState(false);
+  const [exitingTip, setExitingTip] = useState<{
+    key: string;
+    text: string;
+  } | null>(null);
+  const previousTipRef = useRef<{ key: string; text: string } | null>(null);
 
   useEffect(() => {
     setIsMounted(true);
@@ -70,11 +74,29 @@ export function HeaderTipsTicker({
     };
   }, [items, activeIndex, intervalMs, isMounted]);
 
+  const currentTip = items[activeIndex] ?? "";
+  const currentTipKey = `${activeIndex}-${currentTip}`;
+
+  useEffect(() => {
+    const nextTip = { key: currentTipKey, text: currentTip };
+    const previousTip = previousTipRef.current;
+    previousTipRef.current = nextTip;
+
+    if (!previousTip || previousTip.key === nextTip.key) {
+      return;
+    }
+
+    setExitingTip(previousTip);
+    const timeout = window.setTimeout(() => {
+      setExitingTip((tip) => (tip?.key === previousTip.key ? null : tip));
+    }, TIP_TRANSITION_MS);
+
+    return () => window.clearTimeout(timeout);
+  }, [currentTip, currentTipKey]);
+
   if (!isMounted || items.length === 0) {
     return null;
   }
-
-  const currentTip = items[activeIndex];
 
   return (
     <div className={cn("w-full", className)} aria-live="polite">
@@ -83,18 +105,21 @@ export function HeaderTipsTicker({
           {label}
         </span>
         <div className="relative min-h-10 min-w-0 flex-1 sm:min-h-5">
-          <AnimatePresence mode="wait">
-            <motion.p
-              key={`${activeIndex}-${currentTip}`}
-              initial={{ opacity: 0, y: 8 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -8 }}
-              transition={transitionExpand}
-              className="text-sm leading-snug text-muted-foreground sm:truncate"
+          {exitingTip && exitingTip.key !== currentTipKey ? (
+            <p
+              key={exitingTip.key}
+              aria-hidden
+              className="header-tips-ticker-exit absolute inset-x-0 top-0 text-sm leading-snug text-muted-foreground sm:truncate"
             >
-              {currentTip}
-            </motion.p>
-          </AnimatePresence>
+              {exitingTip.text}
+            </p>
+          ) : null}
+          <p
+            key={currentTipKey}
+            className="header-tips-ticker-enter text-sm leading-snug text-muted-foreground sm:truncate"
+          >
+            {currentTip}
+          </p>
         </div>
         <Button
           type="button"

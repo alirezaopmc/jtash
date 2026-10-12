@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@manovaspace/ui";
-import { useReducedMotion } from "@manovaspace/ui/motion";
-import { motion } from "framer-motion";
+import { RevealOnScroll, useReducedMotion } from "@manovaspace/ui/motion";
+import { useEffect, useRef, useState } from "react";
 import type { SkillNode } from "@/types/content";
 import { SkillTreeNode } from "./skill-tree-node";
 
@@ -13,7 +13,7 @@ export interface SkillTreeProps {
 
 function SkillTreeBranch({ node, index }: { node: SkillNode; index: number }) {
   return (
-    <motion.div
+    <RevealOnScroll
       initial={{ opacity: 0, y: 24 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
@@ -29,7 +29,7 @@ function SkillTreeBranch({ node, index }: { node: SkillNode; index: number }) {
       </h3>
       <div className="flex flex-wrap justify-center gap-2.5">
         {node.children?.map((child, childIndex) => (
-          <motion.div
+          <RevealOnScroll
             key={child.id}
             initial={{ opacity: 0, scale: 0.92 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -37,16 +37,16 @@ function SkillTreeBranch({ node, index }: { node: SkillNode; index: number }) {
             transition={{ delay: 0.25 + index * 0.08 + childIndex * 0.04 }}
           >
             <SkillTreeNode node={child} />
-          </motion.div>
+          </RevealOnScroll>
         ))}
       </div>
-    </motion.div>
+    </RevealOnScroll>
   );
 }
 
 function SkillTreeFocus({ focus }: { focus: string }) {
   return (
-    <motion.div
+    <RevealOnScroll
       initial={{ opacity: 0, y: -20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
@@ -63,7 +63,7 @@ function SkillTreeFocus({ focus }: { focus: string }) {
         aria-hidden
         className="mt-6 h-px w-24 bg-gradient-to-r from-transparent via-primary/50 to-transparent"
       />
-    </motion.div>
+    </RevealOnScroll>
   );
 }
 
@@ -71,7 +71,7 @@ function SkillTreeExpertise({ node }: { node: SkillNode }) {
   const reducedMotion = useReducedMotion();
 
   return (
-    <motion.div
+    <RevealOnScroll
       initial={{ opacity: 0, y: -16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
@@ -80,7 +80,7 @@ function SkillTreeExpertise({ node }: { node: SkillNode }) {
     >
       <div className="flex flex-wrap justify-center gap-3">
         {node.children?.map((child, index) => (
-          <motion.div
+          <RevealOnScroll
             key={child.id}
             initial={{ opacity: 0, y: -8 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -88,7 +88,7 @@ function SkillTreeExpertise({ node }: { node: SkillNode }) {
             transition={{ delay: index * 0.08 }}
           >
             <SkillTreeNode node={child} size="lg" />
-          </motion.div>
+          </RevealOnScroll>
         ))}
       </div>
       <p className="mono-label mt-4 text-[10px] tracking-[0.2em] text-muted-foreground">
@@ -98,34 +98,22 @@ function SkillTreeExpertise({ node }: { node: SkillNode }) {
         aria-hidden
         className="mt-4 h-10 w-px bg-gradient-to-b from-primary/20 via-primary/50 to-primary/20"
       />
-      <motion.div
+      <div
         aria-hidden
-        animate={
-          reducedMotion
-            ? undefined
-            : {
-                boxShadow: [
-                  "0 0 0 0 hsl(var(--primary) / 0.25)",
-                  "0 0 0 12px hsl(var(--primary) / 0)",
-                ],
-              }
-        }
-        transition={
-          reducedMotion
-            ? undefined
-            : { duration: 2.4, repeat: Infinity, ease: "easeOut" }
-        }
-        className="relative flex h-4 w-4 rotate-45 items-center justify-center border border-primary/60 bg-primary/20"
+        className={cn(
+          "relative flex h-4 w-4 rotate-45 items-center justify-center border border-primary/60 bg-primary/20",
+          !reducedMotion && "skill-tree-pulse",
+        )}
       >
         <span className="absolute inset-1 bg-primary/70" />
-      </motion.div>
-    </motion.div>
+      </div>
+    </RevealOnScroll>
   );
 }
 
 function SkillTreeHub({ label }: { label: string }) {
   return (
-    <motion.div
+    <RevealOnScroll
       initial={{ opacity: 0, scale: 0.8 }}
       whileInView={{ opacity: 1, scale: 1 }}
       viewport={{ once: true }}
@@ -145,11 +133,43 @@ function SkillTreeHub({ label }: { label: string }) {
         aria-hidden
         className="mt-4 h-8 w-px bg-gradient-to-b from-primary/40 to-transparent"
       />
-    </motion.div>
+    </RevealOnScroll>
   );
 }
 
 function SkillTreeConnectors({ branchCount }: { branchCount: number }) {
+  const pathRef = useRef<SVGPathElement>(null);
+  const [isInView, setIsInView] = useState(false);
+  const reducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (reducedMotion) {
+      setIsInView(true);
+      return;
+    }
+
+    const path = pathRef.current;
+    if (!path) {
+      return;
+    }
+    if (typeof IntersectionObserver === "undefined") {
+      setIsInView(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry?.isIntersecting) {
+          setIsInView(true);
+          observer.disconnect();
+        }
+      },
+      { rootMargin: "0px" },
+    );
+    observer.observe(path);
+    return () => observer.disconnect();
+  }, [reducedMotion]);
+
   if (branchCount < 2) {
     return null;
   }
@@ -161,16 +181,21 @@ function SkillTreeConnectors({ branchCount }: { branchCount: number }) {
       viewBox="0 0 672 64"
       preserveAspectRatio="none"
     >
-      <motion.path
+      <path
+        ref={pathRef}
         d="M336 0 V20 M336 20 C336 20 112 20 112 52 M336 20 C336 20 336 52 336 52 M336 20 C336 20 560 20 560 52"
         fill="none"
         stroke="hsl(var(--primary))"
         strokeOpacity="0.25"
         strokeWidth="1.5"
-        initial={{ pathLength: 0 }}
-        whileInView={{ pathLength: 1 }}
-        viewport={{ once: true }}
-        transition={{ duration: 1, delay: 0.3, ease: "easeInOut" }}
+        pathLength={1}
+        style={{
+          strokeDasharray: 1,
+          strokeDashoffset: isInView ? 0 : 1,
+          transition: reducedMotion
+            ? "none"
+            : "stroke-dashoffset 1s ease-in-out 300ms",
+        }}
       />
     </svg>
   );

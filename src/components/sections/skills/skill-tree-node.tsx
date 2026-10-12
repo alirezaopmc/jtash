@@ -1,7 +1,6 @@
 "use client";
 
 import { ChevronDownIcon, cn, ExternalLinkIcon } from "@manovaspace/ui";
-import { AnimatePresence, motion } from "framer-motion";
 import { useState } from "react";
 
 import { minimalLinkProfile } from "@/lib/external-link";
@@ -123,41 +122,42 @@ function SkillHoverPanel({
   visible: boolean;
 }) {
   return (
-    <AnimatePresence>
-      {visible && node.children?.length ? (
-        <motion.div
-          initial={{ opacity: 0, y: 8, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 6, scale: 0.98 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
-          className="absolute left-1/2 top-[calc(100%+0.75rem)] z-20 w-max max-w-[min(18rem,calc(100vw-3rem))] -translate-x-1/2"
-        >
-          <div
-            aria-hidden
-            className="absolute -top-2 left-1/2 h-2 w-px -translate-x-1/2 bg-gradient-to-b from-primary/60 to-primary/20"
-          />
-          <div className="rounded-lg border border-primary/25 bg-card/95 p-3 shadow-[0_12px_40px_hsl(var(--primary)/0.12)] backdrop-blur-sm">
-            {node.description ? (
-              <p className="mono-label mb-2 text-[10px] text-muted-foreground">
-                {node.description}
-              </p>
-            ) : null}
-            <div className="flex flex-wrap justify-center gap-2">
-              {node.children.map((child, index) => (
-                <motion.div
-                  key={child.id}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: index * 0.05 }}
-                >
-                  <SkillTreeNode node={child} />
-                </motion.div>
-              ))}
+    <div
+      aria-hidden={!visible}
+      inert={!visible}
+      className={cn(
+        "absolute left-1/2 top-[calc(100%+0.75rem)] z-20 w-max max-w-[min(18rem,calc(100vw-3rem))] -translate-x-1/2 transition-[opacity,transform] duration-200 ease-[cubic-bezier(0.16,1,0.3,1)] motion-reduce:transition-none",
+        visible
+          ? "translate-y-0 scale-100 opacity-100"
+          : "pointer-events-none translate-y-1.5 scale-[0.98] opacity-0",
+      )}
+    >
+      <div
+        aria-hidden
+        className="absolute -top-2 left-1/2 h-2 w-px -translate-x-1/2 bg-gradient-to-b from-primary/60 to-primary/20"
+      />
+      <div className="rounded-lg border border-primary/25 bg-card/95 p-3 shadow-[0_12px_40px_hsl(var(--primary)/0.12)] backdrop-blur-sm">
+        {node.description ? (
+          <p className="mono-label mb-2 text-[10px] text-muted-foreground">
+            {node.description}
+          </p>
+        ) : null}
+        <div className="flex flex-wrap justify-center gap-2">
+          {node.children?.map((child, index) => (
+            <div
+              key={child.id}
+              className={cn(
+                "translate-y-1.5 opacity-0 transition-[opacity,transform] duration-150 ease-out motion-reduce:transition-none",
+                visible && "translate-y-0 opacity-100",
+              )}
+              style={{ transitionDelay: visible ? `${index * 50}ms` : "0ms" }}
+            >
+              <SkillTreeNode node={child} />
             </div>
-          </div>
-        </motion.div>
-      ) : null}
-    </AnimatePresence>
+          ))}
+        </div>
+      </div>
+    </div>
   );
 }
 
