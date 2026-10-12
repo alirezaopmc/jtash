@@ -4,7 +4,7 @@
 
 **Goal:** Ensure jtash production deployment runs only after the same Forgejo workflow's CI check succeeds.
 
-**Architecture:** Keep Forgejo as the canonical CI and deployment provider. Add the Vercel production job to the existing Forgejo CI workflow, gate it on `check`, and remove the independent deploy workflow so a main push cannot bypass the check. Use the existing Forgejo secret names and the documented Vercel prebuilt deployment pattern. The app resolves its declared `@manovaspace/*` semver dependencies from the registry and has no workspace members outside its checkout; its prebuild skips the optional local sibling build when the ManovaSpace TypeScript checkout is absent.
+**Architecture:** Keep Forgejo as the canonical CI and deployment provider. Add the Vercel production job to the existing Forgejo CI workflow, gate it on `check`, and remove the independent deploy workflow so a main push cannot bypass the check. Use the existing Forgejo secret names and the documented Vercel prebuilt deployment pattern. The app resolves its declared `@manovaspace/*` semver dependencies from the registry and has no workspace members or build hooks that require sibling repositories.
 
 **Tech Stack:** Forgejo Actions YAML, Bash, Bun 1.4.0, Vercel CLI.
 
