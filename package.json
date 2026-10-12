@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "prebuild": "bun ../../../manovaspace/ts/scripts/ensure-build.mjs",
+    "prebuild": "bun scripts/ensure-manovaspace-build.mjs",
     "dev": "next dev --port 12000 --webpack",
     "build": "next build",
     "start": "next start",

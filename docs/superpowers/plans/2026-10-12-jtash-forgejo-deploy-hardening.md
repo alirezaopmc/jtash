@@ -4,7 +4,7 @@
 
 **Goal:** Ensure jtash production deployment runs only after the same Forgejo workflow's CI check succeeds.
 
-**Architecture:** Keep Forgejo as the canonical CI and deployment provider. Add the Vercel production job to the existing Forgejo CI workflow, gate it on `check`, and remove the independent deploy workflow so a main push cannot bypass the check. Use the existing Forgejo secret names and the documented Vercel prebuilt deployment pattern.
+**Architecture:** Keep Forgejo as the canonical CI and deployment provider. Add the Vercel production job to the existing Forgejo CI workflow, gate it on `check`, and remove the independent deploy workflow so a main push cannot bypass the check. Use the existing Forgejo secret names and the documented Vercel prebuilt deployment pattern. The deploy runner installs the locked published packages and skips the local sibling build when the ManovaSpace TypeScript checkout is absent.
 
 **Tech Stack:** Forgejo Actions YAML, Bash, Bun 1.4.0, Vercel CLI.
 
@@ -28,6 +28,7 @@
 - The standalone deploy workflow must not remain active and race the gated deploy job; remove it.
 - Workflow dispatch must retain production deployment capability only when run from the `main` ref.
 - A newer main push must not cancel an active deployment; preserve the previous deploy workflow's `cancel-in-progress: false` behavior.
+- An isolated deploy checkout has published `@manovaspace/*` packages but no `../../../manovaspace/ts`; its prebuild must finish successfully without attempting to execute a missing file.
 
 ---
 
@@ -69,4 +70,34 @@ Run the available workflow linter/parser and inspect the resulting YAML and diff
 ```bash
 git add .forgejo/workflows/ci.yml .forgejo/workflows/deploy.yml .github/workflows/ci.yml docs/superpowers/plans/2026-10-12-jtash-forgejo-deploy-hardening.md
 git commit -m "fix(ci): gate jtash production deploy on checks"
+```
+
+### Task 2: Allow the published-package build in an isolated checkout
+
+**Files:**
+- Modify: `package.json`
+- Create: `scripts/ensure-manovaspace-build.mjs`
+- Test: `.superpowers/sdd/2026-10-12-jtash-forgejo-deploy-hardening/verify_workflow.py` (scratch regression assertion)
+
+**Interfaces:**
+- Consumes: the optional local `../../../manovaspace/ts/scripts/ensure-build.mjs` workspace helper.
+- Produces: `bun scripts/ensure-manovaspace-build.mjs`, which invokes the workspace helper when present and succeeds with a clear message when deployment uses published packages without that sibling checkout.
+
+- [x] **Step 1: Add an isolated-checkout regression assertion**
+
+Run the helper from a temporary directory containing only the helper itself. Expected: current configuration fails because the helper does not exist.
+
+- [x] **Step 2: Implement optional local workspace build**
+
+Update `prebuild` to call the checked-in helper. The helper should resolve the existing shared build script from the project root, execute it with Bun when found, and skip only when that sibling script is absent.
+
+- [x] **Step 3: Run the regression and application checks**
+
+Run the scratch isolated-checkout assertion, then Bun 1.4.0 frozen install, typecheck, lint, and production build. Expected: the isolated helper prints its skip message; all application checks pass.
+
+- [x] **Step 4: Commit**
+
+```bash
+git add package.json scripts/ensure-manovaspace-build.mjs docs/superpowers/plans/2026-10-12-jtash-forgejo-deploy-hardening.md
+git commit -m "fix(build): support isolated jtash deployment"
 ```
