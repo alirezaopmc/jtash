@@ -295,6 +295,49 @@ html.dark {
   background-size: 32px 32px;
 }
 
+@keyframes skill-tree-pulse {
+  from {
+    box-shadow: 0 0 0 0 hsl(var(--primary) / 0.25);
+  }
+  to {
+    box-shadow: 0 0 0 12px hsl(var(--primary) / 0);
+  }
+}
+
+.skill-tree-pulse {
+  animation: skill-tree-pulse 2.4s ease-out infinite;
+}
+
+@keyframes header-tips-enter {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.header-tips-ticker-enter {
+  animation: header-tips-enter 280ms ease-in-out both;
+}
+
+@keyframes header-tips-exit {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+}
+
+.header-tips-ticker-exit {
+  animation: header-tips-exit 280ms ease-in-out both;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

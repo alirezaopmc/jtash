@@ -5,19 +5,56 @@ on:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 concurrency:
   group: ci-${{ forgejo.workflow }}-${{ forgejo.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   check:
     runs-on: vps
     steps:
       - name: Lint, typecheck, build
+        env:
+          HOST_TS_COMMANDS: bun run test && bun run lint && bun run typecheck && bun run build
         run: |
           set -euo pipefail
           runuser -u opmc -- \
             /home/opmc/Dev/Manova/orbit/orbit-infra/scripts/ci-host-ts.sh \
             /home/opmc/Dev/Manova/clients/jtash/frontend \
             "${{ forgejo.sha }}" "${{ forgejo.run_id }}"
+
+  deploy-production:
+    if: forgejo.event_name == 'push' && forgejo.ref == 'refs/heads/main' || forgejo.event_name == 'workflow_dispatch' && forgejo.ref == 'refs/heads/main'
+    needs: check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        with:
+          persist-credentials: false
+      - uses: oven-sh/setup-bun@735343b667d3e6f658f44d0eca948eb6282f2b76 # v2.0.2
+        with:
+          bun-version: "1.4.0"
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+      - name: Install Vercel CLI
+        run: npm install --global vercel@63.1.0
+      - name: Pull production environment
+        run: vercel pull --yes --environment=production --token="$VERCEL_TOKEN"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Build for production
+        run: vercel build --prod --token="$VERCEL_TOKEN"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+      - name: Deploy production build
+        run: vercel deploy --prebuilt --prod --token="$VERCEL_TOKEN"
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}

@@ -1,15 +1,8 @@
 "use client";
 
-import { Button } from "@manovaspace/ui";
-import { motion } from "framer-motion";
-import { ArrowRightIcon, CalendarIcon } from "@manovaspace/ui";
+import { ArrowRightIcon, Button, CalendarIcon } from "@manovaspace/ui";
+import { RevealOnScroll, staggerDelay } from "@manovaspace/ui/motion";
 import { SectionHeader } from "@/components/layout/section-header";
-import {
-  fadeUp,
-  scrollRevealViewport,
-  staggerDelay,
-  transitionBase,
-} from "@manovaspace/ui/motion";
 import type { BlogPost, SiteRoutes, UiLabels } from "@/types/content";
 
 export interface BlogIndexProps {
@@ -30,13 +23,7 @@ export function BlogIndex({ posts, labels, routes }: BlogIndexProps) {
 
       <div className="space-y-0">
         {posts.map((post, index) => (
-          <motion.div
-            key={post.slug}
-            initial={fadeUp.initial}
-            whileInView={fadeUp.animate}
-            viewport={scrollRevealViewport}
-            transition={{ ...transitionBase, delay: staggerDelay(index) }}
-          >
+          <RevealOnScroll key={post.slug} delay={staggerDelay(index)}>
             <a
               href={`${routes.blog}/${post.slug}`}
               className="group -mx-4 block border-b border-border px-4 py-8 transition-colors duration-200 hover:bg-card/50"
@@ -64,7 +51,7 @@ export function BlogIndex({ posts, labels, routes }: BlogIndexProps) {
                 </span>
               </Button>
             </a>
-          </motion.div>
+          </RevealOnScroll>
         ))}
       </div>
     </section>

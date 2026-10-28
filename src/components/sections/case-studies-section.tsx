@@ -1,14 +1,8 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ArrowRightIcon } from "@manovaspace/ui";
+import { RevealOnScroll, staggerDelay } from "@manovaspace/ui/motion";
 import { SectionHeader } from "@/components/layout/section-header";
-import {
-  fadeUp,
-  scrollRevealViewport,
-  staggerDelay,
-  transitionBase,
-} from "@manovaspace/ui/motion";
 import type {
   CaseStudy,
   SectionMeta,
@@ -46,12 +40,9 @@ export function CaseStudiesSection({
       <StoryTexture variant="blueprint">
         <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
           {items.map((study, index) => (
-            <motion.div
+            <RevealOnScroll
               key={study.slug}
-              initial={fadeUp.initial}
-              whileInView={fadeUp.animate}
-              viewport={scrollRevealViewport}
-              transition={{ ...transitionBase, delay: staggerDelay(index) }}
+              delay={staggerDelay(index)}
               className="relative border border-band-blueprint/15 bg-card/90 p-8"
             >
               <a
@@ -77,7 +68,7 @@ export function CaseStudiesSection({
                 </div>
                 <ArrowRightIcon className="mt-4 h-4 w-4 text-border group-hover:text-primary" />
               </a>
-            </motion.div>
+            </RevealOnScroll>
           ))}
         </div>
       </StoryTexture>
