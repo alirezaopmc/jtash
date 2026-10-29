@@ -61,3 +61,32 @@
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
 }
+
+/*
+ * Type: system stacks until the final proportional + mono pairing is chosen.
+ * These are plain `:root` declarations, not `@theme`, because the token sheet
+ * is unlayered and would otherwise win the cascade.
+ */
+:root {
+  --font-sans:
+    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
+    "Helvetica Neue", Arial, sans-serif;
+  --font-mono:
+    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
+    monospace;
+  --statusline-h: 44px;
+}
+
+@media (min-width: 640px) {
+  :root {
+    --statusline-h: 32px;
+  }
+}
+
+html {
+  scroll-padding-bottom: var(--statusline-h);
+}
+
+body {
+  padding-bottom: var(--statusline-h);
+}

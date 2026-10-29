@@ -16,7 +16,11 @@ import type { ReactNode } from "react";
 export function Providers({ children }: { children: ReactNode }) {
   return (
     <TokenProvider>
-      <ThemeProvider defaultTheme="system" enableSystem>
+      <ThemeProvider
+        defaultTheme="light"
+        enableSystem={false}
+        forcedTheme="light"
+      >
         <ThemeColorSync />
         {children}
         <Toaster />

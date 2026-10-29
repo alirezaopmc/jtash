@@ -1,12 +1,14 @@
 import type { Metadata } from "next";
 
 import { Providers } from "@/components/providers";
+import { Shell } from "@/components/shell/shell";
+import { profile } from "@/content/profile";
 
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Jay Tash",
-  description: "Jay Tash — software engineer.",
+  title: profile.name,
+  description: profile.valueLine.neutral,
 };
 
 export default function RootLayout({
@@ -16,8 +18,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body>
-        <Providers>{children}</Providers>
+      <body className="bg-background font-sans text-foreground antialiased">
+        <Providers>
+          <Shell>{children}</Shell>
+        </Providers>
       </body>
     </html>
   );
