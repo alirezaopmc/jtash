@@ -8,6 +8,9 @@ Personal site for Jay Tash / Alireza Jafartash. Production domain: `jtash.ir`.
 fresh Next.js app that renders an empty page. Product work (routes, content,
 branding) starts only when explicitly requested.
 
+**Product brief:** [`context/README.md`](context/README.md) holds the portfolio's
+decisions, layout, section specs and task slices. Read it before any product work.
+
 Deploys are intentionally off: the `deploy-production` job in
 `.forgejo/workflows/ci.yml` is gated on the repository variable
 `ENABLE_VERCEL_DEPLOY=true`. Nothing reaches `jtash.ir` until that is set.
