@@ -6,8 +6,8 @@ Build top to bottom, one per task, owner approval between each.
 
 | # | Section | Status | Spec |
 |---|---------|--------|------|
-| 0 | Shell (statusline, command line, keymap) | ready to build | [05](05-layout-shell.md) |
-| 1 | Hero | ready to build | [06](06-hero.md) |
+| 0 | Shell (statusline, command line, keymap) | statusline built ([task 01](tasks/01-shell-and-hero.md)); command line, keymap, section tracking next | [05](05-layout-shell.md) |
+| 1 | Hero | built ([task 01](tasks/01-shell-and-hero.md)) | [06](06-hero.md) |
 | 2 | Work (product demos: Fryto, Goldstein, Waypoint) | outline | [04](04-team-tools-catalog.md) Figma row |
 | 3 | Experience | outline | [04](04-team-tools-catalog.md) Linear / git rows |
 | 4 | Research & teaching | outline | [04](04-team-tools-catalog.md) Notion row |
