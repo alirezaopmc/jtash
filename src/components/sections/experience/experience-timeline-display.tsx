@@ -1,13 +1,7 @@
 "use client";
 
 import { Button, cn } from "@manovaspace/ui";
-import {
-  duration,
-  easeOut,
-  transitionFast,
-  useReducedMotion,
-} from "@manovaspace/ui/motion";
-import { AnimatePresence, motion } from "framer-motion";
+import { FadeIn } from "@manovaspace/ui/motion";
 import { experienceToLinkProfile } from "@/lib/external-link";
 import type { Experience } from "@/types/content";
 import { useOpenExternalLink } from "../../layout/external-link-provider";
@@ -122,7 +116,6 @@ export function ExperienceTimelineDisplay({
   className,
 }: ExperienceTimelineDisplayProps) {
   const openExternalLink = useOpenExternalLink();
-  const reducedMotion = useReducedMotion();
   const linkProfile = experienceToLinkProfile(experience);
   const canOpenCompanyModal = linkProfile != null;
 
@@ -131,10 +124,6 @@ export function ExperienceTimelineDisplay({
       openExternalLink(linkProfile);
     }
   };
-
-  const panelTransition = reducedMotion
-    ? { duration: 0 }
-    : { ...transitionFast, duration: duration.fast + 0.03, ease: easeOut };
 
   return (
     <div
@@ -149,24 +138,15 @@ export function ExperienceTimelineDisplay({
         ...(heightPx != null ? { height: heightPx } : {}),
       }}
     >
-      <AnimatePresence mode="wait" initial={false}>
-        <motion.div
-          key={experience.path}
-          initial={reducedMotion ? false : { opacity: 0, y: 4 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={reducedMotion ? undefined : { opacity: 0, y: -4 }}
-          transition={panelTransition}
-          className="h-full"
-        >
-          <TimelinePanelBody
-            experience={experience}
-            detailsLabel={detailsLabel}
-            onDetailsClick={onDetailsClick}
-            onOpenCompanyModal={openCompanyModal}
-            canOpenCompanyModal={canOpenCompanyModal}
-          />
-        </motion.div>
-      </AnimatePresence>
+      <FadeIn key={experience.path} className="h-full">
+        <TimelinePanelBody
+          experience={experience}
+          detailsLabel={detailsLabel}
+          onDetailsClick={onDetailsClick}
+          onOpenCompanyModal={openCompanyModal}
+          canOpenCompanyModal={canOpenCompanyModal}
+        />
+      </FadeIn>
     </div>
   );
 }
