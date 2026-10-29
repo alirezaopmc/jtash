@@ -25,7 +25,7 @@ section needs it · `avoid` = considered and rejected.
 | **VS Code** | Engineers | Breadcrumbs, tabs, minimap | Breadcrumbs folded into the statusline buffer path; no tabs, no minimap | Shell statusline | maybe |
 | **Google Sheets / Excel** | Managers, finance, sales | Cell refs, `fx` formula bar | Rejected for v1: a formula bar reads as a joke, tables add weight | — | avoid |
 | **Jira** | PMs | Boards, tickets | Linear covers the PM sense with less bureaucracy | — | avoid |
-| **Miro / FigJam** | Facilitators, PMs | Sticky notes | Fights the flat white canvas | — | avoid |
+| **Miro / FigJam** | Facilitators, PMs | Sticky notes | Fights the flat canvas | — | avoid |
 | **Trello / Kanban** | PMs | Columns of cards | Cards-in-columns is the template look we are avoiding | — | avoid |
 | **Loom** | Managers | Video bubble | Adds media weight; revisit only with a real intro video | — | avoid |
 | **Analytics (GA, Amplitude)** | Marketing, growth | Funnels, sparklines | Only next to a real metric on a work item; never decorative | Work items | maybe |

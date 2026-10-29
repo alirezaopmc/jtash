@@ -19,7 +19,7 @@ export function Hero({ view, caret = true }: HeroProps) {
       >
         {profile.valueLine[view]}
         {caret ? (
-          <span aria-hidden="true" className="text-foreground">
+          <span aria-hidden="true" className="text-primary">
             ▍
           </span>
         ) : null}

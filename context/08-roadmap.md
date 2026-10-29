@@ -39,5 +39,5 @@ Build top to bottom, one per task, owner approval between each.
 | 2026-10-29 | Keep the Next.js shell; no Astro rewrite. |
 | 2026-10-29 | Two optional views (`/hire`, `/casual`) plus neutral `/`; URL is the source of truth. |
 | 2026-10-29 | Editor shell (Vim statusline + command line) is the layout spine; other team tools are one accent per section. |
-| 2026-10-29 | Hero is a single value line on flat white; the view choice lives in the statusline. |
+| 2026-10-29 | Hero is a single value line on flat white; the view choice lives in the statusline. (Superseded: canvas is now charcoal.) |
 | 2026-10-29 | Blog is a separate site; portfolio mirrors the latest three posts. |

@@ -1,6 +1,10 @@
 @import "@manovaspace/ui/styles.css";
 @import "@manovaspace/tokens/tokens.css";
+@import "@fontsource/ibm-plex-mono/latin-400.css";
+@import "@fontsource/ibm-plex-mono/latin-500.css";
+@import "@fontsource/ibm-plex-mono/latin-600.css";
 @import "tailwindcss";
+@import "../theme/claude-code.css";
 
 @source "../app/**/*.{ts,tsx}";
 @source "../components/**/*.{ts,tsx}";
@@ -13,9 +17,14 @@
  * base utilities (`.hidden`, `.md:*`) land after the app's utilities and win
  * the cascade, which kills every `sm:` / `lg:` / `xl:` variant in the app.
  *
+ * Fonts come straight from @fontsource rather than
+ * `@manovaspace/tokens/fonts.css` because that barrel also imports
+ * `@fontsource/vazirmatn`, which is not a dependency of the tokens package and
+ * fails to resolve.
+ *
  * Tokens are full color values (hex / hsl / oklch), never bare HSL triplets.
- * Do not redefine `--background`-style variables here; brand overrides belong
- * in the token layer (`TokenProvider` -> tokens / theme JSON).
+ * Brand colours live in `src/theme/claude-code.ts` (light scheme + ramps) and
+ * `src/theme/claude-code.css` (dark scheme corrections).
  */
 @theme inline {
   --color-background: var(--background);
@@ -63,17 +72,11 @@
 }
 
 /*
- * Type: system stacks until the final proportional + mono pairing is chosen.
- * These are plain `:root` declarations, not `@theme`, because the token sheet
- * is unlayered and would otherwise win the cascade.
+ * Type families come from the token layer (`src/theme/claude-code.ts`):
+ * proportional for content, IBM Plex Mono for chrome. Only the layout
+ * variables live here.
  */
 :root {
-  --font-sans:
-    ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto,
-    "Helvetica Neue", Arial, sans-serif;
-  --font-mono:
-    ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono",
-    monospace;
   --statusline-h: 44px;
 }
 

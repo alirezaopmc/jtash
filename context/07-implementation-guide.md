@@ -27,13 +27,21 @@ src/content/sections.ts               # section ids, labels, order per view
 ```
 
 Keep Server Components by default; only the statusline, command line and keymap are client code.
-Fonts via `next/font` (self-hosted, `display: swap`), exposed as CSS variables.
+Fonts: IBM Plex Mono for chrome via `@fontsource/ibm-plex-mono` (self-hosted, `display: swap`);
+content stays on the system proportional stack until the pairing is chosen.
 
 ## Theme
 
-`providers.tsx` currently uses `defaultTheme="system"`. The hero must be flat white, so set the
-theme to light (no system switching) until `:set bg=dark` is built. Accent and greys go through the
-token layer, not hard-coded hex.
+`providers.tsx` forces dark with the Claude Code palette. Two files own it:
+
+- `src/theme/claude-code.ts` — the authored (light) scheme, type families, radii; passed to
+  `TokenProvider` so the tokens resolve through the shared layer.
+- `src/theme/claude-code.css` — the dark surface stack under `html.dark`, because the token
+  resolver derives dark by inverting lightness and flattens elevation.
+
+`src/components/token-style.tsx` renders those variables server-side as the first child of `<body>`
+so the first paint is already branded; `TokenProvider` updates that same node id at runtime.
+Do not hard-code hex in components; add a token instead.
 
 ## View transitions
 

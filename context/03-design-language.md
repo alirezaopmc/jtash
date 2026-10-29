@@ -13,7 +13,7 @@ speaks to. The catalog is [04-team-tools-catalog.md](04-team-tools-catalog.md).
 
 ## Minimal rules
 
-1. **Flat white canvas.** No gradients, glows, textures, cards-on-cards or drop shadows on content.
+1. **Flat canvas, no ornament.** No gradients, glows, textures, cards-on-cards or drop shadows on content.
 2. **One idea per screen** in the hero; one job per section afterwards.
 3. **Remove before adding.** Every element must do a job: navigate, show status, or carry proof.
 4. **Whitespace is the layout.** Alignment and spacing make the structure; rules and boxes are a last resort.
@@ -42,12 +42,18 @@ speaks to. The catalog is [04-team-tools-catalog.md](04-team-tools-catalog.md).
 
 ## Colour
 
-- Light only for v1: flat white background, near-black text, one muted grey for secondary text.
-- **One accent**, used only for: the active mode block in the statusline, the static caret,
-  focus rings and selection outlines. Owner picks it (open question). Not a brand colour of any app.
-- Colours come from `@manovaspace/tokens` semantic variables; brand overrides go through the token
-  layer (`TokenProvider`), never as hard-coded hex in components.
-- Dark mode is a later feature behind `:set bg=dark` ([05](05-layout-shell.md)). Until then, force light.
+- **One ground, one ink, two signal fills.** Warm charcoal canvas (`#1f1e1d`), cream ink
+  (`#f0eee6`), clay accent (`#d97757`), sage state block (`#a9c39b`). Dark ink sits on both fills.
+- Palette is Claude Code's: the terminal's charcoal, clay and sage, not a brand's colours.
+- **Accent use stays narrow:** the active mode block, the static caret, focus rings and selection.
+  Sage marks the current state (the mode block), clay marks the position; nothing else is filled.
+- Surfaces step in tone, never in lines or shadows: canvas `#1f1e1d`, bar/cards `#262624`,
+  raised `#2b2a27`, hairline `#3a3835`.
+- Colours come from `@manovaspace/tokens` semantic variables (`src/theme/claude-code.ts` for the
+  authored scheme, `src/theme/claude-code.css` for the dark surface stack). No hard-coded hex in
+  components.
+- Dark is the v1 canvas and is forced. Light mode (`:set bg=light`) is a later feature, not a v1
+  requirement; the light scheme is already authored in the token file.
 
 ## Motion
 
@@ -59,6 +65,6 @@ speaks to. The catalog is [04-team-tools-catalog.md](04-team-tools-catalog.md).
 
 Use the workspace skill `design-taste-frontend` to inspect and critique pages
 (`scripts/inspect.mjs` against `http://localhost:12000`). This brief wins over its house style and
-its dealt directions: flat white canvas, mono chrome, single accent and the shell are fixed here.
+its dealt directions: warm charcoal canvas, mono chrome, the clay/sage fills and the shell are fixed here.
 For later product-demo sections, `impeccable critique` / `polish` are the better fit.
 Do not load both skills in one task.
