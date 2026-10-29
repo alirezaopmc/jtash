@@ -66,7 +66,7 @@ export function Statusline() {
         })}
       </nav>
 
-      <span className="flex items-center px-3">
+      <span className="flex min-w-0 items-center truncate px-3">
         {shell.buffer.prefix}
         {shell.buffer.section}
       </span>
