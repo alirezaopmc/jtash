@@ -1,8 +1,6 @@
 "use client";
 
 import { Button, ChevronDownIcon, cn } from "@manovaspace/ui";
-import { transitionExpand } from "@manovaspace/ui/motion";
-import { AnimatePresence, motion } from "framer-motion";
 import { type CSSProperties, type ReactNode, useState } from "react";
 
 export interface StoryExpandableItem {
@@ -148,19 +146,14 @@ export function StoryExpandableList({
             {isAlwaysExpanded ? (
               <div className="relative z-10 overflow-hidden">{item.panel}</div>
             ) : (
-              <AnimatePresence initial={false}>
-                {isExpanded && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={transitionExpand}
-                    className="relative z-10 overflow-hidden"
-                  >
-                    {item.panel}
-                  </motion.div>
+              <div
+                className={cn(
+                  "relative z-10 grid overflow-hidden transition-[grid-template-rows] duration-300 motion-reduce:transition-none",
+                  isExpanded ? "grid-rows-[1fr]" : "grid-rows-[0fr]",
                 )}
-              </AnimatePresence>
+              >
+                <div className="min-h-0 overflow-hidden">{item.panel}</div>
+              </div>
             )}
           </div>
         );
