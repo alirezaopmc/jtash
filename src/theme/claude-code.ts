@@ -61,7 +61,7 @@ export const claudeCodeTokens: OrbitTokenOverride = {
       // Content stays proportional; the pairing is still an open question.
       sans: 'ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif',
       // Chrome — statusline, command line, IDs — is the tool voice.
-      mono: '"IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace',
+      mono: '"JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace',
     },
     lineHeight: {
       tight: "1.15",

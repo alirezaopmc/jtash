@@ -27,7 +27,8 @@ src/content/sections.ts               # section ids, labels, order per view
 ```
 
 Keep Server Components by default; only the statusline, command line and keymap are client code.
-Fonts: IBM Plex Mono for chrome via `@fontsource/ibm-plex-mono` (self-hosted, `display: swap`);
+Fonts: JetBrains Mono for chrome via `@fontsource/jetbrains-mono` (self-hosted, `display: swap`),
+400/500/700 to match the reference site;
 content stays on the system proportional stack until the pairing is chosen.
 
 ## Theme

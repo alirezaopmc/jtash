@@ -7,7 +7,7 @@ import { usePathname } from "next/navigation";
 import { shell } from "@/content/shell";
 
 const modeLinkClasses =
-  "inline-flex min-h-11 items-center px-3 font-medium text-[12px] uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset sm:min-h-0 sm:text-[13px]";
+  "inline-flex min-h-11 items-center px-3 font-medium uppercase tracking-wide transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-inset sm:min-h-0";
 
 /**
  * Editor-style statusline. The visual grammar is a terminal status strip: one
@@ -21,7 +21,7 @@ export function Statusline() {
   return (
     <nav
       aria-label={shell.navLabel}
-      className="fixed inset-x-0 bottom-0 z-50 flex h-[calc(var(--statusline-h)+env(safe-area-inset-bottom))] items-stretch border-border border-t bg-card pb-[env(safe-area-inset-bottom)] font-mono text-muted-foreground"
+      className="fixed inset-x-0 bottom-0 z-50 flex h-[calc(var(--statusline-h)+env(safe-area-inset-bottom))] items-stretch border-border border-t bg-card pb-[env(safe-area-inset-bottom)] font-mono text-[12px] text-muted-foreground sm:text-[13px]"
     >
       {shell.modeOrder.map((view) => {
         const mode = shell.modes[view];
@@ -51,7 +51,7 @@ export function Statusline() {
 
       <span aria-hidden="true" className="flex-1" />
 
-      <span className="inline-flex min-h-11 items-center bg-primary px-3 font-medium text-[12px] text-primary-foreground uppercase tracking-wide sm:min-h-0 sm:text-[13px]">
+      <span className="inline-flex min-h-11 items-center bg-primary px-3 font-medium text-primary-foreground uppercase tracking-wide sm:min-h-0">
         {shell.position}
       </span>
     </nav>
