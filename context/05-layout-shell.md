@@ -42,25 +42,41 @@ Command line open (`:` or `⌘K` or click `: cmd`):
 │  products people pay for.▍    │
 │                               │
 ├───────────────────────────────┤
-│ casual │ HIRE │        :  Top │  ← 44px min height, safe-area inset
+│ NORMAL │ casual │ HIRE │ Top │  ← 28px, safe-area inset
 └───────────────────────────────┘
 ```
 
-Buffer path and presence segment are hidden on mobile. The `:` button opens the command line as
-a bottom sheet (full width), suggestions above the input, keyboard-friendly on touch.
+Metadata and clock are hidden on mobile; the buffer path and the position block stay. The `:`
+button opens the command line as a bottom sheet (full width), suggestions above the input,
+keyboard-friendly on touch.
 
 ## Statusline segments
 
 | Segment | Content | Behaviour |
 |---|---|---|
-| Mode | Two words: `casual` `hire`. On `/` neither is active. On `/hire` the `HIRE` block is inverted (accent background), like Vim's mode block. | `next/link` to `/casual` and `/hire`; active link has `aria-current="page"`. Clicking the active one returns to `/`. This **is** the optional two-way choice, so the hero stays a single line. |
-| Buffer path | `~/jtash/<section-id>` for the section in view | Updated by an IntersectionObserver; not a live region (would be noisy). Desktop only. |
-| Presence | One of: `● around 14:02` (Slack) or `all systems operational` (status page). Open question | Local time in Europe/Istanbul, updated each minute. Static text, no live region. |
-| Command | `: cmd` hint | Button; opens the command line. `aria-keyshortcuts=": Meta+K Control+K"`. |
-| Position | `Top`, `Bot`, or a percentage (Vim), or `2/6` (sections) | Doubles as the scroll cue on the hero: `Top` means there is more below. |
+| Mode | On `/` a static `NORMAL` block marks the neutral view; otherwise one of `casual` `hire` is the filled sage block with dark ink, like Vim's mode block. | `next/link` to `/casual` and `/hire`; active link has `aria-current="page"`. Clicking the active one returns to `/`. This **is** the optional two-way choice, so the hero stays a single line. |
+| Buffer path | `~/jtash/<section-id>` for the section in view | Updated by an IntersectionObserver; not a live region (would be noisy). Visible at every width. |
+| Metadata | `utf-8 · en` | Static, 60% opacity, hidden below `sm`. |
+| Clock | Local time, `01:13 AM` | Updated every 30 seconds; hidden below `sm`. |
+| Position | `Top`, `Bot`, or a percentage (Vim), or `2/6` (sections) | Clay block with dark ink, bold. Doubles as the scroll cue on the hero: `Top` means there is more below. |
 
-Height 32px desktop, 44px mobile. Monospace, small (12–13px), single row, top hairline only.
-Must never cover content: the canvas gets matching bottom padding and `scroll-padding-bottom`.
+Height 28px at every width. 11px JetBrains Mono at 1.5 line-height, single row, `px-3` per
+segment, no border, no radii. Filled blocks are bold (700) with dark ink on the fill; plain
+segments are 400 in the muted tone. The bar sits one tone above the canvas (`card`), so the
+edge is a step in tone rather than a hairline. Must never cover content: the canvas gets
+matching bottom padding and `scroll-padding-bottom`.
+
+### Appearance
+
+Status-strip grammar, matched to the reference strip:
+
+- Segments are flush: active mode block at the left edge, position block at the right edge,
+  everything between is plain text on the bar surface with a flexible spacer before the clock.
+- Exactly two fills on the bar: sage `#8fbf7f` for the active view, clay `#d97757` for the
+  position. Both use `#0e0d0c` ink.
+- The buffer path is the same muted tone as the rest of the bar; only the fills carry weight.
+  Metadata sits at 60% opacity.
+- No shadows, gradients or rounded corners anywhere in the bar.
 
 ## Command line
 

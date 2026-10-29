@@ -71,7 +71,7 @@ HSL triplets; brand overrides go through `TokenProvider` / token files.
 
 ## Palette (Claude Code)
 
-Charcoal canvas `#1f1e1d`, cream ink `#f0eee6`, clay accent `#d97757`, sage state `#a9c39b`;
+Charcoal canvas `#1f1e1d`, cream ink `#f0eee6`, clay accent `#d97757`, sage state `#8fbf7f`;
 surfaces step by tone (`#262624` bar, `#2b2a27` raised, `#3a3835` hairline). Exactly two filled
 blocks on the statusline: sage for the active view, clay for the position. Accent elsewhere is
 limited to the caret, focus rings and selection. Dark is forced for v1.

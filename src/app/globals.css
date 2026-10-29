@@ -77,13 +77,7 @@
  * variables live here.
  */
 :root {
-  --statusline-h: 44px;
-}
-
-@media (min-width: 640px) {
-  :root {
-    --statusline-h: 32px;
-  }
+  --statusline-h: 28px;
 }
 
 html {

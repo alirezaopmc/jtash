@@ -28,7 +28,7 @@ html.dark {
   --secondary-hover: #3a3934;
 
   --muted: #2b2a27;
-  --muted-foreground: #a6a29b;
+  --muted-foreground: #9a9086;
   --muted-hover: #34332f;
 
   --accent: #34332f;
@@ -49,8 +49,8 @@ html.dark {
   --sidebar-accent-foreground: #f0eee6;
   --sidebar-border: #33322e;
 
-  --status-success: #a9c39b;
-  --status-success-foreground: #1f1e1d;
+  --status-success: #8fbf7f;
+  --status-success-foreground: #0e0d0c;
   --status-warning: #e0a15c;
   --status-warning-foreground: #1f1e1d;
   --status-danger: #d9544a;

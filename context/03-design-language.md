@@ -43,7 +43,7 @@ speaks to. The catalog is [04-team-tools-catalog.md](04-team-tools-catalog.md).
 ## Colour
 
 - **One ground, one ink, two signal fills.** Warm charcoal canvas (`#1f1e1d`), cream ink
-  (`#f0eee6`), clay accent (`#d97757`), sage state block (`#a9c39b`). Dark ink sits on both fills.
+  (`#f0eee6`), clay accent (`#d97757`), sage state block (`#8fbf7f`). Dark ink sits on both fills.
 - Palette is Claude Code's: the terminal's charcoal, clay and sage, not a brand's colours.
 - **Accent use stays narrow:** the active mode block, the static caret, focus rings and selection.
   Sage marks the current state (the mode block), clay marks the position; nothing else is filled.

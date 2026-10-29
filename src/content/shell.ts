@@ -6,10 +6,12 @@ export const shell = {
     hire: { label: "hire", href: "/hire" },
   },
   homeHref: "/",
+  neutralLabel: "normal",
   buffer: {
     prefix: "~/jtash/",
     section: "hero",
   },
+  meta: "utf-8 · en",
   position: "Top",
 } as const;
 

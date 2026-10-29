@@ -71,21 +71,26 @@ In `providers.tsx`, force light: `forcedTheme="light"` and `enableSystem={false}
 ### Shell (`shell/shell.tsx`, `shell/statusline.tsx`)
 
 - `layout.tsx` wraps `{children}` in `<Shell>`; `Shell` renders children then `<Statusline />`.
-- CSS variable `--statusline-h`: `44px` below 640px, `32px` from 640px up. `body` (or the shell
-  wrapper) gets `padding-bottom: var(--statusline-h)` and `html` gets
-  `scroll-padding-bottom: var(--statusline-h)` so nothing hides under the bar.
-- Statusline: `<nav aria-label="Site">`, fixed to the bottom, full width, height `var(--statusline-h)`,
-  `bg-background`, 1px top border `border-border`, monospace (`font-mono`), 12–13px, one row,
-  `padding-bottom: env(safe-area-inset-bottom)` added to the height on iOS.
+- CSS variable `--statusline-h`: `28px` at every width. `body` (or the shell wrapper) gets
+  `padding-bottom: var(--statusline-h)` and `html` gets `scroll-padding-bottom: var(--statusline-h)`
+  so nothing hides under the bar.
+- Statusline: `<footer>` containing `<nav aria-label="Site">`, fixed to the bottom, full width,
+  height `var(--statusline-h)`, `bg-card`, no border, monospace (`font-mono`), 11px/1.5, one row,
+  `px-3` per segment, `padding-bottom: env(safe-area-inset-bottom)` added to the height on iOS.
 - Segments left → right:
   1. **Mode:** two `next/link`s, `casual` → `/casual`, `hire` → `/hire`. It is a client component
-     using `usePathname()`. The active one is an inverted block (`bg-foreground text-background`,
-     uppercase like Vim's mode block) with `aria-current="page"`, and its `href` becomes `/` (clicking the
-     active mode clears the choice). Neither is active on `/`. Each target ≥ 44px tall on mobile.
-  2. **Buffer path:** `~/jtash/hero`, muted foreground, hidden below 640px.
-  3. Flexible spacer.
-  4. **Position:** `Top`, muted foreground.
+     using `usePathname()`. The active one is a filled sage block
+     (`bg-status-success text-status-success-foreground font-bold`, uppercase like Vim's mode block)
+     with `aria-current="page"`, and its `href` becomes `/` (clicking the active mode clears the
+     choice). Neither is active on `/`.
+  2. **Buffer path:** `~/jtash/hero`, muted foreground, visible at every width.
+  3. **Metadata:** `utf-8 · en`, 60% opacity, hidden below 640px.
+  4. Flexible spacer.
+  5. **Clock:** local time, hidden below 640px.
+  6. **Position:** `Top`, filled clay block (`bg-primary text-primary-foreground font-bold`, uppercase).
 - Visible focus ring (`ring`) on every link. No hover effects beyond a colour change.
+- The 28px bar is below the 44px touch-target guideline on purpose: it matches the reference strip;
+  links keep a wide horizontal target.
 
 ### Type
 
