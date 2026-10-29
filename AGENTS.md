@@ -1,6 +1,16 @@
 # jtash-frontend
 
-Personal portfolio site for Jay Tash / Alireza Jafartash. Hostname-aware branding (`jtash.ir` vs default) without locale routing.
+Personal site for Jay Tash / Alireza Jafartash. Production domain: `jtash.ir`.
+
+## State
+
+**Reset in `chore/reset-frontend`.** The previous portfolio was removed; this is a
+fresh Next.js app that renders an empty page. Product work (routes, content,
+branding) starts only when explicitly requested.
+
+Deploys are intentionally off: the `deploy-production` job in
+`.forgejo/workflows/ci.yml` is gated on the repository variable
+`ENABLE_VERCEL_DEPLOY=true`. Nothing reaches `jtash.ir` until that is set.
 
 ## Commands
 
@@ -13,58 +23,40 @@ bun run typecheck
 bun run lint
 ```
 
-Dev server runs on **port 12000**.
+Port **12000** is allocated to this project (ADR-006, client `n=2`).
 
 ## Stack
 
-- Next.js 16 (App Router, no `next-intl`, no `[locale]` segment)
-- `@manovaspace/ui` primitives, `@manovaspace/markdown` for blog content
-- Local JSON content under `src/content/data/`
-- Hostname resolution via `getRequestSiteContent()` (`headers().get('host')`)
-
-## Packages
-
-`package.json` today:
-
-- `@manovaspace/tokens` / `@manovaspace/ui` → published npm packages, resolved by the declared semver ranges
-- `@manovaspace/markdown` → published npm package (`^0.1.2`)
-
-No `@orbit/*` dependencies in this package.
-
-The frontend installs only published packages and has no workspace dependencies on sibling repositories.
+- Next.js 16 App Router, React 19, Tailwind 4, TypeScript 6, Biome 2
+- `@manovaspace/ui` primitives, `@manovaspace/tokens` semantic tokens
+- Published npm versions of `@manovaspace/*` (no `link:` deps) so CI runners work
 
 ## Structure
 
 | Path | Role |
 |------|------|
-| `src/types/content.ts` | Content TypeScript types |
-| `src/content/data/*.json` | Site copy and fixtures |
-| `src/content/repository/` | Content access (`getSiteContent`, blog, projects) |
-| `src/content/services/` | `resolveSiteContentForHost`, display-name helpers |
-| `src/components/` | Layout, sections, story, blog, projects |
-| `src/styles/jtash.css` | Theme tokens, story bands, textures |
-| `src/lib/get-request-site-content.ts` | Per-request host → content |
+| `src/app/layout.tsx` | Root document, metadata, provider stack |
+| `src/app/page.tsx` | Home route (currently empty) |
+| `src/app/globals.css` | Tailwind wiring + token-to-utility mapping |
+| `src/components/providers.tsx` | TokenProvider → ThemeProvider → ThemeColorSync → Toaster |
 
-## Component ownership
+## Conventions
 
-Import primitives from `@manovaspace/ui` only — not `lucide-react`, `react-icons`, or Radix directly. Icons from `@manovaspace/ui` (brand icons from `@manovaspace/ui/icons/brand`). Motion helpers from `@manovaspace/ui/motion`; use `framer-motion` directly only for product-specific choreography in story/timeline sections.
+- Import UI from `@manovaspace/ui` only. Never `lucide-react`, `react-icons`, Radix
+  primitives, or `packages/ui/src/primitives`.
+- Product/domain components live in `src/components/`; anything reusable belongs in
+  the design system.
+- One `Toaster` per app (already mounted in `providers.tsx`). Use `toast()` for
+  transient feedback, `Dialog` for reversible flows, `AlertDialog` for confirmations.
+- Internal navigation uses `next/link`.
+- Copy lives in content/data files, never hardcoded in components.
+- Asset references must point at files that exist in `public/` or `src/`.
 
-| Kind | Where | Examples in this repo |
-| --- | --- | --- |
-| **Base / primitive** | `@manovaspace/ui` | `Button`, `Dialog`, `Badge`, `Card`, `toast`, `Toaster`, `ThemeProvider` |
-| **Product / domain** | `src/components/` | `ExternalResourceModal`, `WhatsNewAnnouncement`, story/timeline sections, hostname-aware layout |
+## CSS import order (do not reorder)
 
-Quick check: *Would another client use this unchanged?* Yes → `@manovaspace/ui`. No → keep it here; do not add portfolio-specific UI to the design-system package.
+`@manovaspace/ui/styles.css` is a **precompiled Tailwind sheet**. Import it before
+`tailwindcss`, otherwise its base utilities (`.hidden`, `.md:*`) override the app's
+responsive variants and every `sm:`/`lg:`/`xl:` class silently stops working.
 
-## Provider order
-
-`ThemeProvider` → `ThemeColorSync` / `SystemThemeSync` → `Toaster` → `ExternalLinkProvider` → layout chrome → pages
-
-Wired in `src/components/layout/site-shell.tsx`. Hostname branding stays in `resolveSiteContentForHost` and `jtash.css` — not `TokenProvider` / `theme.json`.
-
-## Toast and modal conventions
-
-- Mount a single `<Toaster />` in `site-shell` (inside `ThemeProvider`).
-- **Transient feedback** (copy, save, async success/error): `toast({ title, variant: "success" | "destructive" | "default" })` from `@manovaspace/ui`. Copy strings from `labels` / `ui-labels.json`.
-- **Rich or blocking flows** (external link profiles, release notes): shared `Dialog` + `Button` in product components (`external-resource-modal.tsx`, `whats-new-announcement.tsx`). Keep existing motion, dark-theme, and dialog layout; do not replace with `AlertDialog` unless the flow is confirm-only.
-- Do not add parallel toast systems or raw Radix dialog primitives in this repo.
+Tokens are full color values. Never redefine `--background`-style variables as bare
+HSL triplets; brand overrides go through `TokenProvider` / token files.

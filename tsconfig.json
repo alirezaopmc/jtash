@@ -1,14 +1,9 @@
 {
   "extends": "@manovaspace/tsconfig/nextjs.json",
   "compilerOptions": {
-    "plugins": [{ "name": "next" }],
     "paths": {
       "@/*": ["./src/*"]
-    },
-    "incremental": true,
-    "jsx": "preserve",
-    "declaration": false,
-    "declarationMap": false
+    }
   },
   "include": [
     "next-env.d.ts",

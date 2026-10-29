@@ -7,7 +7,15 @@
   },
   "files": {
     "ignoreUnknown": true,
-    "includes": ["**", "!node_modules", "!.next", "!dist", "!build", "!public"]
+    "includes": [
+      "**",
+      "!node_modules",
+      "!.next",
+      "!dist",
+      "!build",
+      "!public",
+      "!**/*.md"
+    ]
   },
   "formatter": {
     "enabled": true,
@@ -17,27 +25,9 @@
   "linter": {
     "enabled": true,
     "rules": {
-      "recommended": true,
+      "preset": "recommended",
       "suspicious": {
         "noUnknownAtRules": "off"
-      },
-      "style": {
-        "noNonNullAssertion": "off"
-      },
-      "performance": {
-        "noImgElement": "off"
-      },
-      "complexity": {
-        "noImportantStyles": "off"
-      },
-      "a11y": {
-        "noStaticElementInteractions": "off",
-        "useAriaPropsSupportedByRole": "off",
-        "noSvgWithoutTitle": "off"
-      },
-      "correctness": {
-        "useExhaustiveDependencies": "warn",
-        "noUnusedVariables": "warn"
       }
     },
     "domains": {

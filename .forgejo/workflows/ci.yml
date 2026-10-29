@@ -17,7 +17,7 @@ jobs:
     steps:
       - name: Lint, typecheck, build
         env:
-          HOST_TS_COMMANDS: bun run test && bun run lint && bun run typecheck && bun run build
+          HOST_TS_COMMANDS: bun run lint && bun run typecheck && bun run build
         run: |
           set -euo pipefail
           runuser -u opmc -- \
@@ -25,8 +25,10 @@ jobs:
             /home/opmc/Dev/Manova/clients/jtash/frontend \
             "${{ forgejo.sha }}" "${{ forgejo.run_id }}"
 
+  # TEMPORARILY DISABLED while the site is rebuilt from scratch.
+  # Re-enable by setting the repository variable ENABLE_VERCEL_DEPLOY to "true".
   deploy-production:
-    if: forgejo.event_name == 'push' && forgejo.ref == 'refs/heads/main' || forgejo.event_name == 'workflow_dispatch' && forgejo.ref == 'refs/heads/main'
+    if: ${{ vars.ENABLE_VERCEL_DEPLOY == 'true' && forgejo.ref == 'refs/heads/main' }}
     needs: check
     runs-on: ubuntu-latest
     steps:
