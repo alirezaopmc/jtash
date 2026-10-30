@@ -1,64 +1,89 @@
-@import "tailwindcss";
 @import "@manovaspace/ui/styles.css";
-@import "../styles/jtash.css";
+@import "@manovaspace/tokens/tokens.css";
+@import "@fontsource/jetbrains-mono/latin-400.css";
+@import "@fontsource/jetbrains-mono/latin-500.css";
+@import "@fontsource/jetbrains-mono/latin-700.css";
+@import "tailwindcss";
+@import "../theme/claude-code.css";
 
-@source "../components/**/*.{ts,tsx}";
 @source "../app/**/*.{ts,tsx}";
+@source "../components/**/*.{ts,tsx}";
 
 @custom-variant dark (&:is(.dark *));
 
+/*
+ * Import order is load-bearing. `@manovaspace/ui/styles.css` is a precompiled
+ * Tailwind sheet, so it must be imported BEFORE `tailwindcss`; otherwise its
+ * base utilities (`.hidden`, `.md:*`) land after the app's utilities and win
+ * the cascade, which kills every `sm:` / `lg:` / `xl:` variant in the app.
+ *
+ * Fonts come straight from @fontsource rather than
+ * `@manovaspace/tokens/fonts.css` because that barrel also imports
+ * `@fontsource/vazirmatn`, which is not a dependency of the tokens package and
+ * fails to resolve.
+ *
+ * Tokens are full color values (hex / hsl / oklch), never bare HSL triplets.
+ * Brand colours live in `src/theme/claude-code.ts` (light scheme + ramps) and
+ * `src/theme/claude-code.css` (dark scheme corrections).
+ */
 @theme inline {
-  --color-background: hsl(var(--background));
-  --color-foreground: hsl(var(--foreground));
-  --color-primary: hsl(var(--primary));
-  --color-primary-foreground: hsl(var(--primary-foreground));
-  --color-secondary: hsl(var(--secondary));
-  --color-secondary-foreground: hsl(var(--secondary-foreground));
-  --color-destructive: hsl(var(--destructive));
-  --color-destructive-foreground: hsl(var(--destructive-foreground));
-  --color-muted: hsl(var(--muted));
-  --color-muted-foreground: hsl(var(--muted-foreground));
-  --color-accent: hsl(var(--accent));
-  --color-accent-foreground: hsl(var(--accent-foreground));
-  --color-card: hsl(var(--card));
-  --color-card-foreground: hsl(var(--card-foreground));
-  --color-popover: hsl(var(--popover));
-  --color-popover-foreground: hsl(var(--popover-foreground));
-  --color-border: hsl(var(--border));
-  --color-input: hsl(var(--input));
-  --color-ring: hsl(var(--ring));
-  --color-sidebar: hsl(var(--sidebar-background));
-  --color-sidebar-foreground: hsl(var(--sidebar-foreground));
-  --color-sidebar-primary: hsl(var(--sidebar-primary));
-  --color-sidebar-primary-foreground: hsl(var(--sidebar-primary-foreground));
-  --color-sidebar-accent: hsl(var(--sidebar-accent));
-  --color-sidebar-accent-foreground: hsl(var(--sidebar-accent-foreground));
-  --color-sidebar-border: hsl(var(--sidebar-border));
-  --color-sidebar-ring: hsl(var(--sidebar-ring));
-  --color-band-dark: hsl(var(--band-dark));
-  --color-band-dark-foreground: hsl(var(--band-dark-foreground));
-  --color-band-dark-muted: hsl(var(--band-dark-muted));
-  --color-band-dark-border: hsl(var(--band-dark-border));
-  --color-band-elevated: hsl(var(--band-elevated));
-  --color-band-elevated-foreground: hsl(var(--band-elevated-foreground));
-  --color-band-elevated-muted: hsl(var(--band-elevated-muted));
-  --color-band-elevated-border: hsl(var(--band-elevated-border));
-  --color-band-parchment: hsl(var(--band-parchment));
-  --color-band-parchment-foreground: hsl(var(--band-parchment-foreground));
-  --color-band-parchment-muted: hsl(var(--band-parchment-muted));
-  --color-band-parchment-border: hsl(var(--band-parchment-border));
-  --color-band-blueprint: hsl(var(--band-blueprint));
-  --color-band-blueprint-muted: hsl(var(--band-blueprint-muted));
-  --color-band-blueprint-surface: hsl(var(--band-blueprint-surface));
-  --color-band-blueprint-foreground: hsl(var(--band-blueprint-foreground));
-  --color-band-blueprint-border: hsl(var(--band-blueprint-border));
-  --color-period-accent: hsl(var(--period-accent));
-  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
-  --font-mono:
-    var(--font-mono-family), ui-monospace, SFMono-Regular, Menlo, Monaco,
-    Consolas, monospace;
-  --font-display: var(--font-body);
-  --radius-lg: var(--radius);
-  --radius-md: calc(var(--radius) - 2px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary-hover: var(--primary-hover);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary-hover: var(--secondary-hover);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted-hover: var(--muted-hover);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-hover: var(--accent-hover);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-destructive-hover: var(--destructive-hover);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-surface-sunken: var(--surface-sunken);
+  --color-status-success: var(--status-success);
+  --color-status-success-foreground: var(--status-success-foreground);
+  --color-status-warning: var(--status-warning);
+  --color-status-warning-foreground: var(--status-warning-foreground);
+  --color-status-danger: var(--status-danger);
+  --color-status-danger-foreground: var(--status-danger-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
   --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+}
+
+/*
+ * Type families come from the token layer (`src/theme/claude-code.ts`):
+ * proportional for content, JetBrains Mono for chrome. Only the layout
+ * variables live here.
+ */
+:root {
+  --statusline-h: 28px;
+}
+
+html {
+  scroll-padding-bottom: var(--statusline-h);
+}
+
+body {
+  padding-bottom: var(--statusline-h);
 }

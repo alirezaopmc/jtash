@@ -1,8 +1,13 @@
-import { HomePage } from "@/components/sections/home-page";
-import { getRequestSiteContent } from "@/lib/get-request-site-content";
+import type { Metadata } from "next";
 
-export default async function Page() {
-  const content = await getRequestSiteContent();
+import { ViewPage } from "@/components/view-page";
+import { profile, profileTitle } from "@/content/profile";
 
-  return <HomePage {...content} />;
+export const metadata: Metadata = {
+  title: profileTitle("neutral"),
+  description: profile.valueLine.neutral,
+};
+
+export default function HomePage() {
+  return <ViewPage view="neutral" />;
 }

@@ -6,3 +6,4 @@ build
 next-env.d.ts
 .vercel
 .env*
+.DS_Store

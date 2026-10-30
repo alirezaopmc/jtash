@@ -1,60 +1,91 @@
 # jtash-frontend
 
-Personal portfolio site for Jay Tash / Alireza Jafartash. Hostname-aware branding (`jtash.ir` vs default) without locale routing.
+Personal site for Jay Tash / Alireza Jafartash. Production domain: `jtash.ir`.
+
+## State
+
+**Reset in `chore/reset-frontend`.** The previous portfolio was removed; this is a
+fresh Next.js app that renders an empty page. Product work (routes, content,
+branding) starts only when explicitly requested.
+
+**Product brief:** [`context/README.md`](context/README.md) holds the portfolio's
+decisions, layout, section specs and task slices. Read it before any product work.
+
+Deploys are intentionally off: the `deploy-production` job in
+`.forgejo/workflows/ci.yml` is gated on the repository variable
+`ENABLE_VERCEL_DEPLOY=true`. Nothing reaches `jtash.ir` until that is set.
 
 ## Commands
 
 ```bash
-pnpm install
-pnpm dev      # http://localhost:12000
-pnpm build
-pnpm start
-pnpm typecheck
-pnpm lint
+bun install
+bun run dev      # http://localhost:12000
+bun run build
+bun run start
+bun run typecheck
+bun run lint
 ```
 
-Dev server runs on **port 12000**.
+Port **12000** is allocated to this project (ADR-006, client `n=2`).
 
 ## Stack
 
-- Next.js 16 (App Router, no `next-intl`, no `[locale]` segment)
-- `@manovaspace/ui` primitives, `@manovaspace/markdown` for blog content
-- Local JSON content under `src/content/data/`
-- Hostname resolution via `getRequestSiteContent()` (`headers().get('host')`)
-
-## Local Orbit packages
-
-`package.json` links local Orbit packages for development:
-
-- `link:../../../orbit/orbit-frontend/packages/tokens`
-- `link:../../../orbit/orbit-frontend/packages/ui`
-- `link:../../../manovaspace/ts/packages/markdown`
-
-Build linked packages first if types or dist are missing:
-
-```bash
-cd ../../../manovaspace/ts && pnpm install && pnpm --filter @manovaspace/markdown build
-cd ../../../orbit/orbit-frontend && pnpm install && pnpm --filter @manovaspace/tokens --filter @manovaspace/ui build
-```
-
-## Verdaccio / `@orbit` registry
-
-`.npmrc` points `@orbit` scoped packages at `https://npm.dev.manova.space`. For installs without `link:` overrides, set a token:
-
-```bash
-export NPM_TOKEN=your-verdaccio-token
-```
-
-The token is read from `//npm.dev.manova.space/:_authToken` (see `.npmrc` comment).
+- Next.js 16 App Router, React 19, Tailwind 4, TypeScript 6, Biome 2
+- `@manovaspace/ui` primitives, `@manovaspace/tokens` semantic tokens
+- Published npm versions of `@manovaspace/*` (no `link:` deps) so CI runners work
 
 ## Structure
 
 | Path | Role |
 |------|------|
-| `src/types/content.ts` | Content TypeScript types |
-| `src/content/data/*.json` | Site copy and fixtures |
-| `src/content/repository/` | Content access (`getSiteContent`, blog, projects) |
-| `src/content/services/` | `resolveSiteContentForHost`, display-name helpers |
-| `src/components/` | Layout, sections, story, blog, projects |
-| `src/styles/jtash.css` | Theme tokens, story bands, textures |
-| `src/lib/get-request-site-content.ts` | Per-request host → content |
+| `src/app/layout.tsx` | Root document, metadata, provider stack |
+| `src/app/page.tsx` | Home route (currently empty) |
+| `src/app/globals.css` | Tailwind wiring + token-to-utility mapping |
+| `src/components/providers.tsx` | TokenProvider → ThemeProvider → ThemeColorSync → Toaster |
+| `src/components/token-style.tsx` | SSR token variables (first child of `<body>`) |
+| `src/components/shell/` | Statusline (product component) |
+| `src/theme/claude-code.ts` | Brand palette: authored scheme, type families, radii |
+| `src/theme/claude-code.css` | Dark surface stack under `html.dark` |
+| `context/` | Product brief, design language, section specs |
+
+## Conventions
+
+- Import UI from `@manovaspace/ui` only. Never `lucide-react`, `react-icons`, Radix
+  primitives, or `packages/ui/src/primitives`.
+- Product/domain components live in `src/components/`; anything reusable belongs in
+  the design system.
+- One `Toaster` per app (already mounted in `providers.tsx`). Use `toast()` for
+  transient feedback, `Dialog` for reversible flows, `AlertDialog` for confirmations.
+- Internal navigation uses `next/link`.
+- Copy lives in content/data files, never hardcoded in components.
+- Asset references must point at files that exist in `public/` or `src/`.
+
+## CSS import order (do not reorder)
+
+`@manovaspace/ui/styles.css` is a **precompiled Tailwind sheet**. Import it before
+`tailwindcss`, otherwise its base utilities (`.hidden`, `.md:*`) override the app's
+responsive variants and every `sm:`/`lg:`/`xl:` class silently stops working.
+
+Tokens are full color values. Never redefine `--background`-style variables as bare
+HSL triplets; brand overrides go through `TokenProvider` / token files.
+
+## Palette (Claude Code)
+
+Charcoal canvas `#1f1e1d`, cream ink `#f0eee6`, clay accent `#d97757`, sage state `#8fbf7f`;
+surfaces step by tone (`#262624` bar, `#2b2a27` raised, `#3a3835` hairline). Exactly two filled
+blocks on the statusline: sage for the active view, clay for the position. Accent elsewhere is
+limited to the caret, focus rings and selection. Dark is forced for v1.
+
+Theme split: `claude-code.ts` authors the light scheme (the token resolver derives dark by
+inverting lightness), `claude-code.css` corrects the dark surface stack under `html.dark`, which
+outranks the runtime-injected `.dark` block.
+
+<!-- BEGIN:nextjs-agent-rules -->
+
+## This is NOT the Next.js you know
+
+This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
+
+This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
+
+<!-- END:nextjs-agent-rules -->
