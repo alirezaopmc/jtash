@@ -1,3 +1,12 @@
+---
+read_with:
+  - handbook/docs/clients/jtash/overview.md
+  - handbook/docs/clients/jtash/products/frontend/overview.md
+  - handbook/docs/orbit/guides/client-ui-conventions.md
+  - handbook/docs/orbit/guides/locale-data-display.md
+  - handbook/docs/orbit/guides/orbit-component-architecture.md
+---
+
 # jtash-frontend
 
 Personal site for Jay Tash / Alireza Jafartash. Production domain: `jtash.ir`.
