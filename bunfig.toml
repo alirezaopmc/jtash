@@ -2,3 +2,23 @@
 # Keep packages in node_modules. bun's global store links them to a cache outside the
 # repo, and Turbopack panics on module paths outside the project root.
 globalStore = false
+# Hold newly published versions for 3 days (259200 seconds) before installing them.
+minimumReleaseAge = 259200
+# Our own packages are trusted and adopted immediately.
+minimumReleaseAgeExcludes = [
+  "@manovaspace/ui",
+  "@manovaspace/tokens",
+  "@manovaspace/devtools",
+  "@manovaspace/versioning",
+  "@manovaspace/utils",
+  "@manovaspace/pwa",
+  "@manovaspace/observability",
+  "@manovaspace/markdown",
+  # Exact versions required by @manovaspace/ui@1.0.0 that were published less than
+  # 3 days before this change. Only these builds are exempt; every other version of
+  # the package still goes through the age gate. Drop them once they age out.
+  "lucide-react@1.66.0",
+  "framer-motion@14.9.0",
+  "motion-dom@14.9.0",
+  "motion-utils@14.7.0",
+]

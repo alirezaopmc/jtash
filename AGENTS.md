@@ -61,6 +61,7 @@ Port **12000** is allocated to this project (ADR-006, client `n=2`).
 
 - Import UI from `@manovaspace/ui` only. Never `lucide-react`, `react-icons`, Radix
   primitives, or `packages/ui/src/primitives`.
+- Before writing UI, read `node_modules/@manovaspace/ui/dist/agents/index.md`.
 - Product/domain components live in `src/components/`; anything reusable belongs in
   the design system.
 - One `Toaster` per app (already mounted in `providers.tsx`). Use `toast()` for
