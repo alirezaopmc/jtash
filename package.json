@@ -15,7 +15,7 @@
     "@fontsource/jetbrains-mono": "^5.3.0",
     "@hookform/resolvers": "^5.9.1",
     "@manovaspace/tokens": "^1.0.0",
-    "@manovaspace/ui": "^1.0.0",
+    "@manovaspace/ui": "^1.2.0",
     "next": "16.4.3",
     "react": "19.3.1",
     "react-dom": "19.3.1",
