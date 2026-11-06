@@ -42,6 +42,12 @@ export function scrollToPillar(i: number) {
   scrollTo({ top, behavior: "smooth" });
 }
 
+const SCENE_OPACITIES: { input: number[]; output: number[] }[] = [
+  { input: [0.05, 0.08, 0.35, 0.37], output: [0, 1, 1, 0] },
+  { input: [0.38, 0.4, 0.66, 0.68], output: [0, 1, 1, 0] },
+  { input: [0.69, 0.71, 1], output: [0, 1, 1] },
+];
+
 function Scene({
   index,
   p,
@@ -50,6 +56,7 @@ function Scene({
   reduced,
   narrow,
   Component,
+  onJumpToLayer,
 }: {
   index: number;
   p: MotionValue<number>;
@@ -58,18 +65,15 @@ function Scene({
   reduced: boolean;
   narrow: boolean;
   Component: ComponentType<SceneProps>;
+  onJumpToLayer?: (at: number) => void;
 }) {
-  const [a, b] = SEGMENTS[index];
   const [s0, s1] = STORY[index];
   const scrubT = useTransform(smooth, [s0, s1], [0, 1], { clamp: true });
   const fullT = useMotionValue(1);
-  const opacity = useTransform(
-    p,
-    index === 2
-      ? [a - 0.025, a + 0.01, 1]
-      : [Math.max(0, a - 0.025), a + 0.01, b - 0.01, b + 0.025],
-    index === 2 ? [0, 1, 1] : [0, 1, 1, 0],
-  );
+  const opacityConfig = SCENE_OPACITIES[index];
+  const opacity = useTransform(p, opacityConfig.input, opacityConfig.output, {
+    clamp: true,
+  });
   const isActive = active === index;
   return (
     <motion.div
@@ -86,6 +90,7 @@ function Scene({
         t={reduced ? fullT : scrubT}
         active={isActive}
         narrow={narrow}
+        onJumpToLayer={onJumpToLayer}
       />
     </motion.div>
   );
@@ -122,6 +127,15 @@ export function Pillars({ onActive }: { onActive: (i: number) => void }) {
   const titleY = useTransform(p, [0, INTRO], ["30svh", "0svh"]);
   const ruleOpacity = useTransform(p, [INTRO * 0.7, INTRO], [0, 1]);
 
+  const handleJumpToLayer = (layerAt: number) => {
+    const el = ref.current;
+    if (!el) return;
+    const [s0, s1] = STORY[2];
+    const targetP = s0 + layerAt * (s1 - s0) + 0.005;
+    const top = el.offsetTop + targetP * (el.offsetHeight - window.innerHeight);
+    window.scrollTo({ top, behavior: "smooth" });
+  };
+
   const scenes: ComponentType<SceneProps>[] = [
     TrustSelfHealing,
     ClarityUntangle,
@@ -157,6 +171,7 @@ export function Pillars({ onActive }: { onActive: (i: number) => void }) {
               reduced={reduced}
               narrow={narrow}
               Component={Component}
+              onJumpToLayer={i === 2 ? handleJumpToLayer : undefined}
             />
           ))}
         </div>

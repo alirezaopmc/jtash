@@ -4,6 +4,7 @@ export type Experience = {
   role: string;
   period: string;
   location: string;
+  country: string;
   mode?: string;
   start: [year: number, month: number];
   end: [year: number, month: number] | null;
@@ -21,6 +22,7 @@ export const experiences: Experience[] = [
     role: "Software Engineer",
     period: "Aug 2025 — Mar 2026",
     location: "Istanbul, Türkiye",
+    country: "TR",
     mode: "Remote · Full-time",
     start: [2025, 8],
     end: [2026, 3],
@@ -50,6 +52,7 @@ export const experiences: Experience[] = [
     role: "Software Engineer",
     period: "May 2025 — Jul 2025",
     location: "Tehran, Iran",
+    country: "IR",
     mode: "Full-time",
     start: [2025, 5],
     end: [2025, 7],
@@ -68,6 +71,7 @@ export const experiences: Experience[] = [
     role: "Software Engineer",
     period: "Feb 2024 — Oct 2024",
     location: "Toronto, Canada",
+    country: "CA",
     mode: "Remote · Full-time",
     start: [2024, 2],
     end: [2024, 10],
@@ -87,6 +91,7 @@ export const experiences: Experience[] = [
     role: "Software Engineer",
     period: "May 2022 — Dec 2023",
     location: "Tehran, Iran",
+    country: "IR",
     start: [2022, 5],
     end: [2023, 12],
     logo: "/logos/experience/ravindex.png",
@@ -113,6 +118,7 @@ export const experiences: Experience[] = [
     role: "Research & Development Intern",
     period: "Aug 2021 — Jul 2022",
     location: "California, US",
+    country: "US",
     mode: "Remote",
     start: [2021, 8],
     end: [2022, 7],
@@ -125,9 +131,49 @@ export const experiences: Experience[] = [
     ],
     tools: ["Node.js", "D3.js", "Data Visualization", "AI"],
   },
+  {
+    id: "cubecraft",
+    company: "CubeCraft",
+    role: "Game Developer",
+    period: "Sep 2016 — Aug 2017",
+    location: "London, UK",
+    country: "UK",
+    mode: "Remote",
+    start: [2016, 9],
+    end: [2017, 8],
+    logo: "/logos/experience/cubecraft.png",
+    color: "#3BA9FF",
+    summary:
+      "Core gameplay mechanics and scalable minigame systems for a premier global Minecraft server network.",
+    highlights: [
+      "Built customizable and maintainable Spigot game mode plugins handling high concurrency.",
+      "Designed state machines with 50+ states and 100+ transitions to manage complex gameplay loops.",
+      "Implemented over 300 event listeners and schedulers to optimize real-time tick performance.",
+      "Debugged and enhanced low-level libraries in the core Java codebase.",
+    ],
+    tools: ["Java", "Spigot API", "PaperMC", "MongoDB", "Event-Driven"],
+  },
 ];
 
-export const timelineYears = [2021, 2022, 2023, 2024, 2025, 2026] as const;
+export type TimelineColumn =
+  | { type: "year"; year: number }
+  | { type: "separator"; label: string; years: number[] };
+
+export const timelineColumns: TimelineColumn[] = [
+  { type: "year", year: 2016 },
+  { type: "year", year: 2017 },
+  { type: "separator", label: "···", years: [2018, 2019, 2020] },
+  { type: "year", year: 2021 },
+  { type: "year", year: 2022 },
+  { type: "year", year: 2023 },
+  { type: "year", year: 2024 },
+  { type: "year", year: 2025 },
+  { type: "year", year: 2026 },
+];
+
+export const timelineYears = [
+  2016, 2017, 2021, 2022, 2023, 2024, 2025, 2026,
+] as const;
 
 export function activeInMonth(
   experience: Experience,
