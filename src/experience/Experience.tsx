@@ -3,7 +3,7 @@ import {
   activeInMonth,
   type Experience as ExperienceType,
   experiences,
-  timelineColumns,
+  timelineYears,
 } from "./data";
 import { CountryBadge, ToolIcon } from "./icons";
 
@@ -57,7 +57,7 @@ function RoleCard({
   return (
     <article
       id={`exp-${experience.id}`}
-      className={`scroll-mt-52 relative overflow-hidden rounded-xl border transition-all duration-300 ${
+      className={`scroll-mt-36 relative overflow-hidden rounded-xl border transition-all duration-300 ${
         isActive
           ? "border-white/20 bg-panel/90 shadow-2xl ring-1 ring-white/10"
           : "border-white/[0.07] bg-panel/50 opacity-80 hover:opacity-100 hover:border-white/15"
@@ -150,6 +150,12 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
   const isManualScrolling = useRef(false);
   const manualScrollTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
 
+  const activeIndex = Math.max(
+    0,
+    experiences.findIndex((e) => e.id === selectedId),
+  );
+  const activeExp = experiences[activeIndex] ?? experiences[0];
+
   const scrollToExperience = (id: string) => {
     setSelectedId(id);
     isManualScrolling.current = true;
@@ -177,7 +183,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
     return () => observer.disconnect();
   }, [onVisible]);
 
-  // Scroll spy to update active experience in sticky timeline bar
+  // Scroll spy to update active experience in sticky header
   useEffect(() => {
     const handleScroll = () => {
       if (isManualScrolling.current) return;
@@ -193,7 +199,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
         if (!el) continue;
         const rect = el.getBoundingClientRect();
 
-        if (rect.top <= triggerY + 60 && rect.bottom >= triggerY) {
+        if (rect.top <= triggerY + 80 && rect.bottom >= triggerY) {
           currentId = exp.id;
           hasMatch = true;
           break;
@@ -223,7 +229,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
         {/* Section Header */}
         <div className="border-b border-white/10 pb-6 mb-8">
           <div className="text-[11px] tracking-[0.14em] text-claude uppercase font-mono">
-            02 · Work
+            02 · Experience
           </div>
           <div className="mt-3 flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
@@ -231,89 +237,37 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
                 Experience timeline.
               </h2>
               <p className="mt-3 max-w-2xl text-[13px] leading-relaxed text-muted md:text-[15px]">
-                Every cell is one month. Select a company or scroll through to
-                inspect the work behind it.
+                Every square cell is one month. Select a company or scroll
+                through to inspect the work behind it.
               </p>
             </div>
             <p className="text-[11px] font-mono text-dim">
-              month by month · 2016 → 2026
+              month by month · 2016 → 2026 (full)
             </p>
           </div>
         </div>
 
-        {/* Sticky Compact Timeline Bar */}
-        <div className="sticky top-14 z-20 mb-10 w-full">
-          <div className="w-full rounded-2xl border border-white/10 bg-void/85 p-3.5 backdrop-blur-md shadow-2xl transition-all md:p-4">
-            {/* Header / Company Quick Navigation */}
-            <div className="flex flex-wrap items-center justify-between gap-2 border-b border-white/[0.08] pb-3">
-              <div className="flex flex-wrap items-center gap-1.5 md:gap-2">
-                {experiences.map((exp) => {
-                  const isActive = exp.id === selectedId;
-                  return (
-                    <button
-                      key={exp.id}
-                      type="button"
-                      onClick={() => scrollToExperience(exp.id)}
-                      className={`group flex cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-mono transition-all md:text-[12px] ${
-                        isActive
-                          ? "bg-white/[0.09] text-fg shadow-sm ring-1 ring-white/20"
-                          : "text-muted hover:bg-white/[0.04] hover:text-fg"
-                      }`}
-                    >
-                      <span
-                        className="size-2 rounded-full transition-transform group-hover:scale-125"
-                        style={{
-                          background: exp.color,
-                          boxShadow: isActive ? `0 0 8px ${exp.color}` : "none",
-                          opacity: isActive ? 1 : 0.6,
-                        }}
-                      />
-                      <span className="font-medium">{exp.company}</span>
-                    </button>
-                  );
-                })}
-              </div>
+        {/* NON-STICKY Experience Bars: Full 2016-2026 with SQUARE cells */}
+        <div className="mb-10 w-full rounded-2xl border border-white/10 bg-panel/40 p-4 md:p-6 backdrop-blur-sm">
+          <div className="mb-4 flex items-center justify-between">
+            <span className="text-[10px] tracking-[0.18em] text-muted uppercase font-mono">
+              Monthly Timeline Grid · 2016 → 2026
+            </span>
+            <span className="text-[10px] text-dim font-mono hidden sm:inline">
+              hover square for month · click to inspect
+            </span>
+          </div>
 
-              <div className="hidden text-[10px] text-dim sm:flex items-center gap-3">
-                <span className="font-mono">2016 → 2026</span>
-                <span>·</span>
-                <span>click month or tag to jump</span>
-              </div>
-            </div>
-
-            {/* Calendar Matrix: Fills full width, compact height */}
-            <div className="no-scrollbar mt-3 overflow-x-auto pb-1">
-              <div className="flex min-w-[580px] md:min-w-0 w-full items-stretch gap-1 md:gap-1.5">
-                {timelineColumns.map((col, colIdx) => {
-                  if (col.type === "separator") {
-                    return (
-                      <div
-                        key={`sep-${colIdx}`}
-                        className="flex w-6 shrink-0 flex-col items-center justify-between px-0.5 select-none md:w-8"
-                        title="2018 — 2020: Academic Study / Gap"
-                      >
-                        <div className="flex h-full flex-col items-center justify-center gap-1.5 py-1">
-                          <span className="size-1 rounded-full bg-white/20" />
-                          <span className="size-1 rounded-full bg-white/20" />
-                          <span className="size-1 rounded-full bg-white/20" />
-                        </div>
-                        <span className="mt-1 text-[9px] font-mono text-dim md:text-[10px]">
-                          ···
-                        </span>
-                      </div>
-                    );
-                  }
-
-                  const year = col.year;
+          <div className="no-scrollbar overflow-x-auto pb-2">
+            <div className="min-w-[720px] w-full">
+              <div className="grid grid-cols-11 gap-2 md:gap-3">
+                {timelineYears.map((year) => {
                   const months = Array.from({ length: 12 }, (_, i) => i + 1);
 
                   return (
-                    <div
-                      key={year}
-                      className="flex flex-1 min-w-0 flex-col items-center"
-                    >
-                      {/* jtash calendar model: 2 columns x 6 rows (months 1-6 left, 7-12 right) */}
-                      <div className="grid w-full grid-flow-col grid-cols-2 grid-rows-6 gap-0.5 md:gap-1">
+                    <div key={year} className="flex flex-col items-center">
+                      {/* 2 columns x 6 rows of perfectly square cells */}
+                      <div className="grid w-full grid-flow-col grid-cols-2 grid-rows-6 gap-1">
                         {months.map((month) => {
                           const active = experiences.filter((exp) =>
                             activeInMonth(exp, year, month),
@@ -350,12 +304,12 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
                                   ? `: ${active.map((e) => e.company).join(" + ")}`
                                   : ""
                               }`}
-                              className={`h-2.5 sm:h-3 md:h-3.5 w-full rounded-[2px] border transition-all ${
+                              className={`aspect-square w-full rounded-[2px] border transition-all ${
                                 !hasActive
-                                  ? "cursor-default border-white/[0.03]"
+                                  ? "cursor-default border-white/[0.04] bg-white/[0.02]"
                                   : isCurrentRoleActive
-                                    ? "cursor-pointer border-white/40 ring-1 ring-white/30 brightness-110 scale-[1.04] z-10"
-                                    : "cursor-pointer border-white/[0.06] hover:brightness-125 hover:scale-105"
+                                    ? "cursor-pointer border-white/40 ring-1 ring-white/30 brightness-110 scale-[1.08] z-10"
+                                    : "cursor-pointer border-white/[0.08] hover:brightness-125 hover:scale-105"
                               }`}
                               style={{
                                 background: bg,
@@ -374,7 +328,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
 
                       {/* Year label below */}
                       <span
-                        className={`mt-1.5 text-[9px] font-mono tracking-wider transition-colors md:text-[10px] ${
+                        className={`mt-2 text-[10px] font-mono tracking-wider transition-colors ${
                           experiences.some(
                             (e) =>
                               e.id === selectedId &&
@@ -394,7 +348,98 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
           </div>
         </div>
 
-        {/* Stacked Job Cards Below Timeline */}
+        {/* STICKY HEADER for Experience (like Part 01): [] [] [] experience · 0X/06 · Company + first row of cards */}
+        <div className="sticky top-12 md:top-14 z-20 -mx-5 px-5 py-3.5 mb-8 rounded-2xl border border-white/10 bg-void/90 backdrop-blur-md shadow-2xl transition-all md:-mx-6 md:px-6">
+          {/* Row 1: Stage indicator squares + counter + 02 · Experience */}
+          <div className="flex flex-wrap items-center justify-between gap-3 text-[12px] text-muted md:text-[13px]">
+            <div className="flex items-center gap-3">
+              {/* 6 Square Indicators */}
+              <div
+                className="flex gap-1.5"
+                role="tablist"
+                aria-label="Experience stages"
+              >
+                {experiences.map((exp, idx) => {
+                  const isSelected = exp.id === selectedId;
+                  const isPassedOrCurrent = idx <= activeIndex;
+                  return (
+                    <button
+                      key={exp.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={isSelected}
+                      aria-label={`${exp.company}: ${exp.role}`}
+                      onClick={() => scrollToExperience(exp.id)}
+                      className="group grid size-4 cursor-pointer place-items-center"
+                    >
+                      <span
+                        className="block size-2.5 border transition-all duration-300 group-hover:scale-125 rounded-[2px]"
+                        style={{
+                          borderColor: exp.color,
+                          background: isPassedOrCurrent
+                            ? exp.color
+                            : "transparent",
+                          opacity: isSelected ? 1 : 0.45,
+                          boxShadow: isSelected
+                            ? `0 0 6px ${exp.color}`
+                            : "none",
+                        }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+
+              <span className="font-mono text-[11px] sm:text-[12px]">
+                experience · 0{activeIndex + 1}/0{experiences.length} ·{" "}
+                <span className="font-semibold text-fg">
+                  {activeExp.company}
+                </span>
+              </span>
+            </div>
+
+            <div className="text-[11px] tracking-[0.14em] text-claude uppercase font-mono font-bold">
+              02 · Experience
+            </div>
+          </div>
+
+          {/* Row 2: First row of the Cards (Company Navigation Chips) */}
+          <div className="mt-3 flex items-center justify-between gap-2 overflow-x-auto no-scrollbar border-t border-white/[0.08] pt-2.5">
+            <div className="flex items-center gap-1.5 md:gap-2">
+              {experiences.map((exp) => {
+                const isActive = exp.id === selectedId;
+                return (
+                  <button
+                    key={exp.id}
+                    type="button"
+                    onClick={() => scrollToExperience(exp.id)}
+                    className={`group flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-mono transition-all md:text-[12px] ${
+                      isActive
+                        ? "bg-white/[0.12] text-fg shadow-sm ring-1 ring-white/20"
+                        : "text-muted hover:bg-white/[0.04] hover:text-fg"
+                    }`}
+                  >
+                    <span
+                      className="size-2 rounded-full transition-transform group-hover:scale-125"
+                      style={{
+                        background: exp.color,
+                        boxShadow: isActive ? `0 0 8px ${exp.color}` : "none",
+                        opacity: isActive ? 1 : 0.6,
+                      }}
+                    />
+                    <span className="font-medium">{exp.company}</span>
+                  </button>
+                );
+              })}
+            </div>
+
+            <span className="hidden text-[11px] text-dim font-mono lg:inline">
+              {activeExp.role} · {activeExp.period}
+            </span>
+          </div>
+        </div>
+
+        {/* Stacked Job Cards Below Sticky Header */}
         <div className="space-y-6">
           {experiences.map((experience) => (
             <div

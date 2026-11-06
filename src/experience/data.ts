@@ -155,24 +155,8 @@ export const experiences: Experience[] = [
   },
 ];
 
-export type TimelineColumn =
-  | { type: "year"; year: number }
-  | { type: "separator"; label: string; years: number[] };
-
-export const timelineColumns: TimelineColumn[] = [
-  { type: "year", year: 2016 },
-  { type: "year", year: 2017 },
-  { type: "separator", label: "···", years: [2018, 2019, 2020] },
-  { type: "year", year: 2021 },
-  { type: "year", year: 2022 },
-  { type: "year", year: 2023 },
-  { type: "year", year: 2024 },
-  { type: "year", year: 2025 },
-  { type: "year", year: 2026 },
-];
-
 export const timelineYears = [
-  2016, 2017, 2021, 2022, 2023, 2024, 2025, 2026,
+  2016, 2017, 2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026,
 ] as const;
 
 export function activeInMonth(

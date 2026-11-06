@@ -14,7 +14,6 @@ export function HeaderBlock() {
       <div>
         <div className="font-bold text-fg">{identity.name}</div>
         <div className="text-muted">{identity.role}</div>
-        <div className="text-muted">{identity.path}</div>
       </div>
     </div>
   );
