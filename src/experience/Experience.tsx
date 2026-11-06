@@ -1,3 +1,4 @@
+import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import {
   activeInMonth,
@@ -6,6 +7,13 @@ import {
   timelineYears,
 } from "./data";
 import { CountryBadge, ToolIcon } from "./icons";
+
+interface HoveredCellInfo {
+  year: number;
+  month: number;
+  experiences: ExperienceType[];
+  rect: DOMRect;
+}
 
 function CompanyLogo({ experience }: { experience: ExperienceType }) {
   return (
@@ -145,6 +153,7 @@ function RoleCard({
 
 export function Experience({ onVisible }: { onVisible?: () => void }) {
   const [selectedId, setSelectedId] = useState(experiences[0].id);
+  const [hoveredCell, setHoveredCell] = useState<HoveredCellInfo | null>(null);
   const sectionRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<Record<string, HTMLElement | null>>({});
   const isManualScrolling = useRef(false);
@@ -183,9 +192,13 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
     return () => observer.disconnect();
   }, [onVisible]);
 
-  // Scroll spy to update active experience in sticky header
+  // Scroll spy to update active experience in sticky header + clear hovered tooltip
   useEffect(() => {
     const handleScroll = () => {
+      if (hoveredCell) {
+        setHoveredCell(null);
+      }
+
       if (isManualScrolling.current) return;
 
       const triggerY = 220;
@@ -217,7 +230,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
 
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [hoveredCell]);
 
   return (
     <section
@@ -237,8 +250,9 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
                 Experience timeline.
               </h2>
               <p className="mt-3 max-w-2xl text-[13px] leading-relaxed text-muted md:text-[15px]">
-                Every square cell is one month. Select a company or scroll
-                through to inspect the work behind it.
+                Every square cell is one month. Hover a cell to preview the
+                month and company, or select a role to inspect the work behind
+                it.
               </p>
             </div>
             <p className="text-[11px] font-mono text-dim">
@@ -253,9 +267,41 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
             <span className="text-[10px] tracking-[0.18em] text-muted uppercase font-mono">
               Monthly Timeline Grid · 2016 → 2026
             </span>
-            <span className="text-[10px] text-dim font-mono hidden sm:inline">
-              hover square for month · click to inspect
-            </span>
+            <div className="text-[11px] font-mono transition-colors">
+              {hoveredCell ? (
+                <span className="text-fg flex items-center gap-2">
+                  <span className="text-muted">
+                    {new Date(
+                      hoveredCell.year,
+                      hoveredCell.month - 1,
+                    ).toLocaleString("en", {
+                      month: "short",
+                    })}{" "}
+                    {hoveredCell.year}:
+                  </span>
+                  {hoveredCell.experiences.length > 0 ? (
+                    hoveredCell.experiences.map((e) => (
+                      <span
+                        key={e.id}
+                        className="font-semibold flex items-center gap-1.5"
+                      >
+                        <span
+                          className="size-1.5 rounded-full inline-block"
+                          style={{ background: e.color }}
+                        />
+                        <span style={{ color: e.color }}>{e.company}</span>
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-dim">No role</span>
+                  )}
+                </span>
+              ) : (
+                <span className="text-dim hidden sm:inline">
+                  hover square for month & company · click to inspect
+                </span>
+              )}
+            </div>
           </div>
 
           <div className="no-scrollbar overflow-x-auto pb-2">
@@ -294,11 +340,24 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
                                 hasActive &&
                                 scrollToExperience(active[active.length - 1].id)
                               }
-                              title={`${monthName} ${year}${
-                                hasActive
-                                  ? `: ${active.map((e) => e.company).join(" + ")}`
-                                  : ""
-                              }`}
+                              onPointerEnter={(e) => {
+                                setHoveredCell({
+                                  year,
+                                  month,
+                                  experiences: active,
+                                  rect: e.currentTarget.getBoundingClientRect(),
+                                });
+                              }}
+                              onPointerLeave={() => setHoveredCell(null)}
+                              onFocus={(e) => {
+                                setHoveredCell({
+                                  year,
+                                  month,
+                                  experiences: active,
+                                  rect: e.currentTarget.getBoundingClientRect(),
+                                });
+                              }}
+                              onBlur={() => setHoveredCell(null)}
                               aria-label={`${monthName} ${year}${
                                 hasActive
                                   ? `: ${active.map((e) => e.company).join(" + ")}`
@@ -347,6 +406,74 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
             </div>
           </div>
         </div>
+
+        {/* CUSTOM FLOATING TOOLTIP FOR TIMELINE CELLS */}
+        <AnimatePresence>
+          {hoveredCell && (
+            <motion.div
+              key={`${hoveredCell.year}-${hoveredCell.month}`}
+              initial={{ opacity: 0, y: 6, scale: 0.94 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.94 }}
+              transition={{ duration: 0.12, ease: "easeOut" }}
+              className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-full rounded-xl border border-white/15 bg-ink/95 px-3.5 py-2 shadow-2xl backdrop-blur-xl"
+              style={{
+                left: hoveredCell.rect.left + hoveredCell.rect.width / 2,
+                top: Math.max(64, hoveredCell.rect.top - 8),
+              }}
+            >
+              <div className="flex flex-col gap-1 whitespace-nowrap">
+                <div className="flex items-center justify-between gap-4 text-[10px] font-mono text-muted">
+                  <span>
+                    {new Date(
+                      hoveredCell.year,
+                      hoveredCell.month - 1,
+                    ).toLocaleString("en", {
+                      month: "long",
+                    })}{" "}
+                    {hoveredCell.year}
+                  </span>
+                  {hoveredCell.experiences.length > 0 && (
+                    <span className="text-[9px] text-dim font-mono">
+                      click to view
+                    </span>
+                  )}
+                </div>
+
+                {hoveredCell.experiences.length > 0 ? (
+                  <div className="flex flex-col gap-1 pt-0.5">
+                    {hoveredCell.experiences.map((exp) => (
+                      <div key={exp.id} className="flex items-center gap-2">
+                        <span
+                          className="size-2 rounded-full shrink-0"
+                          style={{
+                            background: exp.color,
+                            boxShadow: `0 0 6px ${exp.color}`,
+                          }}
+                        />
+                        <span className="text-[12px] font-semibold text-fg">
+                          {exp.company}
+                        </span>
+                        <span className="text-[11px] text-muted">
+                          · {exp.role}
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <span className="text-[11px] text-dim italic pt-0.5">
+                    No active role
+                  </span>
+                )}
+              </div>
+
+              {/* Downward pointer caret */}
+              <div className="absolute left-1/2 top-full -translate-x-1/2 border-4 border-transparent border-t-white/15">
+                <div className="absolute -top-4 -left-3.5 border-4 border-transparent border-t-ink/95" />
+              </div>
+            </motion.div>
+          )}
+        </AnimatePresence>
 
         {/* STICKY HEADER for Experience (like Part 01): [] [] [] experience · 0X/06 · Company + first row of cards */}
         <div className="sticky top-12 md:top-14 z-20 -mx-5 px-5 py-3.5 mb-8 rounded-2xl border border-white/10 bg-void/90 backdrop-blur-md shadow-2xl transition-all md:-mx-6 md:px-6">
