@@ -22,8 +22,8 @@ const LAYOUTS = {
     across: [90, 450],
     target: 270,
     statement: [
-      "People cancel because they",
-      "can't see where their courier is.",
+      "People leave because their",
+      "requirements are not recognized.",
     ],
   },
   narrow: {
@@ -33,9 +33,9 @@ const LAYOUTS = {
     across: [80, 520],
     target: 300,
     statement: [
-      "People cancel because",
-      "they can't see where",
-      "their courier is.",
+      "People leave because",
+      "their requirements",
+      "are not recognized.",
     ],
   },
 };
@@ -164,13 +164,19 @@ export function ClarityUntangle({ t: tv, active, narrow }: SceneProps) {
             {line}
           </text>
         ))}
-        <rect
-          x={vw / 2 - textW(L.statement[0], sFs) / 2}
-          y={sY + (L.statement.length - 1) * sFs * 1.35 + 14 * k}
-          width={textW(L.statement[0], sFs) * ease(range(t, 0.84, 0.95))}
-          height={2 * k}
-          fill={C.clarity}
-        />
+        {(() => {
+          const lastLine = L.statement[L.statement.length - 1];
+          const fullW = textW(lastLine, sFs);
+          return (
+            <rect
+              x={vw / 2 - fullW / 2}
+              y={sY + (L.statement.length - 1) * sFs * 1.35 + 14 * k}
+              width={fullW * ease(range(t, 0.84, 0.95))}
+              height={2 * k}
+              fill={C.clarity}
+            />
+          );
+        })()}
       </g>
     </svg>
   );

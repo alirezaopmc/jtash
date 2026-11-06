@@ -5,6 +5,7 @@ export type SceneProps = {
   t: MotionValue<number>;
   active: boolean;
   narrow: boolean;
+  onJumpToLayer?: (at: number) => void;
 };
 
 export const C = {
