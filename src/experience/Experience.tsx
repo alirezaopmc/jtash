@@ -1,5 +1,6 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { SectionProgressSquares } from "../components/SectionProgressSquares";
 import {
   activeInMonth,
   type Experience as ExperienceType,
@@ -154,6 +155,7 @@ function RoleCard({
 export function Experience({ onVisible }: { onVisible?: () => void }) {
   const [selectedId, setSelectedId] = useState(experiences[0].id);
   const [hoveredCell, setHoveredCell] = useState<HoveredCellInfo | null>(null);
+  const [isDocked, setIsDocked] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<Record<string, HTMLElement | null>>({});
   const isManualScrolling = useRef(false);
@@ -164,6 +166,12 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
     experiences.findIndex((e) => e.id === selectedId),
   );
   const activeExp = experiences[activeIndex] ?? experiences[0];
+
+  const expSquareItems = experiences.map((exp) => ({
+    id: exp.id,
+    label: `${exp.company}: ${exp.role}`,
+    color: exp.color,
+  }));
 
   const scrollToExperience = (id: string) => {
     setSelectedId(id);
@@ -192,11 +200,16 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
     return () => observer.disconnect();
   }, [onVisible]);
 
-  // Scroll spy to update active experience in sticky header + clear hovered tooltip
+  // Scroll spy to update active experience in sticky header + clear hovered tooltip + track isDocked
   useEffect(() => {
     const handleScroll = () => {
       if (hoveredCell) {
         setHoveredCell(null);
+      }
+
+      if (sectionRef.current) {
+        const rect = sectionRef.current.getBoundingClientRect();
+        setIsDocked(rect.top <= 10);
       }
 
       if (isManualScrolling.current) return;
@@ -228,6 +241,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
       setSelectedId(hasMatch ? currentId : closestId);
     };
 
+    handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, [hoveredCell]);
@@ -237,104 +251,120 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
       {/* STATIC FULL-SECTION STICKY HEADER (matching Capabilities style) */}
       <header className="sticky top-0 z-30 w-full border-b border-white/10 bg-void/90 px-5 pt-6 pb-4 backdrop-blur-md md:px-10 md:pt-8 md:pb-5">
         <div className="mx-auto w-full max-w-[1200px]">
-          {/* Row 1: Colored Squares + Section Word + Track Badge */}
-          <div className="mb-2.5 flex items-center justify-between text-[12px] text-muted md:mb-3 md:text-[13px]">
-            <div className="flex items-center gap-3">
-              {/* Colored square indicator tabs */}
-              <div
-                className="flex gap-1.5"
-                role="tablist"
-                aria-label="Experience stages"
+          <AnimatePresence mode="wait">
+            {!isDocked ? (
+              <motion.div
+                key="pre-dock-exp"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{
+                  opacity: 0,
+                  scale: 0.7,
+                  x: 80,
+                  transition: { duration: 0.22, ease: "easeIn" },
+                }}
+                transition={{ duration: 0.25 }}
+                className="flex flex-col gap-3 py-2"
               >
-                {experiences.map((exp, idx) => {
-                  const isSelected = exp.id === selectedId;
-                  const isPassedOrCurrent = idx <= activeIndex;
-                  return (
-                    <button
-                      key={exp.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={isSelected}
-                      aria-label={`${exp.company}: ${exp.role}`}
-                      onClick={() => scrollToExperience(exp.id)}
-                      className="group grid size-4 cursor-pointer place-items-center"
-                    >
-                      <span
-                        className="block size-2.5 border transition-all duration-300 group-hover:scale-125 rounded-[2px]"
-                        style={{
-                          borderColor: exp.color,
-                          background: isPassedOrCurrent
-                            ? exp.color
-                            : "transparent",
-                          opacity: isSelected
-                            ? 1
-                            : idx < activeIndex
-                              ? 0.45
-                              : 0.6,
-                          boxShadow: isSelected
-                            ? `0 0 6px ${exp.color}`
-                            : "none",
-                        }}
-                      />
-                    </button>
-                  );
-                })}
-              </div>
-
-              <span>
-                experience ·{" "}
-                <span className="font-semibold text-fg">
-                  {activeExp.company}
-                </span>
-              </span>
-            </div>
-
-            <div className="text-[11px] tracking-[0.14em] text-claude uppercase font-mono font-bold">
-              02 · Experience
-            </div>
-          </div>
-
-          {/* Row 2: Title */}
-          <h2 className="text-[clamp(1.7rem,4.6vw,3.9rem)] leading-[1.06] font-bold tracking-[-0.035em] text-fg">
-            Experience timeline.
-          </h2>
-
-          {/* Row 3: Subtitle / Active Role + First Row of Cards (Company Chips) */}
-          <div className="mt-2.5 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between md:mt-3">
-            <p className="text-[13px] text-muted md:text-[14px]">
-              <span style={{ color: activeExp.color }}>→ </span>
-              {activeExp.role} · {activeExp.period} ({activeExp.location})
-            </p>
-
-            {/* First row of the Cards: Company Navigation Chips */}
-            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar md:gap-2">
-              {experiences.map((exp) => {
-                const isActive = exp.id === selectedId;
-                return (
-                  <button
-                    key={exp.id}
-                    type="button"
-                    onClick={() => scrollToExperience(exp.id)}
-                    className={`group flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-mono transition-all md:text-[12px] ${
-                      isActive
-                        ? "bg-white/[0.12] text-fg shadow-sm ring-1 ring-white/20"
-                        : "text-muted hover:bg-white/[0.04] hover:text-fg"
-                    }`}
-                  >
-                    <span
-                      className="size-2 rounded-full transition-transform group-hover:scale-125"
-                      style={{
-                        background: exp.color,
-                        boxShadow: isActive ? `0 0 8px ${exp.color}` : "none",
-                        opacity: isActive ? 1 : 0.6,
-                      }}
+                <h2 className="text-[clamp(2.2rem,5.5vw,4.2rem)] font-bold tracking-[-0.04em] text-fg">
+                  <span className="font-mono text-claude">#</span> 02
+                  Experiences
+                </h2>
+                <div className="h-px w-full bg-white/10" />
+              </motion.div>
+            ) : (
+              <motion.div
+                key="docked-exp"
+                initial={{ opacity: 0, y: 8 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -6 }}
+                transition={{ duration: 0.25 }}
+                className="flex flex-col"
+              >
+                {/* Row 1: Colored Squares + Active Company on left | Shrunk Badge on right */}
+                <div className="mb-2.5 flex items-center justify-between text-[12px] text-muted md:mb-3 md:text-[13px]">
+                  <div className="flex items-center gap-2.5">
+                    <SectionProgressSquares
+                      items={expSquareItems}
+                      activeIndex={activeIndex}
+                      isDocked={isDocked}
+                      onSelect={(idx) =>
+                        scrollToExperience(experiences[idx].id)
+                      }
                     />
-                    <span className="font-medium">{exp.company}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </div>
+                    <span className="font-mono text-fg/90">
+                      ·{" "}
+                      <span className="font-semibold text-fg">
+                        {activeExp.company}
+                      </span>
+                    </span>
+                  </div>
+
+                  <motion.span
+                    initial={{ opacity: 0, scale: 1.5, x: -60 }}
+                    animate={{ opacity: 1, scale: 1, x: 0 }}
+                    transition={{ type: "spring", stiffness: 350, damping: 25 }}
+                    className="text-[11px] tracking-[0.14em] text-claude uppercase font-mono font-bold"
+                  >
+                    02 Experiences
+                  </motion.span>
+                </div>
+
+                {/* Row 2: Active Experience Slogan */}
+                <AnimatePresence mode="wait">
+                  <motion.h2
+                    key={activeExp.id}
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -6 }}
+                    transition={{ duration: 0.2 }}
+                    className="text-[clamp(1.7rem,4.6vw,3.9rem)] leading-[1.06] font-bold tracking-[-0.035em] text-fg"
+                  >
+                    {activeExp.slogan}
+                  </motion.h2>
+                </AnimatePresence>
+
+                {/* Row 3: Subtitle / Active Role + First Row of Cards (Company Chips) */}
+                <div className="mt-2.5 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between md:mt-3">
+                  <p className="text-[13px] text-muted md:text-[14px]">
+                    <span style={{ color: activeExp.color }}>→ </span>
+                    {activeExp.role} · {activeExp.period} ({activeExp.location})
+                  </p>
+
+                  {/* First row of the Cards: Company Navigation Chips */}
+                  <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar md:gap-2">
+                    {experiences.map((exp) => {
+                      const isActive = exp.id === selectedId;
+                      return (
+                        <button
+                          key={exp.id}
+                          type="button"
+                          onClick={() => scrollToExperience(exp.id)}
+                          className={`group flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-mono transition-all md:text-[12px] ${
+                            isActive
+                              ? "bg-white/[0.12] text-fg shadow-sm ring-1 ring-white/20"
+                              : "text-muted hover:bg-white/[0.04] hover:text-fg"
+                          }`}
+                        >
+                          <span
+                            className="size-2 rounded-full transition-transform group-hover:scale-125"
+                            style={{
+                              background: exp.color,
+                              boxShadow: isActive
+                                ? `0 0 8px ${exp.color}`
+                                : "none",
+                              opacity: isActive ? 1 : 0.6,
+                            }}
+                          />
+                          <span className="font-medium">{exp.company}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
 
         {/* Gradient divider line at the bottom of the header */}

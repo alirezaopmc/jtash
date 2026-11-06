@@ -164,30 +164,50 @@ export function FeelingComesAlive({
     }
   };
 
-  // pointer tilt — only once the "motion" layer is on
-  const mx = useMotionValue(0);
-  const my = useMotionValue(0);
-  const rx = useSpring(useTransform(my, [-0.5, 0.5], [5, -5]), {
+  // pointer tilt & radial glow tracking
+  const tiltX = useMotionValue(0);
+  const tiltY = useMotionValue(0);
+  const rx = useSpring(useTransform(tiltY, [-0.5, 0.5], [5, -5]), {
     stiffness: 180,
     damping: 18,
   });
-  const ry = useSpring(useTransform(mx, [-0.5, 0.5], [-7, 7]), {
+  const ry = useSpring(useTransform(tiltX, [-0.5, 0.5], [-7, 7]), {
     stiffness: 180,
     damping: 18,
   });
-  const glowX = useTransform(mx, [-0.5, 0.5], ["10%", "90%"]);
-  const glowY = useTransform(my, [-0.5, 0.5], ["0%", "100%"]);
+
+  // Radial gradient memory: keeps position when mouse leaves, chases fast at start on re-entry
+  const glowTargetX = useMotionValue(0.5);
+  const glowTargetY = useMotionValue(0.5);
+  const smoothGlowX = useSpring(glowTargetX, {
+    stiffness: 320,
+    damping: 26,
+    mass: 0.5,
+  });
+  const smoothGlowY = useSpring(glowTargetY, {
+    stiffness: 320,
+    damping: 26,
+    mass: 0.5,
+  });
+  const glowX = useTransform(smoothGlowX, [0, 1], ["0%", "100%"]);
+  const glowY = useTransform(smoothGlowY, [0, 1], ["0%", "100%"]);
   const tiltOn = moves && !narrow;
 
   const onMove = (e: React.PointerEvent<HTMLDivElement>) => {
     if (!tiltOn) return;
     const r = e.currentTarget.getBoundingClientRect();
-    mx.set((e.clientX - r.left) / r.width - 0.5);
-    my.set((e.clientY - r.top) / r.height - 0.5);
+    const xRatio = Math.max(0, Math.min(1, (e.clientX - r.left) / r.width));
+    const yRatio = Math.max(0, Math.min(1, (e.clientY - r.top) / r.height));
+    tiltX.set(xRatio - 0.5);
+    tiltY.set(yRatio - 0.5);
+    glowTargetX.set(xRatio);
+    glowTargetY.set(yRatio);
   };
+
   const onLeave = () => {
-    mx.set(0);
-    my.set(0);
+    // Card tilt levels flat, but radial gradient remembers its exact exit position
+    tiltX.set(0);
+    tiltY.set(0);
   };
 
   const btnMotion = moves
