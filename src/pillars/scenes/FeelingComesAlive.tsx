@@ -335,7 +335,7 @@ export function FeelingComesAlive({
                 />
                 <span className="relative z-10 flex items-center justify-center font-semibold">
                   {type ? (
-                    "Hold to cancel"
+                    "Cancel"
                   ) : (
                     <span className="inline-block h-[0.6em] w-24 rounded-[2px] bg-white/15" />
                   )}
