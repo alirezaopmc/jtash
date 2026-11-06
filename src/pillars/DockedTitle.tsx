@@ -38,7 +38,7 @@ export function DockedTitle({
           ))}
         </div>
         <span>
-          capabilities · 0{active + 1}/03 ·{" "}
+          capabilities ·{" "}
           <MorphWord text={DISCIPLINE[active]} className="text-fg/80" />
         </span>
       </div>
