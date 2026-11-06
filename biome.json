@@ -10,11 +10,12 @@
     "includes": [
       "**",
       "!node_modules",
-      "!.next",
       "!dist",
       "!build",
       "!public",
-      "!**/*.md"
+      "!.figma",
+      "!**/*.md",
+      "!vite.config.ts"
     ]
   },
   "formatter": {
@@ -23,40 +24,16 @@
     "indentWidth": 2
   },
   "linter": {
-    "enabled": true,
-    "rules": {
-      "preset": "recommended",
-      "suspicious": {
-        "noUnknownAtRules": "off"
-      }
-    },
-    "domains": {
-      "next": "recommended",
-      "react": "recommended"
+    "enabled": false
+  },
+  "json": {
+    "parser": {
+      "allowComments": true
     }
   },
   "css": {
     "parser": {
       "tailwindDirectives": true
     }
-  },
-  "assist": {
-    "actions": {
-      "source": {
-        "organizeImports": "on"
-      }
-    }
-  },
-  "overrides": [
-    {
-      "includes": ["src/components/token-style.tsx"],
-      "linter": {
-        "rules": {
-          "security": {
-            "noDangerouslySetInnerHtml": "off"
-          }
-        }
-      }
-    }
-  ]
+  }
 }

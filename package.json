@@ -2,38 +2,29 @@
   "name": "jtash-frontend",
   "version": "1.0.0",
   "private": true,
+  "type": "module",
+  "packageManager": "bun@1.4.4",
   "scripts": {
-    "dev": "next dev --port 12000",
-    "build": "next build",
-    "start": "next start --port 12000",
+    "dev": "vite --port 12000",
+    "build": "vite build",
+    "preview": "vite preview --port 12000",
     "typecheck": "tsc --noEmit",
-    "lint": "biome check .",
-    "format": "biome format --write .",
-    "clean": "rm -rf .next"
+    "format": "oxfmt"
   },
   "dependencies": {
-    "@fontsource/jetbrains-mono": "^5.3.0",
-    "@hookform/resolvers": "^5.9.1",
-    "@manovaspace/tokens": "^1.0.0",
-    "@manovaspace/ui": "^1.2.0",
-    "next": "16.4.3",
-    "react": "19.3.1",
-    "react-dom": "19.3.1",
-    "react-hook-form": "^7.81.0",
-    "zod": "^4.6.7"
+    "motion": "^14.9.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@biomejs/biome": "^2.6.4",
-    "@manovaspace/tsconfig": "^0.1.2",
-    "@tailwindcss/postcss": "^4.3.2",
-    "@types/node": "^26.6.6",
-    "@types/react": "^19.3.0",
-    "@types/react-dom": "^19.3.0",
-    "tailwindcss": "^4.3.2",
-    "typescript": "^6.0.3"
-  },
-  "packageManager": "bun@1.4.4",
-  "engines": {
-    "node": ">=24"
+    "@tailwindcss/vite": "^4.0.0",
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^6.0.0",
+    "oxfmt": "^0.76.0",
+    "tailwindcss": "^4.0.0",
+    "typescript": "^5.7.0",
+    "vite": "^8.0.5"
   }
 }

@@ -1,101 +1,72 @@
 ---
-read_with:
-  - handbook/docs/clients/jtash/overview.md
-  - handbook/docs/clients/jtash/products/frontend/overview.md
-  - handbook/docs/orbit/guides/client-ui-conventions.md
-  - handbook/docs/orbit/guides/locale-data-display.md
-  - handbook/docs/orbit/guides/orbit-component-architecture.md
+read_with: []
 ---
 
 # jtash-frontend
 
 Personal site for Jay Tash / Alireza Jafartash. Production domain: `jtash.ir`.
 
-## State
+The frontend is the portfolio exported from Figma Make: a Vite + React single-page
+application. It replaced the previous Next.js shell.
 
-**Reset in `chore/reset-frontend`.** The previous portfolio was removed; this is a
-fresh Next.js app that renders an empty page. Product work (routes, content,
-branding) starts only when explicitly requested.
+## Stack
 
-**Product brief:** [`context/README.md`](context/README.md) holds the portfolio's
-decisions, layout, section specs and task slices. Read it before any product work.
-
-Deploys are intentionally off: the `deploy-production` job in
-`.forgejo/workflows/ci.yml` is gated on the repository variable
-`ENABLE_VERCEL_DEPLOY=true`. Nothing reaches `jtash.ir` until that is set.
+- Vite 8 with `@vitejs/plugin-react`
+- React 19 and React DOM 19
+- Tailwind CSS v4 through `@tailwindcss/vite`; theme tokens live in `src/index.css`
+- Motion (`motion/react`) for animation
+- TypeScript 5.7 in strict mode, formatted with oxfmt
 
 ## Commands
 
 ```bash
 bun install
-bun run dev      # http://localhost:12000
-bun run build
-bun run start
-bun run typecheck
-bun run lint
+bun run dev          # http://localhost:12000
+bun run build        # writes dist/
+bun run preview      # http://localhost:12000
+bun run typecheck    # tsc --noEmit
+bun run format       # oxfmt
 ```
 
 Port **12000** is allocated to this project (ADR-006, client `n=2`).
-
-## Stack
-
-- Next.js 16 App Router, React 19, Tailwind 4, TypeScript 6, Biome 2
-- `@manovaspace/ui` primitives, `@manovaspace/tokens` semantic tokens
-- Published npm versions of `@manovaspace/*` (no `link:` deps) so CI runners work
 
 ## Structure
 
 | Path | Role |
 |------|------|
-| `src/app/layout.tsx` | Root document, metadata, provider stack |
-| `src/app/page.tsx` | Home route (currently empty) |
-| `src/app/globals.css` | Tailwind wiring + token-to-utility mapping |
-| `src/components/providers.tsx` | TokenProvider → ThemeProvider → ThemeColorSync → Toaster |
-| `src/components/token-style.tsx` | SSR token variables (first child of `<body>`) |
-| `src/components/shell/` | Statusline (product component) |
-| `src/theme/claude-code.ts` | Brand palette: authored scheme, type families, radii |
-| `src/theme/claude-code.css` | Dark surface stack under `html.dark` |
-| `context/` | Product brief, design language, section specs |
+| `src/main.tsx` | React entrypoint; imports `src/index.css` and mounts `App` into `#root` |
+| `src/App.tsx` | Page composition and active-section state |
+| `src/SiteHeader.tsx` | Fixed navigation and section indicators |
+| `src/Background.tsx` | Ambient animated background driven by the active pillar |
+| `src/hero/` | Hero scene: terminal, mascot, rotating line, social links |
+| `src/pillars/` | Pinned three-pillar scroll story and its animated scenes |
+| `src/experience/` | Experience timeline plus `data.ts` |
+| `src/education/` | Education section |
+| `src/devtools/` | Temporary design-alternative panel and its context |
+| `src/content.ts` | All portfolio copy and structured content |
+| `src/content/resume.md` | Résumé source kept alongside the content layer |
+| `src/index.css` | Tailwind import, `@theme` tokens, base styles |
+| `src/lib/` | Shared hooks and math helpers |
+| `public/` | Favicon and logo/icon assets served as-is |
+| `plans/` | Design and implementation plan for the portfolio |
+| `.figma/` | Figma Make harness metadata and scripts |
+| `vite.config.ts` | Vite config: React, Tailwind, Figma site metadata, `@` alias |
+| `vercel.json` | Vercel Vite deployment settings |
 
 ## Conventions
 
-- Import UI from `@manovaspace/ui` only. Never `lucide-react`, `react-icons`, Radix
-  primitives, or `packages/ui/src/primitives`.
-- Before writing UI, read `node_modules/@manovaspace/ui/dist/agents/index.md`.
-- Product/domain components live in `src/components/`; anything reusable belongs in
-  the design system.
-- One `Toaster` per app (already mounted in `providers.tsx`). Use `toast()` for
-  transient feedback, `Dialog` for reversible flows, `AlertDialog` for confirmations.
-- Internal navigation uses `next/link`.
-- Copy lives in content/data files, never hardcoded in components.
-- Asset references must point at files that exist in `public/` or `src/`.
+- Copy and structured content belong in `src/content.ts` or the section's `data.ts`,
+  not hardcoded inside components.
+- Section-specific visuals stay in their section directory; reusable hooks go in `src/lib/`.
+- Import Motion from `motion/react`.
+- Asset references must point at files that exist in `public/`.
+- Do not add `@manovaspace/ui` or `@manovaspace/tokens` to this app: the visual
+  language comes from the Figma Make export and its own Tailwind theme.
+- `.figma/` is synced from Figma Make; do not hand-edit its scripts.
 
-## CSS import order (do not reorder)
+## Deploy
 
-`@manovaspace/ui/styles.css` is a **precompiled Tailwind sheet**. Import it before
-`tailwindcss`, otherwise its base utilities (`.hidden`, `.md:*`) override the app's
-responsive variants and every `sm:`/`lg:`/`xl:` class silently stops working.
-
-Tokens are full color values. Never redefine `--background`-style variables as bare
-HSL triplets; brand overrides go through `TokenProvider` / token files.
-
-## Palette (Claude Code)
-
-Charcoal canvas `#1f1e1d`, cream ink `#f0eee6`, clay accent `#d97757`, sage state `#8fbf7f`;
-surfaces step by tone (`#262624` bar, `#2b2a27` raised, `#3a3835` hairline). Exactly two filled
-blocks on the statusline: sage for the active view, clay for the position. Accent elsewhere is
-limited to the caret, focus rings and selection. Dark is forced for v1.
-
-Theme split: `claude-code.ts` authors the light scheme (the token resolver derives dark by
-inverting lightness), `claude-code.css` corrects the dark surface stack under `html.dark`, which
-outranks the runtime-injected `.dark` block.
-
-<!-- BEGIN:nextjs-agent-rules -->
-
-## This is NOT the Next.js you know
-
-This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in `node_modules/next/dist/docs/` (resolved from this file's directory; in monorepos the `next` package may not be visible from the repo root) before writing any code. Heed deprecation notices.
-
-This block is written and re-added by `next dev` — verify at `node_modules/next/dist/server/lib/generate-agent-files.js`. Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean.
-
-<!-- END:nextjs-agent-rules -->
+Vercel builds with `bun run build` and serves `dist/`. GitHub Actions runs the
+same install, typecheck, and build. The `deploy-production` job stays gated on
+the repository variable `ENABLE_VERCEL_DEPLOY=true`, so nothing reaches
+`jtash.ir` until that is set.

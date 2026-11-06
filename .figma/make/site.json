@@ -1,0 +1,11 @@
+{
+	"title": "Alireza Jafartash | Technical Product Manager & Software Engineer",
+	"description": "An interactive portfolio showcasing a senior software engineer and product manager’s backend, frontend, and product skills through thoughtful visuals and animations.",
+	"robots": {
+		"index": true
+	},
+	"accessibility": {
+		"addBypassLinks": false,
+		"ignoreReducedMotion": false
+	}
+}
