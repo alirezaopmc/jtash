@@ -65,7 +65,7 @@ function RoleCard({
   return (
     <article
       id={`exp-${experience.id}`}
-      className={`scroll-mt-36 relative overflow-hidden rounded-xl border transition-all duration-300 ${
+      className={`scroll-mt-48 md:scroll-mt-52 relative overflow-hidden rounded-xl border transition-all duration-300 ${
         isActive
           ? "border-white/20 bg-panel/90 shadow-2xl ring-1 ring-white/10"
           : "border-white/[0.07] bg-panel/50 opacity-80 hover:opacity-100 hover:border-white/15"
@@ -185,7 +185,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
     const observer = new IntersectionObserver(
       ([entry]) => entry.isIntersecting && onVisible(),
       {
-        threshold: 0.15,
+        threshold: 0.1,
       },
     );
     observer.observe(sectionRef.current);
@@ -201,7 +201,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
 
       if (isManualScrolling.current) return;
 
-      const triggerY = 220;
+      const triggerY = 240;
       let currentId = experiences[0].id;
       let hasMatch = false;
       let closestDist = Infinity;
@@ -212,7 +212,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
         if (!el) continue;
         const rect = el.getBoundingClientRect();
 
-        if (rect.top <= triggerY + 80 && rect.bottom >= triggerY) {
+        if (rect.top <= triggerY + 100 && rect.bottom >= triggerY) {
           currentId = exp.id;
           hasMatch = true;
           break;
@@ -233,34 +233,116 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
   }, [hoveredCell]);
 
   return (
-    <section
-      ref={sectionRef}
-      id="experience"
-      className="relative px-5 py-24 md:px-10 md:py-32"
-    >
-      <div className="mx-auto max-w-[1200px]">
-        {/* Section Header */}
-        <div className="border-b border-white/10 pb-6 mb-8">
-          <div className="text-[11px] tracking-[0.14em] text-claude uppercase font-mono">
-            02 · Experience
-          </div>
-          <div className="mt-3 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-            <div>
-              <h2 className="text-[clamp(2rem,5vw,4rem)] font-bold tracking-[-0.045em] text-fg">
-                Experience timeline.
-              </h2>
-              <p className="mt-3 max-w-2xl text-[13px] leading-relaxed text-muted md:text-[15px]">
-                Every square cell is one month. Hover a cell to preview the
-                month and company, or select a role to inspect the work behind
-                it.
-              </p>
+    <section ref={sectionRef} id="experience" className="relative">
+      {/* STATIC FULL-SECTION STICKY HEADER (matching Capabilities style) */}
+      <header className="sticky top-0 z-30 w-full border-b border-white/10 bg-void/90 px-5 pt-6 pb-4 backdrop-blur-md md:px-10 md:pt-8 md:pb-5">
+        <div className="mx-auto w-full max-w-[1200px]">
+          {/* Row 1: Colored Squares + Section Word + Track Badge */}
+          <div className="mb-2.5 flex items-center justify-between text-[12px] text-muted md:mb-3 md:text-[13px]">
+            <div className="flex items-center gap-3">
+              {/* Colored square indicator tabs */}
+              <div
+                className="flex gap-1.5"
+                role="tablist"
+                aria-label="Experience stages"
+              >
+                {experiences.map((exp, idx) => {
+                  const isSelected = exp.id === selectedId;
+                  const isPassedOrCurrent = idx <= activeIndex;
+                  return (
+                    <button
+                      key={exp.id}
+                      type="button"
+                      role="tab"
+                      aria-selected={isSelected}
+                      aria-label={`${exp.company}: ${exp.role}`}
+                      onClick={() => scrollToExperience(exp.id)}
+                      className="group grid size-4 cursor-pointer place-items-center"
+                    >
+                      <span
+                        className="block size-2.5 border transition-all duration-300 group-hover:scale-125 rounded-[2px]"
+                        style={{
+                          borderColor: exp.color,
+                          background: isPassedOrCurrent
+                            ? exp.color
+                            : "transparent",
+                          opacity: isSelected
+                            ? 1
+                            : idx < activeIndex
+                              ? 0.45
+                              : 0.6,
+                          boxShadow: isSelected
+                            ? `0 0 6px ${exp.color}`
+                            : "none",
+                        }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+
+              <span>
+                experience ·{" "}
+                <span className="font-semibold text-fg">
+                  {activeExp.company}
+                </span>
+              </span>
             </div>
-            <p className="text-[11px] font-mono text-dim">
-              month by month · 2016 → 2026 (full)
+
+            <div className="text-[11px] tracking-[0.14em] text-claude uppercase font-mono font-bold">
+              02 · Experience
+            </div>
+          </div>
+
+          {/* Row 2: Title */}
+          <h2 className="text-[clamp(1.7rem,4.6vw,3.9rem)] leading-[1.06] font-bold tracking-[-0.035em] text-fg">
+            Experience timeline.
+          </h2>
+
+          {/* Row 3: Subtitle / Active Role + First Row of Cards (Company Chips) */}
+          <div className="mt-2.5 flex flex-col gap-2.5 sm:flex-row sm:items-center sm:justify-between md:mt-3">
+            <p className="text-[13px] text-muted md:text-[14px]">
+              <span style={{ color: activeExp.color }}>→ </span>
+              {activeExp.role} · {activeExp.period} ({activeExp.location})
             </p>
+
+            {/* First row of the Cards: Company Navigation Chips */}
+            <div className="flex items-center gap-1.5 overflow-x-auto no-scrollbar md:gap-2">
+              {experiences.map((exp) => {
+                const isActive = exp.id === selectedId;
+                return (
+                  <button
+                    key={exp.id}
+                    type="button"
+                    onClick={() => scrollToExperience(exp.id)}
+                    className={`group flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-mono transition-all md:text-[12px] ${
+                      isActive
+                        ? "bg-white/[0.12] text-fg shadow-sm ring-1 ring-white/20"
+                        : "text-muted hover:bg-white/[0.04] hover:text-fg"
+                    }`}
+                  >
+                    <span
+                      className="size-2 rounded-full transition-transform group-hover:scale-125"
+                      style={{
+                        background: exp.color,
+                        boxShadow: isActive ? `0 0 8px ${exp.color}` : "none",
+                        opacity: isActive ? 1 : 0.6,
+                      }}
+                    />
+                    <span className="font-medium">{exp.company}</span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
+        {/* Gradient divider line at the bottom of the header */}
+        <div className="absolute inset-x-5 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent md:inset-x-10" />
+      </header>
+
+      {/* SECTION CONTENT: Timeline Matrix + Stacked Cards */}
+      <div className="mx-auto max-w-[1200px] px-5 py-8 md:px-10 md:py-12">
         {/* NON-STICKY Experience Bars: Full 2016-2026 with SQUARE cells */}
         <div className="mb-10 w-full rounded-2xl border border-white/10 bg-panel/40 p-4 md:p-6 backdrop-blur-sm">
           <div className="mb-4 flex items-center justify-between">
@@ -475,98 +557,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
           )}
         </AnimatePresence>
 
-        {/* STICKY HEADER for Experience (like Part 01): [] [] [] experience · 0X/06 · Company + first row of cards */}
-        <div className="sticky top-12 md:top-14 z-20 -mx-5 px-5 py-3.5 mb-8 rounded-2xl border border-white/10 bg-void/90 backdrop-blur-md shadow-2xl transition-all md:-mx-6 md:px-6">
-          {/* Row 1: Stage indicator squares + counter + 02 · Experience */}
-          <div className="flex flex-wrap items-center justify-between gap-3 text-[12px] text-muted md:text-[13px]">
-            <div className="flex items-center gap-3">
-              {/* 6 Square Indicators */}
-              <div
-                className="flex gap-1.5"
-                role="tablist"
-                aria-label="Experience stages"
-              >
-                {experiences.map((exp, idx) => {
-                  const isSelected = exp.id === selectedId;
-                  const isPassedOrCurrent = idx <= activeIndex;
-                  return (
-                    <button
-                      key={exp.id}
-                      type="button"
-                      role="tab"
-                      aria-selected={isSelected}
-                      aria-label={`${exp.company}: ${exp.role}`}
-                      onClick={() => scrollToExperience(exp.id)}
-                      className="group grid size-4 cursor-pointer place-items-center"
-                    >
-                      <span
-                        className="block size-2.5 border transition-all duration-300 group-hover:scale-125 rounded-[2px]"
-                        style={{
-                          borderColor: exp.color,
-                          background: isPassedOrCurrent
-                            ? exp.color
-                            : "transparent",
-                          opacity: isSelected ? 1 : 0.45,
-                          boxShadow: isSelected
-                            ? `0 0 6px ${exp.color}`
-                            : "none",
-                        }}
-                      />
-                    </button>
-                  );
-                })}
-              </div>
-
-              <span className="font-mono text-[11px] sm:text-[12px]">
-                experience · 0{activeIndex + 1}/0{experiences.length} ·{" "}
-                <span className="font-semibold text-fg">
-                  {activeExp.company}
-                </span>
-              </span>
-            </div>
-
-            <div className="text-[11px] tracking-[0.14em] text-claude uppercase font-mono font-bold">
-              02 · Experience
-            </div>
-          </div>
-
-          {/* Row 2: First row of the Cards (Company Navigation Chips) */}
-          <div className="mt-3 flex items-center justify-between gap-2 overflow-x-auto no-scrollbar border-t border-white/[0.08] pt-2.5">
-            <div className="flex items-center gap-1.5 md:gap-2">
-              {experiences.map((exp) => {
-                const isActive = exp.id === selectedId;
-                return (
-                  <button
-                    key={exp.id}
-                    type="button"
-                    onClick={() => scrollToExperience(exp.id)}
-                    className={`group flex shrink-0 cursor-pointer items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-mono transition-all md:text-[12px] ${
-                      isActive
-                        ? "bg-white/[0.12] text-fg shadow-sm ring-1 ring-white/20"
-                        : "text-muted hover:bg-white/[0.04] hover:text-fg"
-                    }`}
-                  >
-                    <span
-                      className="size-2 rounded-full transition-transform group-hover:scale-125"
-                      style={{
-                        background: exp.color,
-                        boxShadow: isActive ? `0 0 8px ${exp.color}` : "none",
-                        opacity: isActive ? 1 : 0.6,
-                      }}
-                    />
-                    <span className="font-medium">{exp.company}</span>
-                  </button>
-                );
-              })}
-            </div>
-
-            <span className="hidden text-[11px] text-dim font-mono lg:inline">
-              {activeExp.role} · {activeExp.period}
-            </span>
-          </div>
-        </div>
-
-        {/* Stacked Job Cards Below Sticky Header */}
+        {/* Stacked Job Cards Below */}
         <div className="space-y-6">
           {experiences.map((experience) => (
             <div
