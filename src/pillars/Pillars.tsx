@@ -110,11 +110,17 @@ export function Pillars({ onActive }: { onActive: (i: number) => void }) {
     restDelta: 0.0002,
   });
   const [active, setActive] = useState(0);
+  const [isDocked, setIsDocked] = useState(false);
   const inView = useInView(ref, { amount: 0.25 });
 
-  useMotionValueEvent(p, "change", (v) =>
-    setActive(v < SEGMENTS[1][0] ? 0 : v < SEGMENTS[2][0] ? 1 : 2),
-  );
+  useEffect(() => {
+    setIsDocked(p.get() >= 0.03);
+  }, [p]);
+
+  useMotionValueEvent(p, "change", (v) => {
+    setIsDocked(v >= 0.03);
+    setActive(v < SEGMENTS[1][0] ? 0 : v < SEGMENTS[2][0] ? 1 : 2);
+  });
   useEffect(() => onActive(inView ? active : -1), [inView, active, onActive]);
   useEffect(() => {
     sectionEl = ref.current;
@@ -123,9 +129,7 @@ export function Pillars({ onActive }: { onActive: (i: number) => void }) {
     };
   }, []);
 
-  // The title rises from mid-screen (right under where the hero line was) and docks at the top.
-  const titleY = useTransform(p, [0, INTRO], ["30svh", "0svh"]);
-  const ruleOpacity = useTransform(p, [INTRO * 0.7, INTRO], [0, 1]);
+  const ruleOpacity = useTransform(p, [0.02, 0.05], [0, 1]);
 
   const handleJumpToLayer = (layerAt: number) => {
     const el = ref.current;
@@ -150,16 +154,17 @@ export function Pillars({ onActive }: { onActive: (i: number) => void }) {
       style={{ height: narrow ? "560vh" : "520vh" }}
     >
       <div className="sticky top-0 flex h-[100svh] flex-col overflow-hidden">
-        <motion.header
-          className="relative z-10 shrink-0 px-5 pt-6 pb-4 md:px-10 md:pt-9 md:pb-6"
-          style={reduced ? undefined : { y: titleY }}
-        >
-          <DockedTitle active={active} onJump={scrollToPillar} />
+        <header className="relative z-10 shrink-0 px-5 pt-6 pb-4 md:px-10 md:pt-8 md:pb-5">
+          <DockedTitle
+            active={active}
+            isDocked={isDocked}
+            onJump={scrollToPillar}
+          />
           <motion.div
             className="absolute inset-x-5 bottom-0 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent md:inset-x-10"
             style={{ opacity: reduced ? 1 : ruleOpacity }}
           />
-        </motion.header>
+        </header>
         <div className="relative min-h-0 flex-1">
           {scenes.map((Component, i) => (
             <Scene

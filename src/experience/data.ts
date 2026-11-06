@@ -2,6 +2,7 @@ export type Experience = {
   id: string;
   company: string;
   role: string;
+  slogan: string;
   period: string;
   location: string;
   country: string;
@@ -20,6 +21,7 @@ export const experiences: Experience[] = [
     id: "lvtgames",
     company: "LvtGames",
     role: "Software Engineer",
+    slogan: "High-throughput wallet & transaction infrastructure.",
     period: "Aug 2025 — Mar 2026",
     location: "Istanbul, Türkiye",
     country: "TR",
@@ -50,6 +52,7 @@ export const experiences: Experience[] = [
     id: "swapwallet",
     company: "SwapWallet",
     role: "Software Engineer",
+    slogan: "Ledger correctness and matching under peak load.",
     period: "May 2025 — Jul 2025",
     location: "Tehran, Iran",
     country: "IR",
@@ -69,6 +72,7 @@ export const experiences: Experience[] = [
     id: "ultratrader",
     company: "Ultratrader",
     role: "Software Engineer",
+    slogan: "Real-time market data ingestion across 30+ broker APIs.",
     period: "Feb 2024 — Oct 2024",
     location: "Toronto, Canada",
     country: "CA",
@@ -89,6 +93,7 @@ export const experiences: Experience[] = [
     id: "ravindex",
     company: "Ravindex",
     role: "Software Engineer",
+    slogan: "Analytical pipelines for high-volume market tick data.",
     period: "May 2022 — Dec 2023",
     location: "Tehran, Iran",
     country: "IR",
@@ -117,6 +122,7 @@ export const experiences: Experience[] = [
     id: "plotset",
     company: "Plotset",
     role: "Research & Development Intern",
+    slogan: "Modular rendering framework & AI charting engines.",
     period: "Aug 2020 — Jul 2021",
     location: "California, US",
     country: "US",
@@ -136,6 +142,7 @@ export const experiences: Experience[] = [
     id: "cubecraft",
     company: "CubeCraft",
     role: "Game Developer",
+    slogan: "Core gameplay mechanics for premier Minecraft minigames.",
     period: "Sep 2016 — Feb 2017",
     location: "London, UK",
     country: "UK",
