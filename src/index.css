@@ -1,0 +1,97 @@
+@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&family=Instrument+Serif:ital@0;1&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-serif: "Instrument Serif", Georgia, serif;
+
+  /* Terminal base */
+  --color-void: #0c0c0c;
+  --color-ink: #141414;
+  --color-panel: #1b1b1b;
+  --color-rule: #2a2a2a;
+  --color-fg: #e6e6e6;
+  --color-muted: #8a8a8a;
+  --color-dim: #575757;
+
+  /* Meaningful accents, all taken from the CLI's own palette */
+  --color-claude: #d77757; /* the AI / the mascot */
+  --color-trust: #5fa36a; /* tmux status bar: healthy */
+  --color-clarity: #e5c04b; /* auto-mode line: attention */
+  --color-feeling: #e79a8c; /* warm mascot pink: alive */
+  --color-alarm: #d9534f;
+}
+
+@layer base {
+  html {
+    background: var(--color-void);
+    color-scheme: dark;
+  }
+  body {
+    font-family: var(--font-mono);
+    color: var(--color-fg);
+    background: var(--color-void);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "calt" 0;
+  }
+  ::selection {
+    background: color-mix(in oklab, var(--color-claude) 40%, transparent);
+  }
+}
+
+@keyframes caret-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+.caret-blink {
+  animation: caret-blink 1.06s steps(1) infinite;
+}
+
+/* Block caret over a character: the character stays readable while the block blinks. */
+@keyframes caret-invert {
+  0%,
+  49% {
+    background: var(--color-fg);
+    color: var(--color-ink);
+  }
+  50%,
+  100% {
+    background: transparent;
+    color: var(--color-dim);
+  }
+}
+.caret-invert {
+  animation: caret-invert 1.06s steps(1) infinite;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+}
+.fade-up {
+  animation: fade-up 0.4s ease-out both;
+}
+
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  scrollbar-width: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .caret-blink,
+  .caret-invert,
+  .fade-up {
+    animation: none;
+  }
+}
