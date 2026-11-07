@@ -157,6 +157,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
   const [hoveredCell, setHoveredCell] = useState<HoveredCellInfo | null>(null);
   const [isDocked, setIsDocked] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
+  const headerRef = useRef<HTMLElement>(null);
   const cardRefs = useRef<Record<string, HTMLElement | null>>({});
   const isManualScrolling = useRef(false);
   const manualScrollTimeout = useRef<ReturnType<typeof setTimeout>>(undefined);
@@ -214,31 +215,39 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
 
       if (isManualScrolling.current) return;
 
-      const triggerY = 240;
-      let currentId = experiences[0].id;
-      let hasMatch = false;
-      let closestDist = Infinity;
-      let closestId = experiences[0].id;
+      const headerEl = headerRef.current;
+      const headerBottom = headerEl
+        ? headerEl.getBoundingClientRect().bottom
+        : 190;
+      // Activation line: when a card arrives within ~60px below the sticky header,
+      // it takes over as the active card in the reading viewport.
+      const activationY = headerBottom + 60;
 
+      // Check if user is scrolled near the bottom of the page
+      const isAtPageBottom =
+        window.innerHeight + window.scrollY >=
+        document.documentElement.scrollHeight - 40;
+
+      if (isAtPageBottom) {
+        setSelectedId(experiences[experiences.length - 1].id);
+        return;
+      }
+
+      // Find the last experience whose card top has reached or passed the activation line.
+      let activeId = experiences[0].id;
       for (const exp of experiences) {
         const el = cardRefs.current[exp.id];
         if (!el) continue;
         const rect = el.getBoundingClientRect();
 
-        if (rect.top <= triggerY + 100 && rect.bottom >= triggerY) {
-          currentId = exp.id;
-          hasMatch = true;
+        if (rect.top <= activationY) {
+          activeId = exp.id;
+        } else {
           break;
-        }
-
-        const dist = Math.abs(rect.top - triggerY);
-        if (dist < closestDist) {
-          closestDist = dist;
-          closestId = exp.id;
         }
       }
 
-      setSelectedId(hasMatch ? currentId : closestId);
+      setSelectedId(activeId);
     };
 
     handleScroll();
@@ -249,7 +258,10 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
   return (
     <section ref={sectionRef} id="experience" className="relative">
       {/* STATIC FULL-SECTION STICKY HEADER (matching Capabilities style) */}
-      <header className="sticky top-0 z-30 w-full border-b border-white/10 bg-void/90 px-5 pt-6 pb-4 backdrop-blur-md md:px-10 md:pt-8 md:pb-5">
+      <header
+        ref={headerRef}
+        className="sticky top-0 z-30 w-full border-b border-white/10 bg-void/90 px-5 pt-6 pb-4 backdrop-blur-md md:px-10 md:pt-8 md:pb-5"
+      >
         <div className="mx-auto w-full max-w-[1200px]">
           <AnimatePresence mode="wait">
             {!isDocked ? (
