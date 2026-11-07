@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { SectionProgressSquares } from "../components/SectionProgressSquares";
+import { useConfig } from "../devtools/DevToolsContext";
 import {
   activeInMonth,
   type Experience as ExperienceType,
@@ -153,6 +154,8 @@ function RoleCard({
 }
 
 export function Experience({ onVisible }: { onVisible?: () => void }) {
+  const config = useConfig();
+  const spyMode = (config.expSpyThreshold as string) || "50%";
   const [selectedId, setSelectedId] = useState(experiences[0].id);
   const [hoveredCell, setHoveredCell] = useState<HoveredCellInfo | null>(null);
   const [isDocked, setIsDocked] = useState(false);
@@ -219,9 +222,6 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
       const headerBottom = headerEl
         ? headerEl.getBoundingClientRect().bottom
         : 190;
-      // Activation line: when a card arrives within ~60px below the sticky header,
-      // it takes over as the active card in the reading viewport.
-      const activationY = headerBottom + 60;
 
       // Check if user is scrolled near the bottom of the page
       const isAtPageBottom =
@@ -233,17 +233,38 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
         return;
       }
 
-      // Find the last experience whose card top has reached or passed the activation line.
       let activeId = experiences[0].id;
-      for (const exp of experiences) {
-        const el = cardRefs.current[exp.id];
-        if (!el) continue;
-        const rect = el.getBoundingClientRect();
 
-        if (rect.top <= activationY) {
-          activeId = exp.id;
-        } else {
-          break;
+      if (spyMode === "50%" || spyMode === "65%") {
+        const threshold = spyMode === "50%" ? 0.5 : 0.65;
+        // After passing threshold% of Card i, Card i+1 becomes active
+        for (let i = 0; i < experiences.length - 1; i++) {
+          const exp = experiences[i];
+          const el = cardRefs.current[exp.id];
+          if (!el) continue;
+          const rect = el.getBoundingClientRect();
+
+          if (rect.top + rect.height * threshold <= headerBottom) {
+            activeId = experiences[i + 1].id;
+          } else {
+            break;
+          }
+        }
+      } else {
+        // "top" or "upper35"
+        const activationY =
+          spyMode === "upper35" ? window.innerHeight * 0.35 : headerBottom + 60;
+
+        for (const exp of experiences) {
+          const el = cardRefs.current[exp.id];
+          if (!el) continue;
+          const rect = el.getBoundingClientRect();
+
+          if (rect.top <= activationY) {
+            activeId = exp.id;
+          } else {
+            break;
+          }
         }
       }
 
@@ -253,7 +274,7 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
     handleScroll();
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [hoveredCell]);
+  }, [hoveredCell, spyMode]);
 
   return (
     <section ref={sectionRef} id="experience" className="relative">

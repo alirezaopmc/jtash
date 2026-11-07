@@ -107,6 +107,17 @@ export function DevToolsPanel() {
                 {l}
               </button>
             ))}
+            <button
+              type="button"
+              className={btn}
+              onClick={() =>
+                document
+                  .getElementById("experience")
+                  ?.scrollIntoView({ behavior: "smooth" })
+              }
+            >
+              exp
+            </button>
             <button type="button" className={btn} onClick={copy}>
               {copied ? "✔ copied" : "copy config"}
             </button>
