@@ -10,23 +10,7 @@ export type OptionDef = {
  * Add option groups here to compare design alternatives live. The panel only shows
  * with `?dev` in the URL and at least one option defined. Read values with `useConfig()`.
  */
-export const optionGroups: { title: string; options: OptionDef[] }[] = [
-  {
-    title: "Experience Scroll Spy",
-    options: [
-      {
-        key: "expSpyThreshold",
-        label: "trigger",
-        choices: [
-          { value: "50%", label: "50% card" },
-          { value: "65%", label: "65% card" },
-          { value: "top", label: "card top" },
-          { value: "upper35", label: "screen 35%" },
-        ],
-      },
-    ],
-  },
-];
+export const optionGroups: { title: string; options: OptionDef[] }[] = [];
 
 export const defaultConfig: DevConfig = Object.fromEntries(
   optionGroups.flatMap((g) =>
