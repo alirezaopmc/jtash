@@ -69,13 +69,13 @@ section from [08](08-roadmap.md) unasked.
 bun run typecheck
 bun run lint
 bun run build
-bun run dev   # http://localhost:12000
+bun run dev   # http://localhost:10202
 ```
 
 Browser checks (workspace `playwright-cli`, see handbook `frontend-agent-workflow`):
 320 / 375 / 1440px, keyboard only (Tab through statusline, open/close command line, focus returns),
 reduced motion, no console errors. For taste checks run the `design-taste-frontend` inspector
-against `http://localhost:12000`; it needs `CHROME_PATH` pointed at Playwright's Chromium on hosts
+against `http://localhost:10202`; it needs `CHROME_PATH` pointed at Playwright's Chromium on hosts
 without Chrome. Add `.taste-skill/` to `.gitignore` before the first run.
 
 ## Git

@@ -21,14 +21,14 @@ application. It replaced the previous Next.js shell.
 
 ```bash
 bun install
-bun run dev          # http://localhost:12000
+bun run dev          # http://localhost:10202
 bun run build        # writes dist/
-bun run preview      # http://localhost:12000
+bun run preview      # http://localhost:10202
 bun run typecheck    # tsc --noEmit
 bun run format       # oxfmt
 ```
 
-Port **12000** is allocated to this project (ADR-006, client `n=2`).
+Port **10202** is allocated to this project in the workspace port registry (ADR-058).
 
 ## Structure
 

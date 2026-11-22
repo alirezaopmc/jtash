@@ -64,7 +64,7 @@ speaks to. The catalog is [04-team-tools-catalog.md](04-team-tools-catalog.md).
 ## Design skills
 
 Use the workspace skill `design-taste-frontend` to inspect and critique pages
-(`scripts/inspect.mjs` against `http://localhost:12000`). This brief wins over its house style and
+(`scripts/inspect.mjs` against `http://localhost:10202`). This brief wins over its house style and
 its dealt directions: warm charcoal canvas, mono chrome, the clay/sage fills and the shell are fixed here.
 For later product-demo sections, `impeccable critique` / `polish` are the better fit.
 Do not load both skills in one task.
