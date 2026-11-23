@@ -69,8 +69,8 @@ Port **10202** is allocated to this project in the workspace port registry (ADR-
 Vercel builds with `bun run build` and serves `dist/`. `.github/workflows/deploy.yml`
 deploys every push to `main` with its own build and does not wait for CI (ADR-076). The
 `deploy-production` job stays gated on the repository variable `ENABLE_VERCEL_DEPLOY=true`,
-so nothing reaches `jtash.ir` until that is set. `.github/workflows/ci.yml` runs on release
-and Renovate pull requests and manual runs only.
+so nothing reaches `jtash.ir` until that is set. `.github/workflows/ci.yml` runs on every
+pull request and on push to `main`, and on manual runs.
 
 <!-- manova:conventions v1 — generated from manovaspace/ci conventions/core.md; edit it there -->
 ## Shared conventions
