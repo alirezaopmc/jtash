@@ -98,11 +98,13 @@ Conventions:
 
 ## Deploy
 
-Vercel builds with `bun run build` and serves `dist/` (`framework: "astro"`). `.github/workflows/deploy.yml`
-deploys every push to `main` with its own build and does not wait for CI (ADR-076). The
-`deploy-production` job stays gated on the repository variable `ENABLE_VERCEL_DEPLOY=true`,
-so nothing reaches `jtash.ir` until that is set. `.github/workflows/ci.yml` runs on every
-pull request and on push to `main`, and on manual runs.
+Vercel builds with `bun run build` and serves `dist/` (`framework: "astro"`). The Vercel project
+has no Git integration: deploys run only from `.github/workflows/deploy.yml`, which builds and
+deploys on every push to `main` (and on manual `workflow_dispatch`) without waiting for CI
+(ADR-046, ADR-076). The repository variable `ENABLE_VERCEL_DEPLOY` must stay `"true"`; when it is
+unset the job is skipped and `jtash.ir` keeps the previous deployment. Authentication is the
+`VERCEL_TOKEN`, `VERCEL_ORG_ID` and `VERCEL_PROJECT_ID` repository secrets.
+`.github/workflows/ci.yml` runs on every pull request and on push to `main`.
 
 <!-- manova:conventions v1 — generated from manovaspace/ci conventions/core.md; edit it there -->
 ## Shared conventions
