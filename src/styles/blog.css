@@ -1,0 +1,251 @@
+:root {
+  --void: #0c0c0c;
+  --ink: #141414;
+  --panel: #1b1b1b;
+  --rule: #2a2a2a;
+  --fg: #e6e6e6;
+  --muted: #8a8a8a;
+  --dim: #575757;
+  --claude: #d77757;
+  --trust: #5fa36a;
+  --clarity: #e5c04b;
+  --feeling: #e79a8c;
+  --alarm: #d9534f;
+  --serif: "Instrument Serif", Georgia, serif;
+  --mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --measure: 40rem; /* fixed, so header and footer at smaller sizes keep the same column */
+  color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  background: var(--void);
+  color: var(--fg);
+}
+
+body {
+  font: 15px/1.7 var(--mono);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: clip;
+}
+
+::selection {
+  background: color-mix(in oklab, var(--claude) 40%, transparent);
+}
+
+a {
+  color: var(--claude);
+}
+
+/* Layout */
+
+.wrap {
+  max-width: var(--measure);
+  margin-inline: auto;
+  padding-inline: max(16px, env(safe-area-inset-left)) max(16px, env(safe-area-inset-right));
+  padding-block: 48px 80px;
+}
+
+/* Header and footer share the column width but not the page padding. */
+.bar {
+  padding-block: 20px;
+  font-size: 13px;
+}
+
+.bar a {
+  text-decoration: none;
+}
+
+.muted {
+  color: var(--muted);
+}
+
+.small {
+  font-size: 12px;
+}
+
+/* Prose */
+
+.prose > * + * {
+  margin-top: 1.1em;
+}
+
+.prose h2,
+.prose h3 {
+  font-family: var(--serif);
+  font-weight: 400;
+  line-height: 1.15;
+  text-wrap: balance;
+  margin-top: 1.8em;
+}
+
+.prose h2 {
+  font-size: 2rem;
+}
+
+.prose h3 {
+  font-size: 1.5rem;
+}
+
+.prose p,
+.prose ul,
+.prose ol {
+  color: #cfcfcf;
+}
+
+.prose a {
+  color: var(--claude);
+  text-underline-offset: 3px;
+}
+
+.prose code {
+  background: var(--panel);
+  padding: 0 0.3em;
+  border-radius: 3px;
+}
+
+.prose pre {
+  background: var(--ink);
+  border: 1px solid var(--rule);
+  padding: 16px;
+  overflow-x: auto;
+}
+
+.prose pre code {
+  background: none;
+  padding: 0;
+}
+
+.prose blockquote {
+  margin-inline: 0;
+  padding-left: 1em;
+  border-left: 2px solid var(--rule);
+  color: var(--muted);
+}
+
+.prose small {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.prose img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Full-bleed figure: wider than the text column, still centred on the viewport. */
+.wide {
+  --wide: min(1040px, 100vw - 32px);
+  width: var(--wide);
+  margin-inline: calc(50% - var(--wide) / 2);
+}
+
+/* Focus */
+
+:focus-visible {
+  outline: 2px solid var(--clarity);
+  outline-offset: 2px;
+}
+
+/* Reduced motion */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Index and post chrome */
+
+.page-title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(34px, 5.4vw, 56px);
+  line-height: 1.05;
+  margin: 0;
+}
+
+.intro,
+.lede {
+  color: var(--muted);
+  margin: 0.6em 0 0;
+}
+
+.empty {
+  color: var(--muted);
+  margin-top: 2.5em;
+}
+
+.index {
+  list-style: none;
+  padding: 0;
+  margin: 2.5em 0 0;
+}
+
+.index-item {
+  border-top: 1px solid var(--rule);
+  padding-block: 20px;
+}
+
+.index-item time {
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+}
+
+.index-title {
+  display: block;
+  font-family: var(--serif);
+  font-size: 1.6rem;
+  line-height: 1.2;
+  color: var(--fg);
+  text-decoration: none;
+  margin-top: 4px;
+}
+
+.index-title:hover {
+  color: var(--claude);
+}
+
+.index-desc {
+  color: var(--muted);
+  margin: 6px 0 0;
+}
+
+.eyebrow {
+  color: var(--muted);
+  font-size: 13px;
+  font-variant-numeric: tabular-nums;
+  margin: 0;
+}
+
+.title {
+  font-family: var(--serif);
+  font-weight: 400;
+  font-size: clamp(34px, 5.4vw, 56px);
+  line-height: 1.05;
+  text-wrap: balance;
+  margin: 0.4em 0 0;
+}
+
+.post-body {
+  margin-top: 2em;
+}
+
+.not-found {
+  margin-top: 2.5em;
+}

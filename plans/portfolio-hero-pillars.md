@@ -206,7 +206,7 @@ Scenario data shape in `content.ts`: `{ id, label, weak: string, hint: string, s
 
 ## Verification
 
-- Run the repo's `build` script (`vite build`) and fix any TypeScript or build errors. Run the `format` script (oxfmt).
+- Run the repo's `build` script (`astro build`) and fix any TypeScript or build errors. Run the `format` script (oxfmt).
 - Manual check in the running preview (no new dev server):
   - The hero sequence runs fully, skip and replay work, and the clock ticks.
   - On scroll, the title docks. Word and subject change at each pillar boundary in both directions, and the progress cells and colors update.

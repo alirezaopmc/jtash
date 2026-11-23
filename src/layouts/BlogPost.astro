@@ -1,0 +1,26 @@
+---
+import Base from './BlogBase.astro';
+import { formatDate } from '../lib/posts';
+
+interface Props {
+  title: string;
+  description: string;
+  date: Date;
+  minutes: number;
+  tags: string[];
+}
+
+const { title, description, date, minutes, tags } = Astro.props;
+const eyebrow = [formatDate(date), `${minutes} min`, ...tags].join(' · ');
+---
+
+<Base title={`${title} · jtash`} description={description} ogType="article">
+  <main class="wrap">
+    <p class="eyebrow">{eyebrow}</p>
+    <h1 class="title">{title}</h1>
+    <p class="lede">{description}</p>
+    <article class="prose post-body">
+      <slot />
+    </article>
+  </main>
+</Base>
