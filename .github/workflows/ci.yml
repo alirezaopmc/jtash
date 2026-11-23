@@ -1,14 +1,15 @@
 name: CI
 
-# Dev stage (ADR-076): CI runs only on release and Renovate pull requests and manual runs.
-# Deploys live in deploy.yml and do not wait for this workflow.
+# Public repository: CI runs on every pull request and push to main. Deploys live in deploy.yml and do not wait for CI.
 on:
+  push:
+    branches: [main]
   pull_request:
     branches: [main]
   workflow_dispatch:
 
 concurrency:
-  group: ci-${{ github.head_ref || github.run_id }}
+  group: ci-${{ github.ref }}
   cancel-in-progress: true
 
 permissions:
@@ -16,7 +17,6 @@ permissions:
 
 jobs:
   check:
-    if: github.event_name == 'workflow_dispatch' || startsWith(github.head_ref, 'release-please--') || startsWith(github.head_ref, 'changeset-release/') || startsWith(github.head_ref, 'renovate/')
     runs-on: ${{ vars.CI_RUNNER || 'ubuntu-latest' }}
     timeout-minutes: 20
     steps:
