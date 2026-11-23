@@ -13,9 +13,8 @@
       "!dist",
       "!build",
       "!public",
-      "!.figma",
-      "!**/*.md",
-      "!vite.config.ts"
+      "!.astro",
+      "!**/*.md"
     ]
   },
   "formatter": {

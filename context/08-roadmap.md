@@ -29,15 +29,16 @@ Build top to bottom, one per task, owner approval between each.
 | 6 | Mode labels: `casual` / `hire`, or `casual` / `work with me`? | `casual` / `hire` |
 | 7 | Public email address | Hide `:mail` until set |
 | 8 | Cal.com link | Hide `:cal` until set |
-| 9 | Blog feed URL | Writing section not built |
+| 9 | ~~Blog feed URL~~ Resolved 2026-11-23: the blog is in this app; the Writing section reads the `posts` collection | — |
 | 10 | Which demo surfaces per product (Fryto ops, Goldstein, Waypoint) and how they are hosted | Decide at section 2 |
 
 ## Decision log
 
 | Date | Decision |
 |------|----------|
-| 2026-10-29 | Keep the Next.js shell; no Astro rewrite. |
+| 2026-10-29 | Keep the Next.js shell; no Astro rewrite. (Superseded 2026-11-23: the site is now Astro.) |
 | 2026-10-29 | Two optional views (`/hire`, `/casual`) plus neutral `/`; URL is the source of truth. |
 | 2026-10-29 | Editor shell (Vim statusline + command line) is the layout spine; other team tools are one accent per section. |
 | 2026-10-29 | Hero is a single value line on flat white; the view choice lives in the statusline. (Superseded: canvas is now charcoal.) |
-| 2026-10-29 | Blog is a separate site; portfolio mirrors the latest three posts. |
+| 2026-10-29 | Blog is a separate site; portfolio mirrors the latest three posts. (Superseded 2026-11-23.) |
+| 2026-11-23 | One repo, one Astro app: portfolio at `/` as a React island, blog at `/blog/` with MDX posts that can embed animated React components. Figma Make dropped. |

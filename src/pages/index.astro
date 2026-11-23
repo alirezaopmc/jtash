@@ -1,0 +1,18 @@
+---
+import Portfolio from "../layouts/Portfolio.astro";
+import { getPublishedPosts } from "../lib/posts";
+import PortfolioRoot from "../PortfolioRoot";
+
+const title =
+	"Alireza Jafartash | Technical Product Manager & Software Engineer";
+const description =
+	"An interactive portfolio showcasing a senior software engineer and product manager’s backend, frontend, and product skills through thoughtful visuals and animations.";
+const [latest] = await getPublishedPosts();
+const latestPost = latest
+	? { title: latest.data.title, href: `/blog/${latest.id}/` }
+	: null;
+---
+
+<Portfolio title={title} description={description}>
+	<PortfolioRoot client:load latestPost={latestPost} />
+</Portfolio>

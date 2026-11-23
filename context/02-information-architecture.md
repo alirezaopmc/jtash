@@ -60,6 +60,6 @@ type WorkItem = {                     // later sections
 
 ## Blog mirror
 
-The blog is a separate site. At build time, fetch its RSS/Atom feed and render the latest three
-posts (title, date, link out). Build must not fail if the feed is unreachable; render nothing.
-Feed URL: **TBD** (open question in [08](08-roadmap.md)).
+The blog lives in this app at `/blog/` (MDX posts in `src/content/posts/`, RSS at `/rss.xml`).
+The Writing section renders the latest three published posts (title, date, link) straight from the
+`posts` content collection, so it needs no feed fetch. Render nothing when there are no posts.

@@ -394,9 +394,9 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
                 <span className="text-fg flex items-center gap-2">
                   <span className="text-muted">
                     {new Date(
-                      hoveredCell.year,
-                      hoveredCell.month - 1,
+                      Date.UTC(hoveredCell.year, hoveredCell.month - 1),
                     ).toLocaleString("en", {
+                      timeZone: "UTC",
                       month: "short",
                     })}{" "}
                     {hoveredCell.year}:
@@ -447,9 +447,9 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
 
                           const bg = getCellBackground(active, selectedId);
                           const monthName = new Date(
-                            year,
-                            month - 1,
+                            Date.UTC(year, month - 1),
                           ).toLocaleString("en", {
+                            timeZone: "UTC",
                             month: "short",
                           });
 
@@ -548,9 +548,9 @@ export function Experience({ onVisible }: { onVisible?: () => void }) {
                 <div className="flex items-center justify-between gap-4 text-[10px] font-mono text-muted">
                   <span>
                     {new Date(
-                      hoveredCell.year,
-                      hoveredCell.month - 1,
+                      Date.UTC(hoveredCell.year, hoveredCell.month - 1),
                     ).toLocaleString("en", {
+                      timeZone: "UTC",
                       month: "long",
                     })}{" "}
                     {hoveredCell.year}

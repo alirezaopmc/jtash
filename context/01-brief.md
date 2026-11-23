@@ -44,7 +44,7 @@ Make the right people want to start a conversation. Nothing else.
 - Live demos of product UIs: Fryto (ops), Goldstein (repo `~/Dev/abshodeh`), Waypoint (Manova).
 - Research: LLMs (MSc).
 - Teaching: teaching assistant.
-- Writing: a separate blog; this site shows a small mirror of recent posts.
+- Writing: the blog at `/blog/`; the portfolio shows the latest three posts.
 
 ## Fixed decisions
 
@@ -55,4 +55,5 @@ Make the right people want to start a conversation. Nothing else.
 
 ## Non-goals
 
-CMS, admin, auth, comments, newsletter signup, analytics dashboards, 3D/WebGL, a hosted blog.
+CMS, admin, auth, comments, newsletter signup, analytics dashboards, 3D/WebGL on the portfolio
+pages. (Blog posts may carry their own interactive figures.)

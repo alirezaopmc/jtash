@@ -35,21 +35,29 @@ function load(): DevConfig {
 }
 
 export function DevToolsProvider({ children }: { children: ReactNode }) {
-  // Hidden unless explicitly requested and there is something to tweak.
-  const enabled =
-    new URLSearchParams(location.search).has("dev") && optionGroups.length > 0;
-  const [config, setConfig] = useState<DevConfig>(() =>
-    enabled ? load() : defaultConfig,
-  );
+  // Server and first client render both start hidden with defaults; the URL and storage are read after mount.
+  const [enabled, setEnabled] = useState(false);
+  const [config, setConfig] = useState<DevConfig>(defaultConfig);
+  const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    if (!enabled) return;
+    // Hidden unless explicitly requested and there is something to tweak.
+    const on =
+      new URLSearchParams(location.search).has("dev") &&
+      optionGroups.length > 0;
+    setEnabled(on);
+    if (on) setConfig(load());
+    setLoaded(true);
+  }, []);
+
+  useEffect(() => {
+    if (!enabled || !loaded) return;
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify(config));
     } catch {
       /* storage unavailable */
     }
-  }, [config, enabled]);
+  }, [config, enabled, loaded]);
 
   const set = useCallback(
     (key: string, value: OptionValue) =>

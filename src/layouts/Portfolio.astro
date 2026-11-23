@@ -1,0 +1,49 @@
+---
+import "../index.css";
+
+interface Props {
+	title: string;
+	description: string;
+}
+
+const { title, description } = Astro.props;
+const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
+const person = {
+	"@context": "https://schema.org",
+	"@type": "Person",
+	name: "Alireza Jafartash",
+	alternateName: "Jay Tash",
+	url: "https://jtash.ir/",
+	jobTitle: "Technical Product Manager",
+	sameAs: [
+		"https://github.com/alirezaopmc",
+		"https://www.linkedin.com/in/alirezaopmc",
+		"https://t.me/alirezaopmc",
+	],
+};
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>{title}</title>
+		<meta name="description" content={description} />
+		<link rel="canonical" href={canonical.href} />
+		<link rel="icon" href="/favicon.png" />
+		<link rel="alternate" type="application/rss+xml" title="jtash · notes" href="/rss.xml" />
+		<meta name="theme-color" content="#0c0c0c" />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content={description} />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={canonical.href} />
+		<meta property="og:site_name" content="jtash" />
+		<meta name="twitter:card" content="summary" />
+		<script type="application/ld+json" set:html={JSON.stringify(person)} />
+	</head>
+	<body>
+		<noscript><p>{title}</p></noscript>
+		<slot />
+	</body>
+</html>

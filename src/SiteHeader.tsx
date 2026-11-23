@@ -45,7 +45,10 @@ export function SiteHeader({
   }, [open]);
 
   const OPEN = narrow
-    ? { w: Math.min(innerWidth - 24, 370), h: 56 }
+    ? {
+        w: typeof window === "undefined" ? 370 : Math.min(innerWidth - 24, 370),
+        h: 56,
+      }
     : { w: 650, h: 56 };
   const size = open ? OPEN : CLOSED;
   const go = (fn: () => void) => {

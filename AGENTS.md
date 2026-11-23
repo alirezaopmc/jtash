@@ -6,25 +6,27 @@ read_with: []
 
 Personal site for Jay Tash / Alireza Jafartash. Production domain: `jtash.ir`.
 
-The frontend is the portfolio exported from Figma Make: a Vite + React single-page
-application. It replaced the previous Next.js shell.
+One Astro app serves both parts: the portfolio at `/` and the notes blog at `/blog/`, with the RSS feed at `/rss.xml`.
 
 ## Stack
 
-- Vite 8 with `@vitejs/plugin-react`
-- React 19 and React DOM 19
-- Tailwind CSS v4 through `@tailwindcss/vite`; theme tokens live in `src/index.css`
-- Motion (`motion/react`) for animation
-- TypeScript 5.7 in strict mode, formatted with oxfmt
+- Astro 7 with static output (`output: "static"`), `site: "https://jtash.ir"`, `trailingSlash: "always"`
+- Portfolio: a React 19 island at `/` (`<PortfolioRoot client:load />`), server-rendered at build time so crawlers and link previews get the full text, then hydrated. Never read `window`, `location`, `localStorage`, `matchMedia` or the viewport during render: use `useSyncExternalStore` with a server snapshot (see `src/lib/useNarrow.ts`) or read it in `useEffect`. Dates are formatted in UTC so server and browser output match.
+- Blog: MDX posts (`@astrojs/mdx`), React islands (`@astrojs/react`), RSS (`@astrojs/rss`), sitemap (`@astrojs/sitemap`)
+- Tailwind CSS v4 through `@tailwindcss/vite`, portfolio only; theme tokens live in `src/index.css`
+- Plain CSS with design tokens in `src/styles/blog.css`, blog only. No Tailwind on blog pages.
+- Motion for animation: `import { motion } from "motion/react"`
+- TypeScript in strict mode (`astro/tsconfigs/strict`), formatted with oxfmt
+- bun 1.4.4 as package manager. Node 22 via `.mise.toml`.
 
 ## Commands
 
 ```bash
 bun install
 bun run dev          # http://localhost:10202
-bun run build        # writes dist/
+bun run build        # static build to dist/
 bun run preview      # http://localhost:10202
-bun run typecheck    # tsc --noEmit
+bun run typecheck    # astro check
 bun run format       # oxfmt
 ```
 
@@ -34,7 +36,10 @@ Port **10202** is allocated to this project in the workspace port registry (ADR-
 
 | Path | Role |
 |------|------|
-| `src/main.tsx` | React entrypoint; imports `src/index.css` and mounts `App` into `#root` |
+| `astro.config.mjs` | Site URL, static output, MDX, React, sitemap, Tailwind plugin, `@` alias |
+| `src/pages/index.astro` | Portfolio route `/`; server-renders `PortfolioRoot` (`client:load`) and passes it the latest post for the hero's `blog` link |
+| `src/PortfolioRoot.tsx` | Wraps `App` in `React.StrictMode` |
+| `src/layouts/Portfolio.astro` | Portfolio HTML shell: head meta, favicon, noscript title; imports `src/index.css` |
 | `src/App.tsx` | Page composition and active-section state |
 | `src/SiteHeader.tsx` | Fixed navigation and section indicators |
 | `src/Background.tsx` | Ambient animated background driven by the active pillar |
@@ -45,13 +50,20 @@ Port **10202** is allocated to this project in the workspace port registry (ADR-
 | `src/devtools/` | Temporary design-alternative panel and its context |
 | `src/content.ts` | All portfolio copy and structured content |
 | `src/content/resume.md` | Résumé source kept alongside the content layer |
-| `src/index.css` | Tailwind import, `@theme` tokens, base styles |
-| `src/lib/` | Shared hooks and math helpers |
+| `src/index.css` | Tailwind import, `@theme` tokens, base styles (portfolio only) |
+| `src/lib/` | Shared hooks, math helpers, and `posts.ts` (blog helpers) |
+| `src/content.config.ts` | `posts` collection: glob `**/index.mdx`, id = folder slug |
+| `src/content/posts/<slug>/` | One blog post: `index.mdx` plus colocated components and small images |
+| `src/components/` | Components shared by several blog posts and `SectionProgressSquares.tsx` |
+| `src/layouts/BlogBase.astro`, `src/layouts/BlogPost.astro` | Blog HTML shell and post chrome; import `src/styles/blog.css` |
+| `src/styles/blog.css` | Blog tokens, prose, `.wrap`, `.wide`, reduced-motion rules |
+| `src/pages/blog/index.astro` | Post index at `/blog/` |
+| `src/pages/blog/[slug]/index.astro` | Post route at `/blog/<slug>/` |
+| `src/pages/rss.xml.ts` | RSS feed at `/rss.xml` |
+| `src/pages/404.astro` | Not found page |
 | `public/` | Favicon and logo/icon assets served as-is |
 | `plans/` | Design and implementation plan for the portfolio |
-| `.figma/` | Figma Make harness metadata and scripts |
-| `vite.config.ts` | Vite config: React, Tailwind, Figma site metadata, `@` alias |
-| `vercel.json` | Vercel Vite deployment settings |
+| `vercel.json` | Vercel Astro deployment settings |
 
 ## Conventions
 
@@ -60,13 +72,33 @@ Port **10202** is allocated to this project in the workspace port registry (ADR-
 - Section-specific visuals stay in their section directory; reusable hooks go in `src/lib/`.
 - Import Motion from `motion/react`.
 - Asset references must point at files that exist in `public/`.
+- Portfolio pages use `src/index.css` and Tailwind. Blog pages import only `src/styles/blog.css`; never import `src/index.css` into a blog layout.
 - Do not add `@manovaspace/ui` or `@manovaspace/tokens` to this app: the visual
-  language comes from the Figma Make export and its own Tailwind theme.
-- `.figma/` is synced from Figma Make; do not hand-edit its scripts.
+  language comes from this repository's own Tailwind theme and blog CSS.
+- Keep feed titles, descriptions and dates in `/rss.xml` accurate.
+
+## Writing a post
+
+1. Create `src/content/posts/<slug>/index.mdx` with frontmatter:
+   - `title` (string), `description` (string), `date` (YYYY-MM-DD)
+   - `updated` (optional date), `tags` (list, default `[]`), `draft` (boolean, default `false`)
+2. Components the post needs go next to it as `.tsx` files in the same folder. Import them relatively, e.g. `import Chart from './Chart.tsx'`.
+3. Interactive components need a `client:` directive. Use `client:visible` by default.
+4. Components shared by several posts go in `src/components/`.
+5. Small images live in the post folder.
+6. Video and large media go to the R2 bucket, never git.
+7. Blog styles are plain CSS in `src/styles/blog.css`, using its tokens. No Tailwind on blog pages.
+
+Conventions:
+
+- Every interactive figure must respect `prefers-reduced-motion` and work at 390px width.
+- Use the `.wide` class on a wrapper to let a figure be wider than the text column.
+- Drafts (`draft: true`) show in `bun run dev` and are excluded from `bun run build`.
+- A post is served at `/blog/<slug>/` and listed in `/rss.xml` and `sitemap-index.xml`.
 
 ## Deploy
 
-Vercel builds with `bun run build` and serves `dist/`. `.github/workflows/deploy.yml`
+Vercel builds with `bun run build` and serves `dist/` (`framework: "astro"`). `.github/workflows/deploy.yml`
 deploys every push to `main` with its own build and does not wait for CI (ADR-076). The
 `deploy-production` job stays gated on the repository variable `ENABLE_VERCEL_DEPLOY=true`,
 so nothing reaches `jtash.ir` until that is set. `.github/workflows/ci.yml` runs on every
