@@ -5,11 +5,15 @@ import { DevToolsProvider } from "./devtools/DevToolsContext";
 import { DevToolsPanel } from "./devtools/DevToolsPanel";
 import { Education } from "./education/Education";
 import { Experience } from "./experience/Experience";
-import { Hero } from "./hero/Hero";
+import { Hero, type LatestPost } from "./hero/Hero";
 import { Pillars } from "./pillars/Pillars";
 import { SiteHeader } from "./SiteHeader";
 
-export default function App() {
+export default function App({
+  latestPost = null,
+}: {
+  latestPost?: LatestPost | null;
+}) {
   const [activePillar, setActivePillar] = useState(-1);
   const [activeSection, setActiveSection] = useState<LandingSection>("hero");
 
@@ -32,7 +36,7 @@ export default function App() {
       <Background active={activePillar} />
       <SiteHeader activePillar={activePillar} activeSection={activeSection} />
       <main className="relative">
-        <Hero />
+        <Hero latestPost={latestPost} />
         <Pillars onActive={handlePillar} />
         <Experience onVisible={() => setActiveSection("experience")} />
         <Education onVisible={() => setActiveSection("education")} />

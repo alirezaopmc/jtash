@@ -81,6 +81,49 @@
   animation: fade-up 0.4s ease-out both;
 }
 
+/* "blog" link: a gray gradient glow sweeps left to right across the text. */
+@keyframes blog-shimmer {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -150% 0;
+  }
+}
+.blog-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    #575757 0%,
+    #575757 35%,
+    #e6e6e6 50%,
+    #575757 65%,
+    #575757 100%
+  );
+  background-size: 250% 100%;
+  background-clip: text;
+  -webkit-background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 0 6px rgba(230, 230, 230, 0.18));
+  animation: blog-shimmer 2.8s ease-in-out infinite;
+}
+.blog-shimmer:hover,
+.blog-shimmer:focus-visible {
+  animation-play-state: paused;
+  color: #e6e6e6;
+}
+.blog-shimmer:focus-visible {
+  outline: 1px solid #e6e6e6;
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .blog-shimmer {
+    animation: none;
+    background-image: none;
+    color: #8a8a8a;
+  }
+}
+
 .no-scrollbar::-webkit-scrollbar {
   display: none;
 }

@@ -6,6 +6,8 @@ import { RotatingLine } from "./RotatingLine";
 import { SocialLinks } from "./SocialLinks";
 import { AutoModeLine, HeaderBlock, InputBox } from "./Terminal";
 
+export type LatestPost = { title: string; href: string };
+
 const FULL = `${slogan.line1} ${slogan.line2}${slogan.emphasis}`;
 
 /** The slogan arrives like terminal output, then "you." gets underlined — the point of it all. */
@@ -81,7 +83,11 @@ function Slogan() {
 }
 
 /** A full-screen, minimal Claude Code session. The whole page is the terminal. */
-export function Hero() {
+export function Hero({
+  latestPost = null,
+}: {
+  latestPost?: LatestPost | null;
+}) {
   return (
     <section
       id="hero"
@@ -92,6 +98,16 @@ export function Hero() {
       <div className="flex min-h-0 flex-1 flex-col justify-center py-8 md:pl-[94px]">
         <Slogan />
         <RotatingLine className="mt-7 text-[clamp(1rem,1.7vw,1.45rem)] md:mt-9" />
+        {latestPost && (
+          <a
+            href={latestPost.href}
+            aria-label={`blog: latest post, ${latestPost.title}`}
+            title={latestPost.title}
+            className="blog-shimmer mt-6 self-start text-[14px] md:mt-8 md:text-[16px]"
+          >
+            blog
+          </a>
+        )}
       </div>
       <InputBox />
       <AutoModeLine />

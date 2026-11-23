@@ -11,7 +11,7 @@ One Astro app serves both parts: the portfolio at `/` and the notes blog at `/bl
 ## Stack
 
 - Astro 7 with static output (`output: "static"`), `site: "https://jtash.ir"`, `trailingSlash: "always"`
-- Portfolio: a React 19 island at `/` (`<PortfolioRoot client:only="react" />`). It is not server-rendered: its hooks read `matchMedia` and `localStorage` during render.
+- Portfolio: a React 19 island at `/` (`<PortfolioRoot client:load />`), server-rendered at build time so crawlers and link previews get the full text, then hydrated. Never read `window`, `location`, `localStorage`, `matchMedia` or the viewport during render: use `useSyncExternalStore` with a server snapshot (see `src/lib/useNarrow.ts`) or read it in `useEffect`. Dates are formatted in UTC so server and browser output match.
 - Blog: MDX posts (`@astrojs/mdx`), React islands (`@astrojs/react`), RSS (`@astrojs/rss`), sitemap (`@astrojs/sitemap`)
 - Tailwind CSS v4 through `@tailwindcss/vite`, portfolio only; theme tokens live in `src/index.css`
 - Plain CSS with design tokens in `src/styles/blog.css`, blog only. No Tailwind on blog pages.
@@ -37,7 +37,7 @@ Port **10202** is allocated to this project in the workspace port registry (ADR-
 | Path | Role |
 |------|------|
 | `astro.config.mjs` | Site URL, static output, MDX, React, sitemap, Tailwind plugin, `@` alias |
-| `src/pages/index.astro` | Portfolio route `/`; mounts `PortfolioRoot` as a `client:only` island |
+| `src/pages/index.astro` | Portfolio route `/`; server-renders `PortfolioRoot` (`client:load`) and passes it the latest post for the hero's `blog` link |
 | `src/PortfolioRoot.tsx` | Wraps `App` in `React.StrictMode` |
 | `src/layouts/Portfolio.astro` | Portfolio HTML shell: head meta, favicon, noscript title; imports `src/index.css` |
 | `src/App.tsx` | Page composition and active-section state |

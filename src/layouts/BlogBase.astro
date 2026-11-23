@@ -5,9 +5,11 @@ interface Props {
   title: string;
   description: string;
   ogType?: 'website' | 'article';
+  publishedTime?: Date;
+  jsonLd?: Record<string, unknown>;
 }
 
-const { title, description, ogType = 'website' } = Astro.props;
+const { title, description, ogType = 'website', publishedTime, jsonLd } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
 ---
 
@@ -23,6 +25,9 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
     <meta property="og:description" content={description} />
     <meta property="og:type" content={ogType} />
     <meta property="og:url" content={canonical.href} />
+    <meta property="og:site_name" content="jtash" />
+    <meta name="twitter:card" content="summary" />
+    {publishedTime && <meta property="article:published_time" content={publishedTime.toISOString()} />}
     <link rel="icon" href="/favicon.png" />
     <link rel="alternate" type="application/rss+xml" title="jtash · notes" href="/rss.xml" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -31,6 +36,7 @@ const canonical = new URL(Astro.url.pathname, Astro.site ?? Astro.url);
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap"
     />
+    {jsonLd && <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />}
   </head>
   <body>
     <header class="wrap bar">
