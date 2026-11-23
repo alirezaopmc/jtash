@@ -1,11 +1,14 @@
 # 07 — Implementation guide
 
-## Stack (already in the repo)
+> **Superseded 2026-11-23.** The site is an Astro app now. [`../AGENTS.md`](../AGENTS.md) is the
+> source of truth for the stack, structure, commands and writing rules. This file is kept as the
+> history of the discarded Next.js shell.
+
+## Stack (historical)
 
 Next.js 16 App Router · React 19 · Tailwind 4 · TypeScript · Biome · `@manovaspace/ui` ·
-`@manovaspace/tokens`. Read [`../AGENTS.md`](../AGENTS.md) first: the CSS import order in
-`globals.css`, the UI import rule (only `@manovaspace/ui`, no `lucide-react`/Radix directly) and
-"copy lives in content files" are binding.
+`@manovaspace/tokens`. Read [`../AGENTS.md`](../AGENTS.md) first: "copy lives in content files"
+still applies; the Next.js file layout and `@manovaspace/ui` rules below do not.
 
 ## Proposed files
 
@@ -67,7 +70,6 @@ section from [08](08-roadmap.md) unasked.
 
 ```bash
 bun run typecheck
-bun run lint
 bun run build
 bun run dev   # http://localhost:10202
 ```
@@ -80,6 +82,6 @@ without Chrome. Add `.taste-skill/` to `.gitignore` before the first run.
 
 ## Git
 
-Tier 1 repo (ADR-026): no direct push to `main`. The reset and these context docs are merged into
-local `main` (not pushed yet). Branch from `main` (`feat/shell-hero`), use Conventional Commits,
-and open PRs with `o pr create`. Production deploys stay off (`ENABLE_VERCEL_DEPLOY`); do not enable them.
+Tier 1 repo (ADR-026): no direct push to `main`. Branch from `main`, use Conventional Commits, and
+open PRs with `o pr create`. Production deploys run from `.github/workflows/deploy.yml` on every
+push to `main` while `ENABLE_VERCEL_DEPLOY=true`; see [`../AGENTS.md`](../AGENTS.md).
